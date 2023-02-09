@@ -24,6 +24,14 @@
                         <i class="typcn typcn-eject text-primary"></i>
                         Logout
                     </a>
+                    <a class="dropdown-item" href="{{ url('admin/profile/update/'.encrypt(Auth::user()->id))}}">
+                        <i class="typcn typcn-eject text-primary"></i>
+                        Profile
+                    </a>
+                    <a class="dropdown-item" href="{{ url('change-password') }}">
+                        <i class="typcn typcn-eject text-primary"></i>
+                        Change Password
+                    </a>
                 </div>
             </li>
             {{-- <li class="nav-item nav-user-status dropdown">

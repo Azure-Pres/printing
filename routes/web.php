@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Livewire\Auth\Login;
+use App\Http\Livewire\Auth\ChangePassword;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,6 +20,7 @@ Route::get('/', function () {
     return redirect('login');
 });
 Route::get('/login', Login::class)->name('login');
+Route::get('/change-password', ChangePassword::class);
 Route::get('/logout', function () {
     Auth::logout();
     return Redirect::to('login');

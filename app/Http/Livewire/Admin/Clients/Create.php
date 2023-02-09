@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Livewire\Admin\Users;
+namespace App\Http\Livewire\Admin\Clients;
 
 use Livewire\Component;
 use App\Models\User;
 
-class Update extends Component
+class Create extends Component
 {
-    public $user = null;
+    public $client = null;
     public $name     ='';
     public $email    ='';
     public $phone    ='';
@@ -17,28 +17,14 @@ class Update extends Component
     public $country  ='';
     public $zipcode  ='';
     public $status   ='';
-    public $type     ='User';
+    public $view     =[];
+    public $modify   =[];
+    public $type     ='Client';
+
 
     public function render()
     {
-        return view('livewire.admin.users.manage');
-    }
-
-    public function mount($id)
-    {
-        $id = decrypt($id);
-        
-        $this->user = User::find($id);
-
-        $this->name     = $this->user->name;
-        $this->email    = $this->user->email;
-        $this->phone    = $this->user->phone;
-        $this->address  = $this->user->address;
-        $this->city     = $this->user->city;
-        $this->state    = $this->user->state;
-        $this->country  = $this->user->country;
-        $this->zipcode  = $this->user->zipcode;
-        $this->status   = $this->user->status;
+        return view('livewire.admin.clients.manage');
     }
 
     public function modify()
@@ -53,12 +39,12 @@ class Update extends Component
             'zipcode'      => getRule('zip',true),
             'status'       => getRule('',true),
         ];
-
+        dd($this->validate($rules));
         $validated = $this->validate($rules);
         $validated['type']  = $this->type;
-        $this->user->update($validated);
 
-        return redirect('admin/users');
+        $client = User::create($validated);
 
+        return redirect('admin/clients');
     }
 }

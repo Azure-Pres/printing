@@ -1,7 +1,7 @@
 <div class="content-wrapper">
     <div class="row">
         <div class="col-xl-6 grid-margin stretch-card flex-column">
-            <h5 class="mb-2 text-titlecase mb-2">Create Users</h5>
+            <h5 class="mb-2 text-titlecase mb-2">Create Clients</h5>
         </div>
 
         <div class="col-lg-12 grid-margin stretch-card">
@@ -69,10 +69,10 @@
                                     <x-basic.message class="text-danger" :message="$errors->has('status')?$errors->first('status'):''"></x-basic.message>
                                 </div>
                             </div>
-                            <div class="col-sm-6">
-                                <a href="{{url('/admin/users')}}" class="btn btn-light" >Cancel</a>
+                            <div class="col-sm-6 mb-2">
+                                <a href="{{url('/admin/clients')}}" class="btn btn-light" >Cancel</a>
                             </div>
-                            <div class="col-sm-6 text-right">
+                            <div class="col-sm-6 mb-2 text-right">
                                 <button type="submit" class="btn btn-primary mr-2">Submit</button>
                             </div>
                         </div>

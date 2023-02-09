@@ -7,6 +7,12 @@
             </a>
         </li>
         <li class="nav-item">
+            <a class="nav-link" href="{{ url('/admin/clients') }}">
+                <i class="typcn typcn-user menu-icon"></i>
+                <span class="menu-title">Clients</span>
+            </a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link" href="{{ url('/admin/users') }}">
                 <i class="typcn typcn-user menu-icon"></i>
                 <span class="menu-title">Users</span>

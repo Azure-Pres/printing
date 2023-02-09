@@ -23,6 +23,8 @@ class ClientsTable extends DataTableComponent
     public function columns(): array
     {
         return [
+            Column::make('Id')
+            ->sortable(),
             Column::make('Name')
             ->sortable(),
             Column::make('Email')

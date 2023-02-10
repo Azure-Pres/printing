@@ -12,23 +12,25 @@
                             <div class="col-sm-12 mb-2">
                                 <div class="form-group">
                                     <label for="old_password">Old Password</label>
-                                    <input wire:model.defer="old_password" type="text" class="form-control" id="old_password" placeholder="Email">
-                                    <x-basic.message class="text-danger" :message="$errors->has('old_password')?$errors->first('old_password'):''"></x-basic.message>
+                                    <input wire:model.defer="old_password" type="text" class="form-control" id="old_password" placeholder="Old Password">
                                 </div>
                             </div>
                             <div class="col-sm-6 mb-2">
                                 <div class="form-group">
                                     <label for="new_password">New Password</label>
-                                    <input wire:model.defer="new_password" type="text" class="form-control" id="new_password" placeholder="Email">
-                                    <x-basic.message class="text-danger" :message="$errors->has('new_password')?$errors->first('new_password'):''"></x-basic.message>
+                                    <input wire:model.defer="password" type="text" class="form-control" id="password" placeholder="New Password">
+                                    <x-basic.message class="text-danger" :message="$errors->has('password')?$errors->first('password'):''"></x-basic.message>
                                 </div>
                             </div>
                             <div class="col-sm-6 mb-2">
                                 <div class="form-group">
                                     <label for="password_confirmation">Confirm Password</label>
-                                    <input wire:model.defer="password_confirmation" type="text" class="form-control" id="password_confirmation" placeholder="Email">
+                                    <input wire:model.defer="password_confirmation" type="text" class="form-control" id="password_confirmation" placeholder="Confirm Password">
                                     <x-basic.message class="text-danger" :message="$errors->has('password_confirmation')?$errors->first('password_confirmation'):''"></x-basic.message>
                                 </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <x-basic.alert class="mb-4" :success="session()->has('error')?false:true" :message="session()->has('error')?session('error'):''"></x-basic.alert>
                             </div>
                             <div class="col-sm-6 mb-2">
                                 <a href="{{url('/admin')}}" class="btn btn-light" >Cancel</a>

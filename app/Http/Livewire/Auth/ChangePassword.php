@@ -9,8 +9,8 @@ use Hash;
 
 class ChangePassword extends Component
 {
-    public $confirm_password = '';
-    public $new_password = '';
+    public $old_password = '';
+    public $password = '';
     public $password_confirmation = '';
 
     public function render()
@@ -22,29 +22,26 @@ class ChangePassword extends Component
     {
         $rules = [
             'old_password' => getRule('',true),
-            'new_password' => getRule('',true).'|confirmed',
+            'password' => getRule('',true).'|confirmed',
         ];
 
-        $validated = $this->validate($rules);
+        $this->validate($rules);
         $user= User::where('id', Auth::id())->first();
 
-        if (!Hash::check($validated->old_password, $user->password))
+        if ($this->password == $this->old_password)
         {
-
-            $response = [
-                'success' => false,
-                'message' => 'Old password is wrong.',
-                'errors'  => [
-                    'old_password' =>['Old password is wrong.']
-                ]
-            ];    
-
-            return response($response, 400);
+            session()->flash('error', 'New password must be different from old password');
+            return back();
         }
-        $user->password = bcrypt($validated->new_password);
-        $this->admin->update($validated);
+        if (!Hash::check($this->old_password, $user->password))
+        {
+            session()->flash('error', 'Old password is wrong.');
+            return back();
+        }
+        $user->password = bcrypt($this->password);
+        $user->save();
 
-        return redirect('admin');
+        return redirect('login');
 
     }
 

@@ -71,5 +71,11 @@ class Login extends Component
             return redirect('/admin');
         }
 
+        if($user->type === 'Client') {
+            $this->success = true;
+            $this->message = 'Login successful. Please wait.';
+            return redirect('/client');
+        }
+
     }
 }

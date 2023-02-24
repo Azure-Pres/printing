@@ -20,7 +20,7 @@
         </li>
         <li class="nav-item">
             <a class="nav-link" href="{{ url('/admin/batches') }}">
-                <i class="typcn typcn-user menu-icon"></i>
+                <i class="typcn typcn-chart-pie menu-icon"></i>
                 <span class="menu-title">Batches</span>
             </a>
         </li>

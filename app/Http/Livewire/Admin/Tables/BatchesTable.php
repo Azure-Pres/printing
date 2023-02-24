@@ -2,14 +2,15 @@
 
 namespace App\Http\Livewire\Admin\Tables;
 
-use App\Models\User;
+use App\Models\Batch;
 use Illuminate\Database\Eloquent\Builder;
 use Livewire\Component;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 
-class ClientsTable extends DataTableComponent
+class BatchesTable extends DataTableComponent
 {
+
     public function configure(): void
     {
         $this->setPrimaryKey('id');
@@ -17,7 +18,7 @@ class ClientsTable extends DataTableComponent
 
     public function builder(): Builder
     {
-        return User::where('type','=', 'Client');
+        return Batch::where('id','!=', '');
     }
 
     public function columns(): array
@@ -25,15 +26,17 @@ class ClientsTable extends DataTableComponent
         return [
             Column::make('Id')
             ->sortable(),
-            Column::make('Name')
+            Column::make('Batch Code')
             ->sortable(),
-            Column::make('Email')
+            Column::make('From Serial Number')
             ->sortable(),
-            Column::make('Type')
+            Column::make('To Serial Number')
+            ->sortable(),
+            Column::make('Status')
             ->sortable(),
             Column::make('Actions')
             ->label(function($row, Column $column) {
-                return view('livewire.admin.clients.actions')->withClient($row);
+                return view('livewire.admin.batches.actions')->withBatch($row);
             }),
         ];
     }

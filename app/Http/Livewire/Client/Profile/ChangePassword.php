@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\Auth;
+namespace App\Http\Livewire\Client\Profile;
 
 use Livewire\Component;
 use App\Models\User;
@@ -15,7 +15,7 @@ class ChangePassword extends Component
 
     public function render()
     {
-        return view('livewire.auth.changepassword');
+        return view('livewire.client.profiles.changepassword');
     }
 
     public function modify()
@@ -42,7 +42,6 @@ class ChangePassword extends Component
         $user->save();
 
         return redirect('login');
-
     }
 
 }

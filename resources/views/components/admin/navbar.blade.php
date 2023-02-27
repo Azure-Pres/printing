@@ -28,10 +28,10 @@
                         <i class="typcn typcn-eject text-primary"></i>
                         Profile
                     </a>
-{{--                     <a class="dropdown-item" href="{{ url('change-password') }}">
+                    <a class="dropdown-item" href="{{ url('admin/change-password') }}">
                         <i class="typcn typcn-eject text-primary"></i>
                         Change Password
-                    </a> --}}
+                    </a>
                 </div>
             </li>
             {{-- <li class="nav-item nav-user-status dropdown">

@@ -2,27 +2,31 @@
     <div class="navbar-brand-wrapper d-flex justify-content-center">
         <div class="navbar-brand-inner-wrapper d-flex justify-content-between align-items-center w-100">
             <a class="navbar-brand brand-logo" href="{{ url('/admin') }}"><img
-                    src="{{ asset('assets/images/logo.png') }}" alt="logo" /></a>
-            <a class="navbar-brand brand-logo-mini" href="{{ url('/admin') }}"><img
+                src="{{ asset('assets/images/logo.png') }}" alt="logo" /></a>
+                <a class="navbar-brand brand-logo-mini" href="{{ url('/admin') }}"><img
                     src="{{ asset('assets/images/logo-mini.svg') }}" alt="logo" /></a>
-            <button class="navbar-toggler navbar-toggler align-self-center" type="button"
-                data-toggle="minimize">
-                <span class="typcn typcn-th-menu"></span>
-            </button>
+                    <button class="navbar-toggler navbar-toggler align-self-center" type="button"
+                    data-toggle="minimize">
+                    <span class="typcn typcn-th-menu"></span>
+                </button>
+            </div>
         </div>
-    </div>
-    <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
-        <ul class="navbar-nav mr-lg-2">
-            <li class="nav-item nav-profile dropdown">
-                <a class="nav-link" href="#" data-toggle="dropdown" id="profileDropdown">
-                    <img src="{{ asset('assets/images/faces/face4.jpg') }}" alt="profile" />
-                    <span class="nav-profile-name">{{ Auth::user()->name }}</span>
-                </a>
-                <div class="dropdown-menu dropdown-menu-right navbar-dropdown"
+        <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
+            <ul class="navbar-nav mr-lg-2">
+                <li class="nav-item nav-profile dropdown">
+                    <a class="nav-link" href="#" data-toggle="dropdown" id="profileDropdown">
+                        <img src="{{ asset('assets/images/faces/face4.jpg') }}" alt="profile" />
+                        <span class="nav-profile-name">{{ Auth::user()->name }}</span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right navbar-dropdown"
                     aria-labelledby="profileDropdown">
                     <a class="dropdown-item" href="{{ url('logout') }}">
                         <i class="typcn typcn-eject text-primary"></i>
                         Logout
+                    </a>
+                    <a class="dropdown-item" href="{{ url('client/change-password') }}">
+                        <i class="typcn typcn-eject text-primary"></i>
+                        Change Password
                     </a>
                 </div>
             </li>
@@ -39,13 +43,13 @@
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link count-indicator dropdown-toggle d-flex justify-content-center align-items-center"
-                    id="messageDropdown" href="#" data-toggle="dropdown">
-                    <i class="typcn typcn-cog-outline mx-0"></i>
-                    <span class="count"></span>
-                </a>
-                <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list"
-                    aria-labelledby="messageDropdown">
-                    <p class="mb-0 font-weight-normal float-left dropdown-header">Messages</p>
+                id="messageDropdown" href="#" data-toggle="dropdown">
+                <i class="typcn typcn-cog-outline mx-0"></i>
+                <span class="count"></span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list"
+            aria-labelledby="messageDropdown">
+            <p class="mb-0 font-weight-normal float-left dropdown-header">Messages</p>
                     {{-- <a class="dropdown-item preview-item">
                         <div class="preview-thumbnail">
                             <img src="{{ asset('assets/images/faces/face4.jpg') }}" alt="image"
@@ -63,13 +67,13 @@
             </li>
             <li class="nav-item dropdown mr-0">
                 <a class="nav-link count-indicator dropdown-toggle d-flex align-items-center justify-content-center"
-                    id="notificationDropdown" href="#" data-toggle="dropdown">
-                    <i class="typcn typcn-bell mx-0"></i>
-                    <span class="count"></span>
-                </a>
-                <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list"
-                    aria-labelledby="notificationDropdown">
-                    <p class="mb-0 font-weight-normal float-left dropdown-header">Notifications</p>
+                id="notificationDropdown" href="#" data-toggle="dropdown">
+                <i class="typcn typcn-bell mx-0"></i>
+                <span class="count"></span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list"
+            aria-labelledby="notificationDropdown">
+            <p class="mb-0 font-weight-normal float-left dropdown-header">Notifications</p>
                     {{-- <a class="dropdown-item preview-item">
                         <div class="preview-thumbnail">
                             <div class="preview-icon bg-success">
@@ -87,10 +91,10 @@
             </li>
         </ul>
         <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"
-            data-toggle="offcanvas">
-            <span class="typcn typcn-th-menu"></span>
-        </button>
-    </div>
+        data-toggle="offcanvas">
+        <span class="typcn typcn-th-menu"></span>
+    </button>
+</div>
 </nav>
 
 <nav class="navbar-breadcrumb col-xl-12 col-12 d-flex flex-row p-0">
@@ -125,7 +129,7 @@
             <li class="nav-item nav-search d-none d-md-block mr-0">
                 <div class="input-group">
                     <input type="text" class="form-control" placeholder="Search..." aria-label="search"
-                        aria-describedby="search">
+                    aria-describedby="search">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="search">
                             <i class="typcn typcn-zoom"></i>

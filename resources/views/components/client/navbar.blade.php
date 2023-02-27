@@ -24,6 +24,10 @@
                         <i class="typcn typcn-eject text-primary"></i>
                         Logout
                     </a>
+                    <a class="dropdown-item" href="{{ url('client/profile/update')}}">
+                        <i class="typcn typcn-eject text-primary"></i>
+                        Profile
+                    </a>
                     <a class="dropdown-item" href="{{ url('client/change-password') }}">
                         <i class="typcn typcn-eject text-primary"></i>
                         Change Password

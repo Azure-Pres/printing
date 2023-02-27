@@ -17,18 +17,12 @@ return new class extends Migration
         Schema::create('code_attributes', function (Blueprint $table) {
             $table->id();
             $table->string('name',200)->nullable();
-            $table->enum('has_applicable',['0','1'])->default('0')->comment('0-No, 1-Yes');
-            $table->enum('has_unique',['0','1'])->default('0')->comment('0-No, 1-Yes');
-            $table->enum('applicable_enabled_default',['0','1'])->default('0')->comment('0-No, 1-Yes');
-            $table->enum('unique_enabled_default',['0','1'])->default('0')->comment('0-No, 1-Yes');
             $table->timestamps();
         });
 
         DB::table('code_attributes')->insert(
             array(
-                'name'          => 'QR_CODE',
-                'applicable_enabled_default'=>'1',
-                'unique_enabled_default'=>'1',
+                'name'          => 'qr_code',
                 'created_at'    => Carbon::now(),
                 'updated_at'    => Carbon::now()
             )
@@ -36,9 +30,7 @@ return new class extends Migration
 
         DB::table('code_attributes')->insert(
             array(
-                'name'          => 'QR_CODE_URL',
-                'applicable_enabled_default'=>'1',
-                'unique_enabled_default'=>'1',
+                'name'          => 'qr_code_url',,
                 'created_at'    => Carbon::now(),
                 'updated_at'    => Carbon::now()
             )
@@ -46,9 +38,7 @@ return new class extends Migration
 
         DB::table('code_attributes')->insert(
             array(
-                'name'          => 'BATCH_Number',
-                'applicable_enabled_default'=>'1',
-                'unique_enabled_default'=>'1',
+                'name'          => 'batch_number',
                 'created_at'    => Carbon::now(),
                 'updated_at'    => Carbon::now()
             )

@@ -3,11 +3,11 @@
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', App\Http\Livewire\Admin\Dashboard\Home::class)->name('admin');
-Route::get('/change-password', App\Http\Livewire\Client\Profile\ChangePassword::class);
+Route::get('/change-password', App\Http\Livewire\Admin\Profile\ChangePassword::class);
 
 //Profile related route
 Route::group(['prefix' => 'profile'], function() {
-	Route::get('/update/{id}', App\Http\Livewire\Admin\Profile\Update::class)->name('admin-update-profile');
+	Route::get('/update', App\Http\Livewire\Admin\Profile\Update::class)->name('admin-update-profile');
 });
 
 //Users related route

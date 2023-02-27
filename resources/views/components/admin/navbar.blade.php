@@ -24,7 +24,7 @@
                         <i class="typcn typcn-eject text-primary"></i>
                         Logout
                     </a>
-                    <a class="dropdown-item" href="{{ url('admin/profile/update/'.encrypt(Auth::user()->id))}}">
+                    <a class="dropdown-item" href="{{ url('admin/profile/update')}}">
                         <i class="typcn typcn-eject text-primary"></i>
                         Profile
                     </a>

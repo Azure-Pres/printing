@@ -1,7 +1,7 @@
 <div class="content-wrapper">
     <div class="row">
         <div class="col-xl-6 grid-margin stretch-card flex-column">
-            <h5 class="mb-2 text-titlecase mb-2">Create Clients</h5>
+            <h5 class="mb-2 text-titlecase mb-2">Update Profile</h5>
         </div>
 
         <div class="col-lg-12 grid-margin stretch-card">
@@ -51,61 +51,20 @@
                                     <x-basic.message class="text-danger" :message="$errors->has('state')?$errors->first('state'):''"></x-basic.message>
                                 </div>
                             </div>
-
-                            <div class="col-sm-6 mb-2">
+                            <div class="col-sm-12 mb-2">
                                 <div class="form-group">
                                     <label for="zipcode">Zip Code</label>
                                     <input wire:model.defer="zipcode" type="number" class="form-control" id="zipcode" placeholder="Phone">
                                     <x-basic.message class="text-danger" :message="$errors->has('zipcode')?$errors->first('zipcode'):''"></x-basic.message>
                                 </div>
                             </div>
-
                             <div class="col-sm-6 mb-2">
-                                <div class="form-group">
-                                    <label for="password">Password</label>
-                                    <input wire:model.defer="password" type="password" class="form-control" id="password" placeholder="Password">
-                                    <x-basic.message class="text-danger" :message="$errors->has('password')?$errors->first('password'):''"></x-basic.message>
-                                </div>
-                            </div>
-
-                            <div class="col-sm-6 mb-2">
-                                <div class="form-group">
-                                    <label for="status">Status</label>
-                                    <select wire:model.defer="status" class="form-control" id="status">
-                                        <option value="">Select</option>
-                                        <option value="Active">Active</option>
-                                        <option value="Inactive">Inactive</option>
-                                    </select>    
-                                    <x-basic.message class="text-danger" :message="$errors->has('status')?$errors->first('status'):''"></x-basic.message>
-                                </div>
-                            </div>
-
-                            @foreach ($attributes as $key=>$attribute)
-                            <div class="col-sm-12">
-                                <label class="col-sm-12 col-form-label">{{$key+1}}. {{$attribute->name}}</label>
-                                <div class="col-3">
-                                    <div class="form-check">
-                                        <input wire:model.defer="applicable"  id="{{$attribute->name}}-applicable" class="form-check-input" type="checkbox" value="{{$attribute->id}}">
-                                        <label for="{{$attribute->name}}-applicable">Applicable</label>
-                                    </div>
-                                </div>
-
-                                <div class="col-3">
-                                    <div class="form-check">
-                                        <input wire:model.defer="unique"  id="{{$attribute->name}}-unique"class="form-check-input" type="checkbox" value="{{$attribute->id}}">
-                                        <label  for="{{$attribute->name}}-unique">Unique
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                            @endforeach
-
-                            <div class="col-sm-6 mb-2">
-                                <a href="{{url('/admin/clients')}}" class="btn btn-light" >Cancel</a>
+                                <a href="{{url('/admin')}}" class="btn btn-light" >Cancel</a>
                             </div>
                             <div class="col-sm-6 mb-2 text-right">
                                 <button type="submit" class="btn btn-primary mr-2">Submit</button>
                             </div>
+                            
                         </div>
                     </form>
                 </div>

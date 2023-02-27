@@ -18,6 +18,7 @@ class Update extends Component
     public $country  ='';
     public $zipcode  ='';
     public $status   ='';
+    public $password   ='';
     public $applicable = [];
     public $unique     = [];
     public $type     ='Client';
@@ -43,7 +44,6 @@ class Update extends Component
         $this->country  = $this->client->country;
         $this->zipcode  = $this->client->zipcode;
         $this->status   = $this->client->status;
-        $this->password = $this->client->password;
         $this->applicable = ClientAttribute::where('user_id',$this->client->id)->where('applicable','1')->pluck('attribute_id');
         $this->unique     = ClientAttribute::where('user_id',$this->client->id)->where('unique','1')->pluck('attribute_id');
     }
@@ -58,11 +58,13 @@ class Update extends Component
             'city'         => getRule('',true),
             'state'        => getRule('',true),
             'zipcode'      => getRule('zip',true),
+            'password'     => getRule('',true),
             'status'       => getRule('',true),
         ];
 
         $validated = $this->validate($rules);
         $validated['type']  = $this->type;
+        $validated['password']  = bcrypt($this->password);
         $this->client->update($validated);
 
         return redirect('admin/clients');

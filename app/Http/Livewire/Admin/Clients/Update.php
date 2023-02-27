@@ -4,7 +4,8 @@ namespace App\Http\Livewire\Admin\Clients;
 
 use Livewire\Component;
 use App\Models\User;
-
+use App\Models\CodeAttribute;
+use App\Models\ClientAttribute;
 class Update extends Component
 {
     public $client = null;
@@ -17,11 +18,14 @@ class Update extends Component
     public $country  ='';
     public $zipcode  ='';
     public $status   ='';
+    public $applicable = [];
+    public $unique     = [];
     public $type     ='Client';
 
     public function render()
     {
-        return view('livewire.admin.clients.manage');
+        $attributes = CodeAttribute::where('id','!=','')->get();
+        return view('livewire.admin.clients.manage')->with('attributes',$attributes);
     }
 
     public function mount($id)
@@ -39,6 +43,9 @@ class Update extends Component
         $this->country  = $this->client->country;
         $this->zipcode  = $this->client->zipcode;
         $this->status   = $this->client->status;
+        $this->password = $this->client->password;
+        $this->applicable = ClientAttribute::where('user_id',$this->client->id)->where('applicable','1')->pluck('attribute_id');
+        $this->unique     = ClientAttribute::where('user_id',$this->client->id)->where('unique','1')->pluck('attribute_id');
     }
 
     public function modify()

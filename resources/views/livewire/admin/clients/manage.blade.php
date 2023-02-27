@@ -51,6 +51,7 @@
                                     <x-basic.message class="text-danger" :message="$errors->has('state')?$errors->first('state'):''"></x-basic.message>
                                 </div>
                             </div>
+
                             <div class="col-sm-6 mb-2">
                                 <div class="form-group">
                                     <label for="zipcode">Zip Code</label>
@@ -58,6 +59,15 @@
                                     <x-basic.message class="text-danger" :message="$errors->has('zipcode')?$errors->first('zipcode'):''"></x-basic.message>
                                 </div>
                             </div>
+
+                            <div class="col-sm-6 mb-2">
+                                <div class="form-group">
+                                    <label for="password">Password</label>
+                                    <input wire:model.defer="password" type="password" class="form-control" id="password" placeholder="Password">
+                                    <x-basic.message class="text-danger" :message="$errors->has('password')?$errors->first('password'):''"></x-basic.message>
+                                </div>
+                            </div>
+
                             <div class="col-sm-6 mb-2">
                                 <div class="form-group">
                                     <label for="status">Status</label>
@@ -69,6 +79,31 @@
                                     <x-basic.message class="text-danger" :message="$errors->has('status')?$errors->first('status'):''"></x-basic.message>
                                 </div>
                             </div>
+
+                            @foreach ($attributes as $key=>$attribute)
+                            <div class="col-sm-12">
+                                <label class="col-sm-12 col-form-label">{{$key+1}}. {{$attribute->name}}</label>
+                                @if($attribute->has_applicable=='1')
+                                <div class="col-3">
+                                    <div class="form-check">
+                                        <input wire:model.defer="applicable"  id="{{$attribute->name}}-applicable" class="form-check-input" type="checkbox" value="{{$attribute->id}}" {{$attribute->applicable_enabled_default=='1'?'checked':''}}>
+                                        <label for="{{$attribute->name}}-applicable">Applicable</label>
+                                    </div>
+                                </div>
+                                @endif
+
+                                @if($attribute->has_unique=='1')
+                                <div class="col-3">
+                                    <div class="form-check">
+                                        <input wire:model.defer="unique"  id="{{$attribute->name}}-unique" class="form-check-input" type="checkbox" value="{{$attribute->id}}" {{$attribute->unique_enabled_default=='1'?'checked':''}}>
+                                        <label  for="{{$attribute->name}}-unique">Unique
+                                        </label>
+                                    </div>
+                                </div>
+                                @endif
+                            </div>
+                            @endforeach
+
                             <div class="col-sm-6 mb-2">
                                 <a href="{{url('/admin/clients')}}" class="btn btn-light" >Cancel</a>
                             </div>

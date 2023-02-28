@@ -26,7 +26,7 @@ class Update extends Component
     public function render()
     {
         $attributes = CodeAttribute::where('id','!=','')->get();
-        return view('livewire.admin.clients.manage')->with('attributes',$attributes);
+        return view('livewire.admin.clients.manage')->with('attributes',$attributes)->layout('layouts.app');
     }
 
     public function mount($id)

@@ -15,7 +15,7 @@ class Create extends Component
 
     public function render()
     {
-        return view('livewire.admin.batches.manage');
+        return view('livewire.admin.batches.manage')->layout('layouts.app');
     }
 
     public function modify()

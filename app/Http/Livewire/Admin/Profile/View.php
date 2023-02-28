@@ -30,6 +30,6 @@ class View extends Component
 
     public function render()
     {
-        return view('livewire.admin.profiles.view');
+        return view('livewire.admin.profiles.view')->layout('layouts.app');
     }
 }

@@ -15,7 +15,7 @@ class ChangePassword extends Component
 
     public function render()
     {
-        return view('livewire.admin.profiles.changepassword');
+        return view('livewire.admin.profiles.changepassword')->layout('layouts.app');
     }
 
     public function modify()

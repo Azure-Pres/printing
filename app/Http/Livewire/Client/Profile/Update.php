@@ -20,7 +20,7 @@ class Update extends Component
 
     public function render()
     {
-        return view('livewire.client.profiles.manage');
+        return view('livewire.client.profiles.manage')->layout('layouts.client');
     }
 
     public function mount()

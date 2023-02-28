@@ -24,5 +24,11 @@
                 <span class="menu-title">Batches</span>
             </a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url('/admin/codes') }}">
+                <i class="typcn typcn-chart-pie menu-icon"></i>
+                <span class="menu-title">Codes</span>
+            </a>
+        </li>
     </ul>
 </nav>

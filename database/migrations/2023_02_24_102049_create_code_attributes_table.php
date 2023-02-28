@@ -30,7 +30,7 @@ return new class extends Migration
 
         DB::table('code_attributes')->insert(
             array(
-                'name'          => 'qr_code_url',,
+                'name'          => 'qr_code_url',
                 'created_at'    => Carbon::now(),
                 'updated_at'    => Carbon::now()
             )

@@ -15,6 +15,11 @@ return new class extends Migration
     {
         Schema::create('codes', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('client_id')->unsigned();
+            $table->foreign('client_id')->references('id')->on('users')->onDelete('cascade');
+            $table->bigInteger('batch_id')->nullable();
+            $table->text('code_data')->nullable();
+            $table->string('status')->nullable();
             $table->timestamps();
         });
     }

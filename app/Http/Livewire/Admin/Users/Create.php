@@ -18,14 +18,12 @@ class Create extends Component
     public $country  ='';
     public $zipcode  ='';
     public $status   ='';
-    public $view     =[];
-    public $modify   =[];
     public $type     ='User';
 
 
     public function render()
     {
-        return view('livewire.admin.users.manage');
+        return view('livewire.admin.users.manage')->layout('layouts.app');
     }
 
     public function modify()

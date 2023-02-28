@@ -28,7 +28,7 @@ class Create extends Component
     public function render()
     {
         $attributes = CodeAttribute::where('id','!=','')->get();
-        return view('livewire.admin.clients.manage')->with('attributes',$attributes);
+        return view('livewire.admin.clients.manage')->layout('layouts.app')->with('attributes',$attributes);
     }
 
     public function modify()

@@ -21,7 +21,7 @@ class Update extends Component
 
     public function render()
     {
-        return view('livewire.admin.users.manage');
+        return view('livewire.admin.users.manage')->layout('layouts.app');
     }
 
     public function mount($id)

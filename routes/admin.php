@@ -30,4 +30,11 @@ Route::group(['prefix' => 'batches'], function() {
 	Route::get('/create', App\Http\Livewire\Admin\Batches\Create::class)->name('admin-create-batches');
 	Route::get('/update/{id}', App\Http\Livewire\Admin\Batches\Update::class)->name('admin-update-batches');
 });
+
+//Codes related route
+Route::group(['prefix' => 'codes'], function() {
+	Route::get('/', App\Http\Livewire\Admin\Codes\Home::class)->name('admin-codes');
+	Route::get('/view/{id}', App\Http\Livewire\Admin\Codes\View::class)->name('admin-view-codes');	
+});
+
 //End Users related route

@@ -30,5 +30,11 @@
                 <span class="menu-title">Codes</span>
             </a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url('/admin/job-cards') }}">
+                <i class="typcn typcn-chart-pie menu-icon"></i>
+                <span class="menu-title">Job Cards</span>
+            </a>
+        </li>
     </ul>
 </nav>

@@ -37,4 +37,11 @@ Route::group(['prefix' => 'codes'], function() {
 	Route::get('/view/{id}', App\Http\Livewire\Admin\Codes\View::class)->name('admin-view-codes');	
 });
 
+//Job card related route
+Route::group(['prefix' => 'job-cards'], function() {
+	Route::get('/', App\Http\Livewire\Admin\JobCards\Home::class)->name('admin-job-cards');
+	Route::get('/create', App\Http\Livewire\Admin\JobCards\Create::class)->name('admin-create-job-cards');
+	Route::get('/update/{id}', App\Http\Livewire\Admin\JobCards\Update::class)->name('admin-update-job-cards');
+});
+
 //End Users related route

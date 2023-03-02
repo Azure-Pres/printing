@@ -58,8 +58,10 @@ class Update extends Component
             'city'         => getRule('',true),
             'state'        => getRule('',true),
             'zipcode'      => getRule('zip',true),
-            'password'     => getRule('',true),
+            'password'     => getRule('',false,true),
             'status'       => getRule('',true),
+            'applicable'   => getRule('',false,true),
+            'unique'       => getRule('',false,true),
         ];
 
         $validated = $this->validate($rules);
@@ -67,7 +69,39 @@ class Update extends Component
         $validated['password']  = bcrypt($this->password);
         $this->client->update($validated);
 
+        $destroy_permissions = ClientAttribute::where('user_id',$this->client->id)->delete();
+
+        if (count($validated['applicable'])>0) {
+            foreach($validated['applicable'] as $attribute){
+                $assign = $this->assignApplicable('applicable',$attribute,$this->client->id);
+            }
+        }
+
+        if (count($validated['unique'])>0) {
+            foreach($validated['unique'] as $attribute){
+                $assign = $this->assignApplicable('unique',$attribute,$this->client->id);
+            }
+        }
+
         return redirect('admin/clients');
 
+    }
+
+    public function assignApplicable($permission,$attribute,$user_id)
+    {
+
+        $assign = ClientAttribute::where('attribute_id',$attribute)->where('user_id',$user_id)->first();
+        
+        if(!$assign){
+            $assign = new ClientAttribute;
+        }
+
+        $assign->user_id = $user_id;
+        $assign->attribute_id = $attribute;
+        $assign->$permission = '1';
+
+        $assign->save();
+
+        return true;
     }
 }

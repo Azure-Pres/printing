@@ -15,7 +15,7 @@
                         </a>
                     </h4>
                     <div class="mt-3">
-                        <livewire:admin.tables.job-cards-table/>
+                        <livewire:admin.tables.clients-table/>
                     </div>
                 </div>
             </div>

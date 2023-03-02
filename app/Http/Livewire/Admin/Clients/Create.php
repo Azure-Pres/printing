@@ -43,8 +43,8 @@ class Create extends Component
             'zipcode'    => getRule('zip',true),
             'password'   => getRule('',true),
             'status'     => getRule('',true),
-            'applicable' => getRule('',false,true),
-            'unique'     => getRule('',false,true),
+            'applicable' => getRule('',true),
+            'unique'     => getRule('',true),
         ];
 
         $validated = $this->validate($rules);
@@ -58,20 +58,20 @@ class Create extends Component
 
         if (count($validated['applicable'])>0) {
             foreach($validated['applicable'] as $attribute){
-                $assign = $this->assignPermission('applicable',$attribute,$client->id);
+                $assign = $this->assignApplicable('applicable',$attribute,$client->id);
             }
         }
 
         if (count($validated['unique'])>0) {
             foreach($validated['unique'] as $attribute){
-                $assign = $this->assignPermission('unique',$attribute,$client->id);
+                $assign = $this->assignApplicable('unique',$attribute,$client->id);
             }
         }
 
         return redirect('admin/clients');
     }
 
-    public function assignPermission($permission,$attribute,$user_id)
+    public function assignApplicable($permission,$attribute,$user_id)
     {
 
         $assign = ClientAttribute::where('attribute_id',$attribute)->where('user_id',$user_id)->first();

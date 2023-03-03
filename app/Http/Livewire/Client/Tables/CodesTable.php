@@ -1,23 +1,24 @@
 <?php
 
-namespace App\Http\Livewire\Admin\Tables;
+namespace App\Http\Livewire\Client\Tables;
 
-use App\Models\JobCard;
+use App\Models\Code;
 use Illuminate\Database\Eloquent\Builder;
 use Livewire\Component;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 
-class JobCardsTable extends DataTableComponent
+class CodesTable extends DataTableComponent
 {
+
     public function configure(): void
-    {   
+    {
         $this->setPrimaryKey('id');
     }
 
     public function builder(): Builder
     {
-        return JobCard::where('id','!=', '');
+        return Code::where('id','!=', '');
     }
 
     public function columns(): array
@@ -25,21 +26,15 @@ class JobCardsTable extends DataTableComponent
         return [
             Column::make('Id')
             ->sortable(),
-            Column::make('Job Card Id')
+            Column::make('Batch Id')
             ->sortable(),
-            Column::make('Machine')
-            ->sortable(),
-            Column::make('Print Status')
-            ->sortable(),
-            Column::make('Allowed copies')
-            ->sortable(),
-            Column::make('Allowed copies')
+            Column::make('Code Data')
             ->sortable(),
             Column::make('Status')
             ->sortable(),
             Column::make('Actions')
             ->label(function($row, Column $column) {
-                return view('livewire.admin.jobcards.actions')->withJobCard($row);
+                return view('livewire.client.codes.actions')->withCode($row);
             }),
         ];
     }

@@ -4,10 +4,9 @@
             <h5 class="mb-2 text-titlecase mb-2">{{$batch?'Update':'Create'}} Batches</h5>
         </div>
 
-
-        <div class="col-lg-12 grid-margin stretch-card">
-            <div class="card">
-                <form class="forms-sample" wire:submit.prevent="modify()">
+        <form class="forms-sample" wire:submit.prevent="modify()">
+            <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
                     <div class="card-header">
                         <div class="card-title mb-0">Batch basic information</div>
                     </div>
@@ -16,7 +15,7 @@
                             <div class="col-sm-6 mb-2">
                                 <div class="form-group">
                                     <label for="batch_code">Batch Code</label>
-                                    <input wire:model.defer="batch_code" type="text" class="form-control" id="batch_code" placeholder="batch code">
+                                    <input wire:model.defer="batch_code" type="text" class="form-control" id="batch_code" placeholder="Batch code">
                                     <x-basic.message class="text-danger" :message="$errors->has('batch_code')?$errors->first('batch_code'):''"></x-basic.message>
                                 </div>
                             </div>
@@ -47,23 +46,24 @@
                             </div>
                         </div>
                     </div>
-                </form>
+                </div>
             </div>
-        </div>
 
-        <div class="col-lg-12 grid-margin stretch-card">
-            <div class="card">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-sm-6 mb-2">
-                            <a href="{{url('/admin/batches')}}" class="btn btn-light" >Cancel</a>
-                        </div>
-                        <div class="col-sm-6 mb-2 text-right">
-                            <button type="submit" class="btn btn-primary mr-2">Submit</button>
+            <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-6 mb-2">
+                                <a href="{{url('/admin/batches')}}" class="btn btn-light" >Cancel</a>
+                            </div>
+                            <div class="col-sm-6 mb-2 text-right">
+                                <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>        
+            </div> 
+        </form>
+        
     </div>
 </div>

@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\Api as ApiRoot;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::post("login",[ApiRoot\Auth\LoginController::class,'index']);
+Route::group(['middleware' => 'auth:sanctum'], function(){
+    Route::post("upload-data",[ApiRoot\UploadData\UploadDataController::class,'store']);
 });

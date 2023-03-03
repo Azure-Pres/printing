@@ -21,9 +21,17 @@
                                 </div>
                                 <div class="col-md-12">
                                     <p class="mb-2">
-                                        <strong>Code Data : </strong>{{$code->code_data??'-'}}
+                                        <strong>Code Data : </strong>
+                                        @if($code->code_data && !empty(json_decode($code->code_data,true)))
+                                        @foreach(json_decode($code->code_data,true) as $key=>$value)
+                                        <strong>{{__(ucfirst($key))}}</strong> : {{$value??'-'}}
+                                        @endforeach
+                                        @else
+                                        No batch code available
+                                        @endif
                                     </p>
                                 </div>
+
                                 <div class="col-md-12">
                                     <p class="mb-2">
                                         <strong>Status : </strong>{{$code->status??'-'}}

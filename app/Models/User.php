@@ -52,4 +52,9 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime'
     ];
 
+    public function getClientAttributes()
+    {
+        return $this->hasMany(ClientAttribute::class,'user_id','id');
+    }
+
 }

@@ -9,6 +9,8 @@ class Code extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['client_id','batch_id','code_data','status','created_at','updated_at'];
+
     public function getClient()
     {
         return $this->belongsTo(User::class,'client_id','id');

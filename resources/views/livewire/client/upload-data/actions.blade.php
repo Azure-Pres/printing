@@ -1,0 +1,1 @@
+<a href="{{url('client/upload-data/'.encrypt($data->id).'/details')}}" class="fetch-errors btn btn-sm btn-primary">View Details</a>

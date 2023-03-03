@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class ClientAttribute extends Model
 {
     use HasFactory;
+
+    public function getCodeAttribute()
+    {
+        return $this->belongsTo(CodeAttribute::class,'attribute_id','id');
+    }
 }

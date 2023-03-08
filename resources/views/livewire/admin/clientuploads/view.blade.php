@@ -1,7 +1,7 @@
 <div class="content-wrapper">
     <div class="row">
         <div class="col-xl-6 grid-margin stretch-card flex-column">
-            <h5 class="mb-2 text-titlecase mb-2">Upload Data</h5>
+            <h5 class="mb-2 text-titlecase mb-2">Client Upload</h5>
         </div>
 
         <div class="col-sm-12">
@@ -14,7 +14,7 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-sm-4">
-                                    <label>Client ID : {{$data->getClient->name??'-'}}</label>
+                                    <label>Client Name : {{$data->getClient->name??'-'}}</label>
                                 </div>
                                 <div class="col-sm-4">
                                     <label>Lot Number : {{$data->lot_number}}</label>

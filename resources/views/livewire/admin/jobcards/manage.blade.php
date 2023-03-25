@@ -23,7 +23,11 @@
                             <div class="col-sm-6 ">
                                 <div class="form-group mb-2">
                                     <label for="machine">Machine</label>
-                                    <input wire:model.defer="machine" type="text" class="form-control" id="machine" placeholder="Machine">
+                                    <select wire:model.defer="machine" class="form-control" id="machine">
+                                        <option value="">Select</option>
+                                        <option value="VDP">VDP</option>
+                                        <option value="Handtop">Handtop</option>
+                                    </select>
                                     <x-basic.message class="text-danger" :message="$errors->has('machine')?$errors->first('machine'):''"></x-basic.message>
                                 </div>
                             </div>
@@ -43,7 +47,7 @@
                             <div class="col-sm-6 ">
                                 <div class="form-group mb-2">
                                     <label for="allowed_copies">Allowed copies</label>
-                                    <input wire:model.defer="allowed_copies" type="number" min="0" step="1" class="form-control" id="allowed_copies" placeholder="Machine">
+                                    <input wire:model.defer="allowed_copies" type="number" min="0" step="1" class="form-control" id="allowed_copies" placeholder="Enter number">
                                     <x-basic.message class="text-danger" :message="$errors->has('allowed_copies')?$errors->first('allowed_copies'):''"></x-basic.message>
                                 </div>
                             </div>

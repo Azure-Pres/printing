@@ -27,11 +27,13 @@ class CodesTable extends DataTableComponent
             Column::make('Id')
             ->sortable(),
             Column::make('Batch Id')
-            ->sortable(),
-            Column::make('Code Data')
-            ->sortable(),
+            ->sortable()->format(
+                fn($value, $row, Column $column) => $row->batch_id??'-'
+            ),
             Column::make('Status')
-            ->sortable(),
+            ->sortable()->format(
+                fn($value, $row, Column $column) => $row->status??'New Uploaded'
+            ),
             Column::make('Actions')
             ->label(function($row, Column $column) {
                 return view('livewire.admin.codes.actions')->withCode($row);

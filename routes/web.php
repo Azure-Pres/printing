@@ -18,6 +18,7 @@ use App\Http\Livewire\Auth\Login;
 Route::get('/', function () {
     return redirect('login');
 });
+
 Route::get('/login', Login::class)->name('login');
 Route::get('/logout', function () {
     Auth::logout();

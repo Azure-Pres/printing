@@ -5,7 +5,7 @@
                 <div class="col-lg-4 mx-auto">
                     <div class="auth-form-light text-left py-5 px-4 px-sm-5">
                         <div class="mb-4">
-                            <img src="{{ asset('assets/images/logo.png') }}" alt="logo">
+                            <img src="{{ asset('assets/images/logo.png') }}" alt="logo" class="w-50">
                         </div>
                         <h4>Welcome! let's get started</h4>
                         <h6 class="font-weight-light">Sign in to continue.</h6>

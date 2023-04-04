@@ -36,5 +36,11 @@
                 <span class="menu-title">Job Cards</span>
             </a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url('/admin/client-uploads') }}">
+                <i class="typcn typcn-chart-pie menu-icon"></i>
+                <span class="menu-title">Client Uploads</span>
+            </a>
+        </li>
     </ul>
 </nav>

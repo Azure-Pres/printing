@@ -27,14 +27,6 @@ class JobCardsTable extends DataTableComponent
             ->sortable(),
             Column::make('Job Card Id')
             ->sortable(),
-            Column::make('Machine')
-            ->sortable(),
-            Column::make('Print Status')
-            ->sortable(),
-            Column::make('Allowed copies')
-            ->sortable(),
-            Column::make('Allowed copies')
-            ->sortable(),
             Column::make('Status')
             ->sortable(),
             Column::make('Actions')

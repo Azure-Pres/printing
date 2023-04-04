@@ -16,9 +16,3 @@ Route::group(['prefix' => 'upload-data'], function() {
 	Route::get('/upload', App\Http\Livewire\Client\UploadData\Upload::class)->name('client-upload-data-upload');
 	Route::get('/{id}/details', App\Http\Livewire\Client\UploadData\Detail::class)->name('client-upload-data-details');
 });
-
-//Codes related route
-Route::group(['prefix' => 'codes'], function() {
-	Route::get('/', App\Http\Livewire\Client\Codes\Home::class)->name('client-codes');
-	Route::get('/view/{id}', App\Http\Livewire\Client\Codes\View::class)->name('client-view-codes');	
-});

@@ -18,6 +18,7 @@ class Create extends Component
     public $country  ='';
     public $zipcode  ='';
     public $status   ='';
+    public $password ='';
     public $type     ='User';
 
 
@@ -37,11 +38,13 @@ class Create extends Component
             'state'        => getRule('',true),
             'zipcode'      => getRule('zip',true),
             'status'       => getRule('',true),
+            'password'     => getRule('',true),
         ];
 
         $validated = $this->validate($rules);
         $validated['type']  = $this->type;
-        // dd($validated);
+        $validated['password'] = bcrypt($this->password);
+
         $user = User::create($validated);
 
         return redirect('admin/users');

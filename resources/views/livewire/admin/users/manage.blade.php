@@ -37,21 +37,21 @@
                                     <x-basic.message class="text-danger" :message="$errors->has('address')?$errors->first('address'):''"></x-basic.message>
                                 </div>
                             </div>
-                            <div class="col-sm-6 mb-2">
+                            <div class="col-sm-4 mb-2">
                                 <div class="form-group">
                                     <label for="city">City</label>
                                     <input wire:model.defer="city" type="text" class="form-control" id="city" placeholder="Phone">
                                     <x-basic.message class="text-danger" :message="$errors->has('city')?$errors->first('city'):''"></x-basic.message>
                                 </div>
                             </div>
-                            <div class="col-sm-6 mb-2">
+                            <div class="col-sm-4 mb-2">
                                 <div class="form-group">
                                     <label for="state">State</label>
                                     <input wire:model.defer="state" type="text" class="form-control" id="state" placeholder="Phone">
                                     <x-basic.message class="text-danger" :message="$errors->has('state')?$errors->first('state'):''"></x-basic.message>
                                 </div>
                             </div>
-                            <div class="col-sm-6 mb-2">
+                            <div class="col-sm-4 mb-2">
                                 <div class="form-group">
                                     <label for="zipcode">Zip Code</label>
                                     <input wire:model.defer="zipcode" type="number" class="form-control" id="zipcode" placeholder="Phone">
@@ -69,6 +69,15 @@
                                     <x-basic.message class="text-danger" :message="$errors->has('status')?$errors->first('status'):''"></x-basic.message>
                                 </div>
                             </div>
+
+                            <div class="col-sm-6 mb-2">
+                                <div class="form-group">
+                                    <label for="password">Password</label>
+                                    <input wire:model.defer="password" type="text" class="form-control" id="password" placeholder="Password">
+                                    <x-basic.message class="text-danger" :message="$errors->has('password')?$errors->first('password'):''"></x-basic.message>
+                                </div>
+                            </div>
+
                             <div class="col-sm-6">
                                 <a href="{{url('/admin/users')}}" class="btn btn-light" >Cancel</a>
                             </div>

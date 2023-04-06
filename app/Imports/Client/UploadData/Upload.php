@@ -57,16 +57,20 @@ WithEvents
         $progress = $this->progress();
         foreach ($array as $key => $row) {
 
-            // try{
+            try{
+                $count = Code::where('client_id',$this->client_id)->count();              
+                $serial_no = $count+1;
+
                 $collect = [
                     'client_id'           => $this->client_id,
                     'code_data'           => json_encode($row),
+                    'serial_no'           => $serial_no
                 ];
 
                 Code::create($collect);
                 $progress->uploaded_rows = $progress->uploaded_rows+1;
-            // }catch(Exception $e){
-            // }
+            }catch(Exception $e){
+            }
 
             $progress->processed_rows = $progress->processed_rows+1;
             $progress->save();
@@ -90,7 +94,7 @@ WithEvents
         $client = User::find($this->client_id);
 
         foreach ($client->getClientAttributes as $key => $client_attribute) {
-            $rules [$client_attribute->getCodeAttribute->name] = getRule('',true);
+            $rules[$client_attribute->getCodeAttribute->name] = getRule('',true);
 
             if($client_attribute->unique=='1'){
                 $rules [$client_attribute->getCodeAttribute->name] = getRule('',true).'|unique:codes,code_data->'.$client_attribute->getCodeAttribute->name;                

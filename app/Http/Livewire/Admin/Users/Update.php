@@ -17,6 +17,7 @@ class Update extends Component
     public $country  ='';
     public $zipcode  ='';
     public $status   ='';
+    public $password ='';
     public $type     ='User';
 
     public function render()
@@ -52,10 +53,16 @@ class Update extends Component
             'state'        => getRule('',true),
             'zipcode'      => getRule('zip',true),
             'status'       => getRule('',true),
+            'password'     => getRule('',false,true),
         ];
 
         $validated = $this->validate($rules);
         $validated['type']  = $this->type;
+
+        if ($this->password!='') {
+            $validated['password']  = bcrypt($this->password);
+        }
+
         $this->user->update($validated);
 
         return redirect('admin/users');

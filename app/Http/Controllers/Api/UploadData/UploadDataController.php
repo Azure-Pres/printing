@@ -38,10 +38,14 @@ class UploadDataController extends Controller
 
                 foreach ($input['data'] as $key => $row) {
 
+                    $count = Code::where('client_id',$this->client_id)->count();              
+                    $serial_no = $count+1;
+
                     try{
                         $collect = [
                             'client_id'           => Auth::id(),
                             'code_data'           => json_encode($row),
+                            'serial_no'           => $serial_no
                         ];
 
                         Code::create($collect);

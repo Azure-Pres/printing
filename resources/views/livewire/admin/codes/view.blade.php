@@ -30,29 +30,6 @@
                     <div class="row">
                         <div class="col-sm-6 mb-2">
                             <a href="{{url('/admin/codes')}}" class="btn btn-light" >Go Back</a>
-                        <div class="col-sm-9">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <p class="mb-2">
-                                        <strong>Client Name : </strong>{{$code->getClient->name??'-'}}
-                                    </p>
-                                </div>
-                                <div class="col-md-12">
-                                    <p class="mb-2">
-                                        <strong>Batch Code : </strong>{{$code->getBatch->batch_code}}
-                                    </p>
-                                </div>
-                                <div class="col-md-12">
-                                    <p class="mb-2">
-                                        <strong>Code Data : </strong>{{$code->code_data??'-'}}
-                                    </p>
-                                </div>
-                                <div class="col-md-12">
-                                    <p class="mb-2">
-                                        <strong>Status : </strong>{{$code->status??'-'}}
-                                    </p>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>

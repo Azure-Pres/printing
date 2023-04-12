@@ -28,12 +28,12 @@ class ClientUploadsTable extends DataTableComponent
             ->sortable()->format(
                 fn($value, $row, Column $column) => $row->getClient->name??'-'
             ),
-            Column::make('Lot Number')
-            ->sortable(),
-            Column::make('Lot Size')
-            ->sortable(),
-            Column::make('Category')
-            ->sortable(),
+            // Column::make('Lot Number')
+            // ->sortable(),
+            // Column::make('Lot Size')
+            // ->sortable(),
+            // Column::make('Category')
+            // ->sortable(),
             Column::make('Status')
             ->sortable()->format(
                 fn($value, $row, Column $column) => uploadStatusText($row->status)

@@ -74,7 +74,7 @@ class Update extends Component
             $rules['print_file'] = getRule('',true);
         }
 
-        if ($this->divide_in_lot=='Yes') {
+        if ($this->divide_in_lot=='Yes'){
             $rules['lot_size']        = getRule('',true);
         }
 

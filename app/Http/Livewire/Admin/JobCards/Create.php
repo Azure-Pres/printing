@@ -69,7 +69,8 @@ class Create extends Component
         return redirect('admin/job-cards');
     }
 
-    public function toggle_lot_size(){
+    public function toggle_lot_size()
+    {
         $this->show_lot_size = $this->divide_in_lot=='Yes'?true:false;
-    }
+    } 
 }

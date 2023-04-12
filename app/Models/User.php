@@ -84,4 +84,16 @@ class User extends Authenticatable
         return $users;
     }
 
+    public static function getApiPermissionModel($input)
+    {   
+        $q = User::where('user_id',Auth::id());
+
+        if(isset($input['id']) && $input['id']!=''){
+            $q->where('id',$input['id']);
+        }
+
+        $user = $q->get();
+        
+        return $user;
+    }
 }

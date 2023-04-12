@@ -24,7 +24,7 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
     Route::resource("dashboard",ApiRoot\User\DashboardController::class);
     Route::resource("job-cards",ApiRoot\User\JobCardController::class);
     Route::resource("printing",ApiRoot\User\PrintingController::class);
-    Route::resource('users', ApiRoot\Admin\User\UserController::class);
+    Route::resource("permissions",ApiRoot\User\PermissionController::class);
 });
 
 Route::get('print-file/{id}',[ApiRoot\User\PrintingController::class,'download']);

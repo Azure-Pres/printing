@@ -16,7 +16,7 @@
                                 <div class="col-sm-4">
                                     <label>Client Name : {{$data->getClient->name??'-'}}</label>
                                 </div>
-                                <div class="col-sm-4">
+{{--                                 <div class="col-sm-4">
                                     <label>Lot Number : {{$data->lot_number}}</label>
                                 </div>
                                 <div class="col-sm-4">
@@ -24,7 +24,7 @@
                                 </div>
                                 <div class="col-sm-4">
                                     <label>Category : {{$data->category}}</label>
-                                </div>
+                                </div> --}}
                                 <div class="col-sm-4">
                                     <label>Progress Id : {{$data->progress_id}}</label>
                                 </div>

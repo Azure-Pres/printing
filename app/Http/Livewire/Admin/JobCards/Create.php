@@ -52,6 +52,7 @@ class Create extends Component
 
         if ($this->print_status=='Ready for Print') {
             $rules['print_file'] = getRule('',true);
+        }
 
         if ($this->divide_in_lot=='Yes') {
             $rules['lot_size']        = getRule('',true);
@@ -69,7 +70,8 @@ class Create extends Component
 
     }
 
-    public function toggle_lot_size(){
+    public function toggle_lot_size()
+    {
         $this->show_lot_size = $this->divide_in_lot=='Yes'?true:false;
-    }
+    } 
 }

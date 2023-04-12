@@ -91,8 +91,8 @@ class Update extends Component
             }
         }
 
-        $user->machines = json_encode($this->machines);
-        $user->save();
+        $this->user->machines = json_encode($this->machines);
+        $this->user->save();
         
         return redirect('admin/users');
     }

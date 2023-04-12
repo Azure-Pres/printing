@@ -15,9 +15,6 @@ class Upload extends Component
 {
     use WithFileUploads;
 
-    public $lot_number;
-    public $lot_size;
-    public $category;
     public $file;
 
     public function render()
@@ -46,9 +43,6 @@ class Upload extends Component
 
         $client_upload = new ClientUpload;
         $client_upload->client_id = Auth::id();
-        $client_upload->lot_number = $this->lot_number;
-        $client_upload->lot_size   = $this->lot_size;
-        $client_upload->category   = $this->category;
         $client_upload->file_url   = $this->file->store('import');
         $client_upload->progress_id= $progress_id;
         $client_upload->total_rows = $count;
@@ -63,9 +57,6 @@ class Upload extends Component
 
     public function rules(){
         return [
-            'lot_number' => getRule('',true),
-            'lot_size'   => getRule('quantity',true),
-            'category'   => getRule('',true),
             'file'       => getRule('excel',true)
         ];
 

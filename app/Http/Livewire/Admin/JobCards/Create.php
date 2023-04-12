@@ -16,7 +16,10 @@ class Create extends Component
     public $second_verification_status = '';
     public $remarks  = '';
     public $status   ='';
-
+    public $divide_in_lot   ='';
+    public $lot_size   ='';
+    public $printing_material ='';
+    public $show_lot_size =false;
     public function render()
     {
         return view('livewire.admin.jobcards.manage')->layout('layouts.app');
@@ -33,7 +36,13 @@ class Create extends Component
             'second_verification_status' => getRule('',true),
             'remarks'        => getRule('',true),
             'status'         => getRule('',true),
+            'divide_in_lot'  => getRule('',true),
+            'printing_material' => getRule('',true),
         ];
+
+        if ($this->divide_in_lot=='Yes') {
+            $rules['lot_size']        = getRule('',true);
+        }
 
         $validated = $this->validate($rules);
 
@@ -41,5 +50,9 @@ class Create extends Component
 
         return redirect('admin/job-cards');
 
+    }
+
+    public function toggle_lot_size(){
+        $this->show_lot_size = $this->divide_in_lot=='Yes'?true:false;
     }
 }

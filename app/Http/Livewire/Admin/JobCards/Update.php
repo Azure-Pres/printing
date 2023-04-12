@@ -16,7 +16,11 @@ class Update extends Component
     public $second_verification_status = '';
     public $remarks  = '';
     public $status   ='';
-
+    public $divide_in_lot   ='';
+    public $lot_size   ='';
+    public $printing_material ='';
+    public $show_lot_size =false;
+    
     public function render()
     {
         return view('livewire.admin.jobcards.manage')->layout('layouts.app');
@@ -35,6 +39,10 @@ class Update extends Component
         $this->second_verification_status = $this->job_card->second_verification_status;
         $this->remarks = $this->job_card->remarks;
         $this->status   = $this->job_card->status;
+        $this->divide_in_lot = $this->job_card->divide_in_lot;
+        $this->lot_size = $this->job_card->lot_size;
+        $this->show_lot_size = $this->job_card->divide_in_lot=='Yes'?true:false;
+        $this->printing_material = $this->job_card->printing_material;
     }
 
     public function modify()
@@ -48,11 +56,21 @@ class Update extends Component
             'second_verification_status' => getRule('',true),
             'remarks'        => getRule('',true),
             'status'      => getRule('',true),
+            'divide_in_lot'  => getRule('',true),
+            'printing_material' => getRule('',true),
         ];
+
+        if ($this->divide_in_lot=='Yes') {
+            $rules['lot_size']        = getRule('',true);
+        }
 
         $validated = $this->validate($rules);
         $this->job_card->update($validated);
         return redirect('admin/job-cards');
 
     }
+
+    public function toggle_lot_size(){
+        $this->show_lot_size = $this->divide_in_lot=='Yes'?true:false;
+    } 
 }

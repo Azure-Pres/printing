@@ -15,6 +15,9 @@ use App\Http\Controllers\Api as ApiRoot;
 */
 
 Route::post("login",[ApiRoot\Auth\LoginController::class,'index']);
+    Route::resource('users', ApiRoot\Admin\User\UserController::class);
+
 Route::group(['middleware' => 'auth:sanctum'], function(){
     Route::post("upload-data",[ApiRoot\UploadData\UploadDataController::class,'store']);
+    // User
 });

@@ -40,3 +40,10 @@ if (! function_exists('uploadStatusText')) {
 		return $text;
 	}
 }
+
+if (! function_exists('getDateWithFormat')) {
+	function getDateWithFormat($date) 
+	{	
+		return date('M d, Y',strtotime($date));
+	}
+}

@@ -24,8 +24,10 @@ class ClientUploadsTable extends DataTableComponent
     {
         return [
             Column::make('id')->hideIf(true),
-            
-            Column::make('Client Id'),
+            Column::make('Client','client_id')
+            ->sortable()->format(
+                fn($value, $row, Column $column) => $row->getClient->name??'-'
+            ),
             Column::make('Lot Number')
             ->sortable(),
             Column::make('Lot Size')

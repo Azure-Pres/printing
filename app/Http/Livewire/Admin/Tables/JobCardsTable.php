@@ -33,8 +33,6 @@ class JobCardsTable extends DataTableComponent
             ->sortable(),
             Column::make('Allowed copies')
             ->sortable(),
-            Column::make('Allowed copies')
-            ->sortable(),
             Column::make('Status')
             ->sortable(),
             Column::make('Actions')

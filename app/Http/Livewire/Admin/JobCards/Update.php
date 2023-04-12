@@ -2,11 +2,16 @@
 
 namespace App\Http\Livewire\Admin\JobCards;
 
-use Livewire\Component;
+use App\Exports\Admin\Code\CodeExport;
 use App\Models\JobCard;
+use Livewire\Component;
+use Livewire\WithFileUploads;
+use Maatwebsite\Excel\Facades\Excel;
 
 class Update extends Component
 {
+    use WithFileUploads;
+
     public $job_card = null;
     public $job_card_id   ='';
     public $machine = '';
@@ -16,6 +21,9 @@ class Update extends Component
     public $second_verification_status = '';
     public $remarks  = '';
     public $status   ='';
+    public $batch_code   ='';
+    public $batch_id   ='';
+    public $print_file;
 
     public function render()
     {
@@ -35,24 +43,40 @@ class Update extends Component
         $this->second_verification_status = $this->job_card->second_verification_status;
         $this->remarks = $this->job_card->remarks;
         $this->status   = $this->job_card->status;
+        $this->batch_id   = $this->job_card->batch_id;
+        $this->batch_code   = $this->job_card->getBatch->batch_code;
     }
 
     public function modify()
     {
         $rules = [
-            'job_card_id' => getRule('',true),
+            'job_card_id' => getRule('',true).'|unique:job_cards,job_card_id,'.$this->job_card->id,
             'machine'        => getRule('',true),
             'print_status'   => getRule('',true),
             'allowed_copies' => getRule('',true),
             'first_verification_status'  => getRule('',true),
             'second_verification_status' => getRule('',true),
             'remarks'        => getRule('',true),
-            'status'      => getRule('',true),
+            'status'         => getRule('',true),
         ];
 
+        if ($this->print_status=='Ready for Print') {
+            $rules['print_file'] = getRule('',true);
+        }
+
         $validated = $this->validate($rules);
+
+        if ($this->print_status=='Ready for Print') {
+            $validated['file_url']   = $this->print_file->store('print_files');
+        }
+
         $this->job_card->update($validated);
         return redirect('admin/job-cards');
 
+    }
+
+    public function downloadCodes()
+    {
+        return Excel::download(new CodeExport($this->job_card), date('Y-m-d').'-codes.csv');
     }
 }

@@ -24,18 +24,22 @@ class CodesTable extends DataTableComponent
     public function columns(): array
     {
         return [
-            Column::make('Id')
-            ->sortable(),
-            Column::make('Batch Id')
+            Column::make('Client','client_id')
             ->sortable()->format(
-                fn($value, $row, Column $column) => $row->batch_id??'-'
+                fn($value, $row, Column $column) => $row->getClient->name??'-'
+            ),
+            Column::make('Serial No')
+            ->sortable(),
+            Column::make('Batch','batch_id')
+            ->sortable()->format(
+                fn($value, $row, Column $column) => $row->getBatch->batch_code??'-'
             ),
             Column::make('Status')
             ->sortable()->format(
                 fn($value, $row, Column $column) => $row->status??'New Uploaded'
             ),
-            Column::make('Actions')
-            ->label(function($row, Column $column) {
+            Column::make('Actions','id')
+            ->format(function($value, $row, Column $column) {
                 return view('livewire.admin.codes.actions')->withCode($row);
             }),
         ];

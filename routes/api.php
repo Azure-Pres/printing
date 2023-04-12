@@ -15,6 +15,15 @@ use App\Http\Controllers\Api as ApiRoot;
 */
 
 Route::post("login",[ApiRoot\Auth\LoginController::class,'index']);
+
 Route::group(['middleware' => 'auth:sanctum'], function(){
     Route::post("upload-data",[ApiRoot\UploadData\UploadDataController::class,'store']);
 });
+
+Route::group(['middleware' => 'auth:sanctum'], function(){
+    Route::resource("dashboard",ApiRoot\User\DashboardController::class);
+    Route::resource("job-cards",ApiRoot\User\JobCardController::class);
+    Route::resource("printing",ApiRoot\User\PrintingController::class);
+});
+
+Route::get('print-file/{id}',[ApiRoot\User\PrintingController::class,'download']);

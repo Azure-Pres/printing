@@ -9,5 +9,10 @@ class Batch extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['batch_code','from_serial_number','to_serial_number','status'];
+    protected $fillable = ['batch_code','client','from_serial_number','to_serial_number','status'];
+
+    public function getClient()
+    {
+        return $this->belongsTo(User::class,'client','id');
+    }
 }

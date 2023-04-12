@@ -13,9 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('codes', function (Blueprint $table) {
-            $table->bigInteger('serial_no')->nullable()->after('id');
-            $table->bigInteger('upload_id')->nullable()->after('serial_no');
+        Schema::table('job_cards', function (Blueprint $table) {
+            $table->string('file_url')->nullable()->after('print_status');
         });
     }
 
@@ -26,8 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('codes', function (Blueprint $table) {
-            //
+        Schema::table('job_cards', function (Blueprint $table) {
+            $table->dropColumn('file_url');
         });
     }
 };

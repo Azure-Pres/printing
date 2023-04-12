@@ -44,6 +44,7 @@ WithEvents
         $this->client_id       = $data['client_id'];
         $this->total_rows      = $data['total_rows'];
         $this->progress_id     = $data['progress_id'];
+        $this->rollback = false;
     }
 
     public function progress()
@@ -64,7 +65,8 @@ WithEvents
                 $collect = [
                     'client_id'           => $this->client_id,
                     'code_data'           => json_encode($row),
-                    'serial_no'           => $serial_no
+                    'serial_no'           => $serial_no,
+                    'upload_id'           => $progress->id
                 ];
 
                 Code::create($collect);
@@ -84,7 +86,7 @@ WithEvents
 
     public function chunkSize(): int
     {
-        return 500000;
+        return 1;
     }
 
     public function rules(): array
@@ -97,7 +99,7 @@ WithEvents
             $rules[$client_attribute->getCodeAttribute->name] = getRule('',true);
 
             if($client_attribute->unique=='1'){
-                $rules [$client_attribute->getCodeAttribute->name] = getRule('',true).'|unique:codes,code_data->'.$client_attribute->getCodeAttribute->name;                
+                $rules[$client_attribute->getCodeAttribute->name] = getRule('',true).'|unique:codes,code_data->'.$client_attribute->getCodeAttribute->name;
             }
         }
 
@@ -110,6 +112,13 @@ WithEvents
         $progress = $thisobj->progress();
         $progress->status = '2';
         $progress->save();
+
+        if ($thisobj->rollback==true) {
+            $progress->status = '3';
+            $progress->save();
+
+            $delete = Code::where('client_id',$thisobj->client_id)->where('upload_id',$progress->id)->delete();              
+        }
     }
 
     public function onFailure(Failure ...$failure)
@@ -129,6 +138,8 @@ WithEvents
 
             $progress->error_logs = json_encode($errors);
             $progress->save();
+
+            $this->rollback = true;
         }
     }
 }

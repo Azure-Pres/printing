@@ -22,6 +22,18 @@
                             </div>
                             <div class="col-sm-6 ">
                                 <div class="form-group mb-2">
+                                    <label for="client">Select Client</label>
+                                    <select wire:model.defer="client" class="form-control" id="client">
+                                        <option value="">Please select</option>
+                                        @foreach($clients as $client)
+                                        <option value="{{$client->id}}">{{$client->name}}</option>
+                                        @endforeach
+                                    </select>
+                                    <x-basic.message class="text-danger" :message="$errors->has('client')?$errors->first('client'):''"></x-basic.message>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 ">
+                                <div class="form-group mb-2">
                                     <label for="from_serial_number">From Serial Number</label>
                                     <input wire:model.defer="from_serial_number" type="number" class="form-control" id="from_serial_number" placeholder="From serial number">
                                     <x-basic.message class="text-danger" :message="$errors->has('from_serial_number')?$errors->first('from_serial_number'):''"></x-basic.message>
@@ -34,7 +46,7 @@
                                     <x-basic.message class="text-danger" :message="$errors->has('to_serial_number')?$errors->first('to_serial_number'):''"></x-basic.message>
                                 </div>
                             </div>
-                            <div class="col-sm-6 ">
+                            <div class="col-sm-12 ">
                                 <div class="form-group mb-2">
                                     <label for="status">Status</label>
                                     <select wire:model.defer="status" class="form-control" id="status">

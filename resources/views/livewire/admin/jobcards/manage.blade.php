@@ -8,11 +8,15 @@
             <div class="col-lg-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-header">
-                        <div class="card-title mb-0">Job card basic information</div>
+                        <div class="card-title mb-0">Job card basic information 
+                            @if($job_card)
+                            <a href="javascript:;" wire:click="downloadCodes()" class="btn btn-primary btn-sm float-right">Download Codes</a>
+                            @endif
+                        </div>
                     </div>
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-sm-6 ">
+                            <div class="col-sm-4 ">
                                 <div class="form-group mb-2">
                                     <label for="job_card_id">Job Card ID</label>
                                     <input wire:model.defer="job_card_id" type="text" class="form-control" id="job_card_id" placeholder="Job card id">
@@ -20,7 +24,30 @@
                                 </div>
                             </div>
 
-                            <div class="col-sm-6 ">
+                            @if($job_card)
+                            <div class="col-sm-4 ">
+                                <div class="form-group mb-2">
+                                    <label for="batch_id">Select Batch</label>
+                                    <input wire:model.defer="batch_id" class="form-control" id="batch_id" hidden />
+                                    <input wire:model.defer="batch_code" class="form-control" id="batch_code" readonly/>
+                                </div>
+                            </div>
+                            @else
+                            <div class="col-sm-4 ">
+                                <div class="form-group mb-2">
+                                    <label for="batch_id">Select Batch</label>
+                                    <select wire:model.defer="batch_id" class="form-control" id="batch_id">
+                                        <option value="">Please select</option>
+                                        @foreach($batches as $batch)
+                                        <option value="{{$batch->id}}">{{$batch->batch_code}}</option>
+                                        @endforeach
+                                    </select>
+                                    <x-basic.message class="text-danger" :message="$errors->has('batch_id')?$errors->first('batch_id'):''"></x-basic.message>
+                                </div>
+                            </div>
+                            @endif
+
+                            <div class="col-sm-4 ">
                                 <div class="form-group mb-2">
                                     <label for="machine">Machine</label>
                                     <select wire:model.defer="machine" class="form-control" id="machine">
@@ -32,19 +59,20 @@
                                 </div>
                             </div>
 
-                            <div class="col-sm-6 ">
+                            <div class="col-sm-4 ">
                                 <div class="form-group mb-2">
                                     <label for="print_status">Print status</label>
-                                    <select wire:model.defer="print_status" class="form-control" id="print_status">
+                                    <select wire:model="print_status" class="form-control" id="print_status">
                                         <option value="">Select</option>
-                                        <option value="Printed">Printed</option>
                                         <option value="Pending">Pending</option>
+                                        <option value="Ready for Print">Ready for Print</option>
+                                        <option value="Printed">Printed</option>
                                     </select>
                                     <x-basic.message class="text-danger" :message="$errors->has('print_status')?$errors->first('print_status'):''"></x-basic.message>
                                 </div>
                             </div>
 
-                            <div class="col-sm-6 ">
+                            <div class="col-sm-4 ">
                                 <div class="form-group mb-2">
                                     <label for="allowed_copies">Allowed copies</label>
                                     <input wire:model.defer="allowed_copies" type="number" min="0" step="1" class="form-control" id="allowed_copies" placeholder="Enter number">
@@ -52,7 +80,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-sm-6 ">
+                            <div class="col-sm-4 ">
                                 <div class="form-group mb-2">
                                     <label for="first_verification_status">First verification status</label>
                                     <select wire:model.defer="first_verification_status" class="form-control" id="first_verification_status">
@@ -65,7 +93,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-sm-6 ">
+                            <div class="col-sm-4 ">
                                 <div class="form-group mb-2">
                                     <label for="second_verification_status">Second verification status</label>
                                     <select wire:model.defer="second_verification_status" class="form-control" id="second_verification_status">
@@ -78,7 +106,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-sm-6 ">
+                            <div class="col-sm-4 ">
                                 <div class="form-group mb-2">
                                     <label for="remarks">Remarks</label>
                                     <input wire:model.defer="remarks" type="text" class="form-control" id="remarks" placeholder="Remarks">
@@ -86,7 +114,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-sm-6 ">
+                            <div class="col-sm-4 ">
                                 <div class="form-group mb-2">
                                     <label for="status">Status</label>
                                     <select wire:model.defer="status" class="form-control" id="status">
@@ -97,25 +125,35 @@
                                     <x-basic.message class="text-danger" :message="$errors->has('status')?$errors->first('status'):''"></x-basic.message>
                                 </div>
                             </div>
+
+                            @if($print_status=='Ready for Print')
+                            <div class="col-sm-12">
+                                <div class="form-group mb-2">
+                                    <label for="print_file">Print File</label>
+                                    <input wire:model.defer="print_file" type="file" class="form-control" id="print_file">
+                                    <x-basic.message class="text-danger" :message="$errors->has('print_file')?$errors->first('print_file'):''"></x-basic.message>
+                                </div>
+                            </div>
+                            @endif
                         </div>
                     </div>
                 </div>
             </div>
 
-        <div class="col-lg-12 grid-margin stretch-card">
-            <div class="card">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-sm-6 mb-2">
-                            <a href="{{url('/admin/job-cards')}}" class="btn btn-light" >Cancel</a>
-                        </div>
-                        <div class="col-sm-6 mb-2 text-right">
-                            <button type="submit" class="btn btn-primary mr-2">Submit</button>
+            <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-6 mb-2">
+                                <a href="{{url('/admin/job-cards')}}" class="btn btn-light" >Cancel</a>
+                            </div>
+                            <div class="col-sm-6 mb-2 text-right">
+                                <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
         </form>
         
     </div>

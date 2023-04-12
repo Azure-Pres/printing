@@ -83,94 +83,94 @@
                     </div>
                 </div>
             </div>
-                                        {{--  --}}
-                            <div class="col-lg-12 grid-margin stretch-card">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <div class="card-title mb-0">Assign Permissions</div>
+            
+            <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title mb-0">Assign Permissions</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-12 mb-1">
+                                <div class="row">
+                                    <div class="col-5">
+                                        <label class="col-form-label">1. Job Sheet</label>
                                     </div>
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-sm-12 mb-1">
-                                                <div class="row">
-                                                    <div class="col-5">
-                                                        <label class="col-form-label">1. Job Sheet</label>
-                                                    </div>
-                                                    <div class="col-3">
-                                                        <div class="form-check">
-                                                            <input wire:model.defer="view" id="jobsheet-view" class="form-check-input" type="checkbox" value="jobsheet">
-                                                            <label for="jobsheet-view">View</label>
-                                                        </div>
-                                                    </div>
+                                    <div class="col-3">
+                                        <div class="form-check">
+                                            <input wire:model.defer="view" id="jobsheet-view" class="form-check-input" type="checkbox" value="jobsheet">
+                                            <label for="jobsheet-view">View</label>
+                                        </div>
+                                    </div>
 
-                                                    <div class="col-3">
-                                                        <div class="form-check">
-                                                            <input wire:model.defer="modify" id="jobsheet-modify" class="form-check-input" type="checkbox" value="jobsheet">
-                                                            <label  for="jobsheet-modify">modify
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-5">
-                                                        <label class="col-form-label">2. Printing</label>
-                                                    </div>
-                                                    <div class="col-3">
-                                                        <div class="form-check">
-                                                            <input wire:model.defer="view"
-                                                             id="printing-view" class="form-check-input" type="checkbox" value="printing">
-                                                            <label for="printing-view">View</label>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-3">
-                                                        <div class="form-check">
-                                                            <input wire:model.defer="modify" wire:change="toggle_printing()" id="printing-modify" class="form-check-input" type="checkbox" value="printing">
-                                                            <label  for="printing-modify">modify
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                @if($show_printing_options)
-                                                <div class="row">
-                                                    <div class="col-5">
-                                                        <label class="col-form-label">Please select machine</label>
-                                                    </div>
-                                                    <div class="col-3">
-                                                        <div class="form-check">
-                                                            <input wire:model.defer="machines"
-                                                             id="machine-1" class="form-check-input" type="checkbox" value="machine-1">
-                                                            <label for="machine-1">Machine 1</label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-5">
-                                                        <label class="col-form-label"></label>
-                                                    </div>
-                                                    <div class="col-3">
-                                                        <div class="form-check">
-                                                            <input wire:model.defer="machines"
-                                                             id="machine-2" class="form-check-input" type="checkbox" value="machine-2">
-                                                            <label for="machine-2">Machine 2</label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-5">
-                                                        <label class="col-form-label"></label>
-                                                    </div>
-                                                    <div class="col-3">
-                                                        <div class="form-check">
-                                                            <input wire:model.defer="machines"
-                                                             id="machine-3" class="form-check-input" type="checkbox" value="machine-3">
-                                                            <label for="machine-3">Machine 3</label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                @endif
-                                            </div>
+                                    <div class="col-3">
+                                        <div class="form-check">
+                                            <input wire:model.defer="modify" id="jobsheet-modify" class="form-check-input" type="checkbox" value="jobsheet">
+                                            <label  for="jobsheet-modify">modify
+                                            </label>
                                         </div>
                                     </div>
                                 </div>
+                                <div class="row">
+                                    <div class="col-5">
+                                        <label class="col-form-label">2. Printing</label>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="form-check">
+                                            <input wire:model.defer="view"
+                                            id="printing-view" class="form-check-input" type="checkbox" value="printing">
+                                            <label for="printing-view">View</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-3">
+                                        <div class="form-check">
+                                            <input wire:model.defer="modify" wire:change="toggle_printing()" id="printing-modify" class="form-check-input" type="checkbox" value="printing">
+                                            <label  for="printing-modify">modify
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                @if($show_printing_options)
+                                <div class="row">
+                                    <div class="col-5">
+                                        <label class="col-form-label">Please select machine</label>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="form-check">
+                                            <input wire:model.defer="machines"
+                                            id="machine-1" class="form-check-input" type="checkbox" value="machine-1">
+                                            <label for="machine-1">Machine 1</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-5">
+                                        <label class="col-form-label"></label>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="form-check">
+                                            <input wire:model.defer="machines"
+                                            id="machine-2" class="form-check-input" type="checkbox" value="machine-2">
+                                            <label for="machine-2">Machine 2</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-5">
+                                        <label class="col-form-label"></label>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="form-check">
+                                            <input wire:model.defer="machines"
+                                            id="machine-3" class="form-check-input" type="checkbox" value="machine-3">
+                                            <label for="machine-3">Machine 3</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                @endif
                             </div>
-                            {{--  --}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
             <div class="col-lg-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">

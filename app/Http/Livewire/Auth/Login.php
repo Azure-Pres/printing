@@ -74,7 +74,7 @@ class Login extends Component
         if($user->type === 'Client') {
             $this->success = true;
             $this->message = 'Login successful. Please wait.';
-            return redirect('/client');
+            return redirect('/client/upload-data');
         }
 
     }

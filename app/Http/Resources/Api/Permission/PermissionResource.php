@@ -17,7 +17,7 @@ class PermissionResource extends JsonResource
         return [
             'module_name'       => $this->module_name,
             'view'              => $this->view,
-            'modify'              => $this->modify,
+            'modify'            => $this->modify,
         ];
     }
 }

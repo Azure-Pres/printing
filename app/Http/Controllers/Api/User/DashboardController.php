@@ -6,11 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Models\JobCard;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Auth;
 
 class DashboardController extends Controller
 {
     public function index()
     {
+        $machines = json_decode(Auth::user()->machines);
+
         $total_jobcards = JobCard::where('status','Active')->where('print_status','!=','Pending')->count();
         $ready_for_print = JobCard::where('print_status','Ready for Print')->count();
         $printed_jobcards = JobCard::where('print_status','Printed')->count();

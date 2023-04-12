@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Auth;
 
 class JobCard extends Model
 {
@@ -13,6 +14,8 @@ class JobCard extends Model
 
     public static function getApiJobCardModel($input)
     {   
+        $machines = json_decode(Auth::user()->machines);
+
         $q = JobCard::where('status','Active')->where('print_status','!=','Pending')->orderBy('created_at','DESC');
         $jobcards = $q->get();
         return $jobcards;
@@ -20,7 +23,9 @@ class JobCard extends Model
 
     public static function getApiPrintingModel($input)
     {   
-        $q = JobCard::where('print_status','Ready for Print')->orderBy('created_at','DESC');
+        $machines = json_decode(Auth::user()->machines);
+
+        $q = JobCard::where('print_status','Ready for Print')->whereIn('machine',$machines)->orderBy('created_at','DESC');
         $jobcards = $q->get();
         return $jobcards;
     }

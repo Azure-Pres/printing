@@ -2,7 +2,12 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', App\Http\Livewire\Client\Dashboard\Home::class)->name('client');
+// Route::get('/', App\Http\Livewire\Client\Dashboard\Home::class)->name('client');
+
+Route::get('/', function(){
+	return redirect('/client/upload-data');
+})->name('client');
+
 Route::get('/change-password', App\Http\Livewire\Client\Profile\ChangePassword::class);
 
 //Profile related route

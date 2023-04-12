@@ -23,7 +23,7 @@ class LoginController extends Controller
 
     public function index(Request $request)
     {
-        try{
+        // try{
             $input = $request->all();
             $validator = Validator::make($input, $this->rules);
 
@@ -64,11 +64,11 @@ class LoginController extends Controller
 
                 return response(new LoginResource($user), 200);
             }
-        }catch(Exception $e){
-            return response([
-                'success'  => false,
-                'message'  => 'Something went wrong.'
-            ], 200);
-        }
+        // }catch(Exception $e){
+        //     return response([
+        //         'success'  => false,
+        //         'message'  => 'Something went wrong.'
+        //     ], 200);
+        // }
     }
 }

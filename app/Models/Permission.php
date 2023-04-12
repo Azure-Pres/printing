@@ -13,11 +13,6 @@ class Permission extends Model
     public static function getApiPermissionModel($input)
     {   
         $q = Permission::where('user_id',Auth::id());
-        dd(Auth::id());
-        if(isset($input['id']) && $input['id']!=''){
-            $q->where('id',$input['id']);
-        }
-
         $permissions = $q->get();
         
         return $permissions;

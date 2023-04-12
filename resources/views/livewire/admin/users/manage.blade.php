@@ -106,7 +106,7 @@
                                     <div class="col-3">
                                         <div class="form-check">
                                             <input wire:model.defer="modify" id="jobsheet-modify" class="form-check-input" type="checkbox" value="jobsheet">
-                                            <label  for="jobsheet-modify">modify
+                                            <label  for="jobsheet-modify">Modify
                                             </label>
                                         </div>
                                     </div>
@@ -118,16 +118,8 @@
                                     <div class="col-3">
                                         <div class="form-check">
                                             <input wire:model.defer="view"
-                                            id="printing-view" class="form-check-input" type="checkbox" value="printing">
+                                            id="printing-view" wire:click="toggle_printing()" class="form-check-input" type="checkbox" value="printing">
                                             <label for="printing-view">View</label>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-3">
-                                        <div class="form-check">
-                                            <input wire:model.defer="modify" wire:change="toggle_printing()" id="printing-modify" class="form-check-input" type="checkbox" value="printing">
-                                            <label  for="printing-modify">modify
-                                            </label>
                                         </div>
                                     </div>
                                 </div>
@@ -139,8 +131,8 @@
                                     <div class="col-3">
                                         <div class="form-check">
                                             <input wire:model.defer="machines"
-                                            id="machine-1" class="form-check-input" type="checkbox" value="machine-1">
-                                            <label for="machine-1">Machine 1</label>
+                                            id="VDP" class="form-check-input" type="checkbox" value="VDP">
+                                            <label for="VDP">VDP</label>
                                         </div>
                                     </div>
                                     <div class="col-5">
@@ -149,18 +141,8 @@
                                     <div class="col-3">
                                         <div class="form-check">
                                             <input wire:model.defer="machines"
-                                            id="machine-2" class="form-check-input" type="checkbox" value="machine-2">
-                                            <label for="machine-2">Machine 2</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-5">
-                                        <label class="col-form-label"></label>
-                                    </div>
-                                    <div class="col-3">
-                                        <div class="form-check">
-                                            <input wire:model.defer="machines"
-                                            id="machine-3" class="form-check-input" type="checkbox" value="machine-3">
-                                            <label for="machine-3">Machine 3</label>
+                                            id="Handtop" class="form-check-input" type="checkbox" value="Handtop">
+                                            <label for="Handtop">Handtop</label>
                                         </div>
                                     </div>
                                 </div>

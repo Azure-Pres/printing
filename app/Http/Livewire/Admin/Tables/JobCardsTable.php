@@ -27,6 +27,10 @@ class JobCardsTable extends DataTableComponent
             ->sortable(),
             Column::make('Job Card Id')
             ->sortable(),
+            Column::make('Batch','batch_id')
+            ->sortable()->format(
+                fn($value, $row, Column $column) => $row->getBatch->batch_code??'-'
+            ),
             Column::make('Machine')
             ->sortable(),
             Column::make('Print Status')

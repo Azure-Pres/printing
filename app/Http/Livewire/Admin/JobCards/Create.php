@@ -47,26 +47,26 @@ class Create extends Component
             'remarks'        => getRule('',true),
             'status'         => getRule('',true),
             'divide_in_lot'  => getRule('',true),
-            'printing_material' => getRule('',true),
+            'printing_material' => getRule('',false,true),
         ];
 
-        if ($this->print_status=='Ready for Print') {
+        if ($this->print_status=='Ready for Print' && $this->machine=='Handtop') {
             $rules['print_file'] = getRule('',true);
+        }
 
         if ($this->divide_in_lot=='Yes') {
-            $rules['lot_size']        = getRule('',true);
+            $rules['lot_size']   = getRule('',true);
         }
 
         $validated = $this->validate($rules);
 
-        if ($this->print_status=='Ready for Print') {
+        if ($this->print_status=='Ready for Print' && $this->machine=='Handtop') {
             $validated['file_url']   = $this->print_file->store('print_files');
         }
 
         $job_card = JobCard::create($validated);
 
         return redirect('admin/job-cards');
-
     }
 
     public function toggle_lot_size(){

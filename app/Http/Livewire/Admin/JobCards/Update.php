@@ -67,10 +67,10 @@ class Update extends Component
             'remarks'        => getRule('',true),
             'status'         => getRule('',true),
             'divide_in_lot'  => getRule('',true),
-            'printing_material' => getRule('',true),
+            'printing_material' => getRule('',false,true),
         ];
 
-        if ($this->print_status=='Ready for Print') {
+        if ($this->print_status=='Ready for Print' && $this->machine=='Handtop') {
             $rules['print_file'] = getRule('',true);
         }
 
@@ -80,7 +80,7 @@ class Update extends Component
 
         $validated = $this->validate($rules);
 
-        if ($this->print_status=='Ready for Print') {
+        if ($this->print_status=='Ready for Print' && $this->machine=='Handtop') {
             $validated['file_url']   = $this->print_file->store('print_files');
         }
 

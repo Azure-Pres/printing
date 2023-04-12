@@ -27,10 +27,10 @@ class Login extends Component
         ];
     }
 
-    public function updated($fields)
-    {
-        $this->validateOnly($fields);
-    }
+    // public function updated($fields)
+    // {
+    //     $this->validateOnly($fields);
+    // }
 
     public function login()
     {

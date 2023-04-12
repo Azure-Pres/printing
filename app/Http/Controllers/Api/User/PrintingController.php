@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Api\User;
 
+use App\Exports\Admin\Code\CodeExport;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Api\Printing\PrintingResource;
 use App\Models\JobCard;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PrintingController extends Controller
 {
@@ -26,9 +28,13 @@ class PrintingController extends Controller
     {
         $job_card = JobCard::find($id);
 
-        $subpath = $job_card->file_url;
-        $path = storage_path('app/'.$subpath);
-
-        return response()->download($path);
+        if ($job_card->machine=='Handtop') {
+            $subpath = $job_card->file_url;
+            $path = storage_path('app/'.$subpath);
+            return response()->download($path);
+        }else{
+            return Excel::download(new CodeExport($job_card), 'codes.xlsx');
+        }
+        
     }  
 }

@@ -45,10 +45,10 @@ class Update extends Component
         $this->country  = $this->user->country;
         $this->zipcode  = $this->user->zipcode;
         $this->status   = $this->user->status;
-        $this->machines   = json_decode($this->user->machines);
-        $this->show_printing_options = $this->modify?true:false;
         $this->view     = Permission::where('user_id',$this->user->id)->where('view','1')->pluck('module_name');
         $this->modify   = Permission::where('user_id',$this->user->id)->where('modify','1')->pluck('module_name');
+        $this->machines   = $this->user->machines?json_decode($this->user->machines):[];
+        $this->show_printing_options = in_array('printing', $this->view->toArray())?true:false;
     }
 
     public function modify()
@@ -71,8 +71,10 @@ class Update extends Component
         $validated = $this->validate($rules);
         $validated['type']  = $this->type;
 
-        if ($this->password!='') {
+        if ($this->password) {
             $validated['password']  = bcrypt($this->password);
+        }else{
+            unset($validated['password']);
         }
 
         $this->user->update($validated);
@@ -91,8 +93,8 @@ class Update extends Component
             }
         }
 
-        $user->machines = json_encode($this->machines);
-        $user->save();
+        $this->user->machines = json_encode($this->machines);
+        $this->user->save();
         
         return redirect('admin/users');
     }
@@ -121,6 +123,6 @@ class Update extends Component
 
     public function toggle_printing()
     {
-        $this->show_printing_options = $this->modify?true:false;
+        $this->show_printing_options = in_array('printing', $this->view)?true:false;
     }
 }

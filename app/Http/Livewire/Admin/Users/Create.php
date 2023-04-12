@@ -44,7 +44,7 @@ class Create extends Component
             'status'       => getRule('',true),
             'password'     => getRule('',true),
             'view'         => getRule('',false,true),
-            'modify'       => getRule('',false,true)
+            'modify'       => getRule('',false,true),
         ];
 
         $validated = $this->validate($rules);
@@ -68,6 +68,7 @@ class Create extends Component
 
         $user->machines = json_encode($this->machines);
         $user->save();
+
         return redirect('admin/users');
     }
 
@@ -95,6 +96,6 @@ class Create extends Component
 
     public function toggle_printing()
     {
-        $this->show_printing_options = $this->modify?true:false;
+        $this->show_printing_options = in_array('printing', $this->view)?true:false;
     }
 }

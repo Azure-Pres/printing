@@ -50,7 +50,7 @@
                             <div class="col-sm-4 ">
                                 <div class="form-group mb-2">
                                     <label for="machine">Machine</label>
-                                    <select wire:model.defer="machine" class="form-control" id="machine">
+                                    <select wire:model="machine" class="form-control" id="machine">
                                         <option value="">Select</option>
                                         <option value="VDP">VDP</option>
                                         <option value="Handtop">Handtop</option>
@@ -126,17 +126,7 @@
                                 </div>
                             </div>
 
-                            @if($print_status=='Ready for Print')
-                            <div class="col-sm-12">
-                                <div class="form-group mb-2">
-                                    <label for="print_file">Print File</label>
-                                    <input wire:model.defer="print_file" type="file" class="form-control" id="print_file">
-                                    <x-basic.message class="text-danger" :message="$errors->has('print_file')?$errors->first('print_file'):''"></x-basic.message>
-                                </div>
-                            </div>
-                            @endif
-
-                            <div class="col-sm-6 ">
+                            <div class="col-sm-4 ">
                                 <div class="form-group mb-2">
                                     <label for="divide_in_lot">Divide in lot</label>
                                     <select wire:model.defer="divide_in_lot" wire:change="toggle_lot_size" class="form-control" id="divide_in_lot">
@@ -149,7 +139,7 @@
                             </div>
 
                             @if($show_lot_size)
-                            <div class="col-sm-6 ">
+                            <div class="col-sm-4 ">
                                 <div class="form-group mb-2">
                                     <label for="lot_size">Lot size</label>
                                     <input wire:model.defer="lot_size" type="text" class="form-control" id="lot_size" placeholder="Lot size">
@@ -158,13 +148,23 @@
                             </div>
                             @endif
 
-                            <div class="col-sm-6 ">
+                            <div class="col-sm-4 ">
                                 <div class="form-group mb-2">
                                     <label for="printing_material">Printing Material</label>
                                     <input wire:model.defer="printing_material" type="text" class="form-control" id="printing_material" placeholder="Printing material">
                                     <x-basic.message class="text-danger" :message="$errors->has('printing_material')?$errors->first('printing_material'):''"></x-basic.message>
                                 </div>
                             </div>
+
+                            @if($print_status=='Ready for Print' && $machine=='Handtop')
+                            <div class="col-sm-12">
+                                <div class="form-group mb-2">
+                                    <label for="print_file">Print File</label>
+                                    <input wire:model.defer="print_file" type="file" class="form-control" id="print_file">
+                                    <x-basic.message class="text-danger" :message="$errors->has('print_file')?$errors->first('print_file'):''"></x-basic.message>
+                                </div>
+                            </div>
+                            @endif
                             
                         </div>
                     </div>

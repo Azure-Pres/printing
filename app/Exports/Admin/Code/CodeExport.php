@@ -16,6 +16,7 @@ class CodeExport implements FromView
     {
         $codes = Code::where('batch_id',$this->job_card->batch_id)->get();
         $client = User::find($this->job_card->getBatch->client);
-        return view('livewire.admin.exports.codes')->with('codes',$codes)->with('client',$client);
+        
+        return view('livewire.admin.exports.codes')->with('codes',$codes)->with('client',$client)->with('job_card',$this->job_card);
     }
 }

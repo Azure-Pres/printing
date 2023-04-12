@@ -11,12 +11,12 @@
                         <h6 class="font-weight-light">Sign in to continue.</h6>
                         <form class="pt-3" wire:submit.prevent='login'>
                             <div class="form-group">
-                                <input type="email" wire:model='email' class="form-control form-control-lg"
+                                <input type="email" wire:model.defer='email' class="form-control form-control-lg"
                                 placeholder="Enter email" autocomplete="off">
                                 <x-basic.message class="text-danger" :message="$errors->has('email')?$errors->first('email'):''"></x-basic.message>
                              </div>
                             <div class="form-group">
-                                <input type="password" wire:model='password' class="form-control form-control-lg"
+                                <input type="password" wire:model.defer='password' class="form-control form-control-lg"
                                 placeholder="Enter password" autocomplete="off">
                                 <x-basic.message class="text-danger" :message="$errors->has('password')?$errors->first('password'):''"></x-basic.message>
                             </div>

@@ -22,6 +22,10 @@ class Create extends Component
     public $remarks  = '';
     public $status   ='';
     public $print_file;
+    public $divide_in_lot   ='';
+    public $lot_size   ='';
+    public $printing_material ='';
+    public $show_lot_size =false;
 
     public function render()
     {
@@ -42,10 +46,15 @@ class Create extends Component
             'second_verification_status' => getRule('',true),
             'remarks'        => getRule('',true),
             'status'         => getRule('',true),
+            'divide_in_lot'  => getRule('',true),
+            'printing_material' => getRule('',true),
         ];
 
         if ($this->print_status=='Ready for Print') {
             $rules['print_file'] = getRule('',true);
+
+        if ($this->divide_in_lot=='Yes') {
+            $rules['lot_size']        = getRule('',true);
         }
 
         $validated = $this->validate($rules);
@@ -58,5 +67,9 @@ class Create extends Component
 
         return redirect('admin/job-cards');
 
+    }
+
+    public function toggle_lot_size(){
+        $this->show_lot_size = $this->divide_in_lot=='Yes'?true:false;
     }
 }

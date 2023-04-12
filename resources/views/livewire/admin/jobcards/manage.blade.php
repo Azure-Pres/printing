@@ -135,6 +135,37 @@
                                 </div>
                             </div>
                             @endif
+
+                            <div class="col-sm-6 ">
+                                <div class="form-group mb-2">
+                                    <label for="divide_in_lot">Divide in lot</label>
+                                    <select wire:model.defer="divide_in_lot" wire:change="toggle_lot_size" class="form-control" id="divide_in_lot">
+                                        <option value="">Select</option>
+                                        <option value="Yes">Yes</option>
+                                        <option value="No">No</option>
+                                    </select>
+                                    <x-basic.message class="text-danger" :message="$errors->has('divide_in_lot')?$errors->first('divide_in_lot'):''"></x-basic.message>
+                                </div>
+                            </div>
+
+                            @if($show_lot_size)
+                            <div class="col-sm-6 ">
+                                <div class="form-group mb-2">
+                                    <label for="lot_size">Lot size</label>
+                                    <input wire:model.defer="lot_size" type="text" class="form-control" id="lot_size" placeholder="Lot size">
+                                    <x-basic.message class="text-danger" :message="$errors->has('lot_size')?$errors->first('lot_size'):''"></x-basic.message>
+                                </div>
+                            </div>
+                            @endif
+
+                            <div class="col-sm-6 ">
+                                <div class="form-group mb-2">
+                                    <label for="printing_material">Printing Material</label>
+                                    <input wire:model.defer="printing_material" type="text" class="form-control" id="printing_material" placeholder="Printing material">
+                                    <x-basic.message class="text-danger" :message="$errors->has('printing_material')?$errors->first('printing_material'):''"></x-basic.message>
+                                </div>
+                            </div>
+                            
                         </div>
                     </div>
                 </div>

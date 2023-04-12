@@ -25,12 +25,12 @@ class UploadHistoryTable extends DataTableComponent
     {
         return [
             Column::make('id')->hideIf(true),
-            Column::make('Lot Number')
-            ->sortable(),
-            Column::make('Lot Size')
-            ->sortable(),
-            Column::make('Category')
-            ->sortable(),
+            // Column::make('Lot Number')
+            // ->sortable(),
+            // Column::make('Lot Size')
+            // ->sortable(),
+            // Column::make('Category')
+            // ->sortable(),
             Column::make('Status')
             ->sortable()->format(
                 fn($value, $row, Column $column) => uploadStatusText($row->status)

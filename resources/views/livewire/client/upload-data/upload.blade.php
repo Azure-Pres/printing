@@ -14,36 +14,7 @@
                             </div>
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-sm-6 ">
-                                        <div class="form-group mb-3">
-                                            <label for="lot_number">Lot Number</label>
-                                            <input wire:model.defer="lot_number" type="text" class="form-control" id="lot_number" placeholder="Lot Number">
-                                            <x-basic.message class="text-danger" :message="$errors->has('lot_number')?$errors->first('lot_number'):''"></x-basic.message>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-sm-6 ">
-                                        <div class="form-group mb-3">
-                                            <label for="lot_size">Lot Size</label>
-                                            <input wire:model.defer="lot_size" type="number" min="1" step="1" class="form-control" id="lot_size" placeholder="Lot Size">
-                                            <x-basic.message class="text-danger" :message="$errors->has('lot_size')?$errors->first('lot_size'):''"></x-basic.message>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-sm-6 ">
-                                        <div class="form-group mb-3">
-                                            <label for="category">Category (Printing material)</label>
-                                            <select wire:model.defer="category" class="form-control" id="category">
-                                                <option value="">Select</option>
-                                                @foreach (printingMaterial() as $category)
-                                                <option value="{{$category}}">{{$category}}</option>
-                                                @endforeach
-                                            </select>    
-                                            <x-basic.message class="text-danger" :message="$errors->has('category')?$errors->first('category'):''"></x-basic.message>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-sm-6 ">
+                                    <div class="col-sm-12">
                                         <div class="form-group mb-3">
                                             <label for="file" class="w-100">File 
                                                 <a href="javascript:;" wire:click="sample()" class="float-right">Download Sample</a>

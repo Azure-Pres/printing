@@ -30,7 +30,8 @@ class User extends Authenticatable
         'country',
         'zipcode',
         'address',
-        'status'
+        'status',
+        'machines'
     ];
 
     /**
@@ -55,6 +56,32 @@ class User extends Authenticatable
     public function getClientAttributes()
     {
         return $this->hasMany(ClientAttribute::class,'user_id','id');
+    }
+
+    public static function getApiUserModel($input)
+    {   
+        $q = User::where('id','!=','');
+
+        if(isset($input['id']) && $input['id']!='')
+        {
+            $q->where('id',$input['id']);
+        }
+
+        if(isset($input['search']) && $input['search']!='')
+        {
+            $search = $input['search'];
+            $q->where(function($query) use ($search)
+            {
+                $query->where('name', 'LIKE', '%'.$search.'%')
+                ->orWhere('email', 'LIKE', '%'.$search.'%')
+                ->orWhere('phone', 'LIKE', '%'.$search.'%')
+                ->orWhere('status', 'LIKE', '%'.$search.'%');
+            });
+        }
+
+        $users = $q->get();
+
+        return $users;
     }
 
 }

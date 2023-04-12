@@ -24,7 +24,11 @@ class Update extends Component
     public $batch_code   ='';
     public $batch_id   ='';
     public $print_file;
-
+    public $divide_in_lot   ='';
+    public $lot_size   ='';
+    public $printing_material ='';
+    public $show_lot_size =false;
+    
     public function render()
     {
         return view('livewire.admin.jobcards.manage')->layout('layouts.app');
@@ -45,6 +49,10 @@ class Update extends Component
         $this->status   = $this->job_card->status;
         $this->batch_id   = $this->job_card->batch_id;
         $this->batch_code   = $this->job_card->getBatch->batch_code;
+        $this->divide_in_lot = $this->job_card->divide_in_lot;
+        $this->lot_size = $this->job_card->lot_size;
+        $this->show_lot_size = $this->job_card->divide_in_lot=='Yes'?true:false;
+        $this->printing_material = $this->job_card->printing_material;
     }
 
     public function modify()
@@ -58,10 +66,16 @@ class Update extends Component
             'second_verification_status' => getRule('',true),
             'remarks'        => getRule('',true),
             'status'         => getRule('',true),
+            'divide_in_lot'  => getRule('',true),
+            'printing_material' => getRule('',true),
         ];
 
         if ($this->print_status=='Ready for Print') {
             $rules['print_file'] = getRule('',true);
+        }
+
+        if ($this->divide_in_lot=='Yes') {
+            $rules['lot_size']        = getRule('',true);
         }
 
         $validated = $this->validate($rules);
@@ -79,4 +93,9 @@ class Update extends Component
     {
         return Excel::download(new CodeExport($this->job_card), date('Y-m-d').'-codes.csv');
     }
+
+    public function toggle_lot_size(){
+        $this->show_lot_size = $this->divide_in_lot=='Yes'?true:false;
+    } 
+
 }

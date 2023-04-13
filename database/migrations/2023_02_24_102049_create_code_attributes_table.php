@@ -22,7 +22,7 @@ return new class extends Migration
 
         DB::table('code_attributes')->insert(
             array(
-                'name'          => 'qr_code',
+                'name'          => 'vpa',
                 'created_at'    => Carbon::now(),
                 'updated_at'    => Carbon::now()
             )
@@ -30,7 +30,7 @@ return new class extends Migration
 
         DB::table('code_attributes')->insert(
             array(
-                'name'          => 'qr_code_url',
+                'name'          => 'upi_string',
                 'created_at'    => Carbon::now(),
                 'updated_at'    => Carbon::now()
             )
@@ -38,11 +38,133 @@ return new class extends Migration
 
         DB::table('code_attributes')->insert(
             array(
-                'name'          => 'batch_number',
+                'name'          => 'id',
                 'created_at'    => Carbon::now(),
                 'updated_at'    => Carbon::now()
             )
         );
+
+        DB::table('code_attributes')->insert(
+            array(
+                'name'          => 'batch_id',
+                'created_at'    => Carbon::now(),
+                'updated_at'    => Carbon::now()
+            )
+        );
+
+        DB::table('code_attributes')->insert(
+            array(
+                'name'          => 'upi_id',
+                'created_at'    => Carbon::now(),
+                'updated_at'    => Carbon::now()
+            )
+        );
+
+        DB::table('code_attributes')->insert(
+            array(
+                'name'          => 'intent_string',
+                'created_at'    => Carbon::now(),
+                'updated_at'    => Carbon::now()
+            )
+        );
+
+        DB::table('code_attributes')->insert(
+            array(
+                'name'          => 'sticker_id',
+                'created_at'    => Carbon::now(),
+                'updated_at'    => Carbon::now()
+            )
+        );
+
+        DB::table('code_attributes')->insert(
+            array(
+                'name'          => 'qr_code_id',
+                'created_at'    => Carbon::now(),
+                'updated_at'    => Carbon::now()
+            )
+        );
+
+        DB::table('code_attributes')->insert(
+            array(
+                'name'          => 'upi_qr_url',
+                'created_at'    => Carbon::now(),
+                'updated_at'    => Carbon::now()
+            )
+        );
+
+        DB::table('code_attributes')->insert(
+            array(
+                'name'          => 'qr_merchandise_name',
+                'created_at'    => Carbon::now(),
+                'updated_at'    => Carbon::now()
+            )
+        );
+
+        DB::table('code_attributes')->insert(
+            array(
+                'name'          => 'language',
+                'created_at'    => Carbon::now(),
+                'updated_at'    => Carbon::now()
+            )
+        );
+
+        DB::table('code_attributes')->insert(
+            array(
+                'name'          => 'business_cat',
+                'created_at'    => Carbon::now(),
+                'updated_at'    => Carbon::now()
+            )
+        );
+
+        DB::table('code_attributes')->insert(
+            array(
+                'name'          => 'artwork',
+                'created_at'    => Carbon::now(),
+                'updated_at'    => Carbon::now()
+            )
+        );
+
+        DB::table('code_attributes')->insert(
+            array(
+                'name'          => 'date',
+                'created_at'    => Carbon::now(),
+                'updated_at'    => Carbon::now()
+            )
+        );
+
+        DB::table('code_attributes')->insert(
+            array(
+                'name'          => 'qr_text',
+                'created_at'    => Carbon::now(),
+                'updated_at'    => Carbon::now()
+            )
+        );
+
+        DB::table('code_attributes')->insert(
+            array(
+                'name'          => 'qr_data',
+                'created_at'    => Carbon::now(),
+                'updated_at'    => Carbon::now()
+            )
+        );
+
+        DB::table('code_attributes')->insert(
+            array(
+                'name'          => 'printing_material',
+                'created_at'    => Carbon::now(),
+                'updated_at'    => Carbon::now()
+            )
+        );
+
+        DB::table('code_attributes')->insert(
+            array(
+                'name'          => 'lot_no',
+                'created_at'    => Carbon::now(),
+                'updated_at'    => Carbon::now()
+            )
+        );
+
+        
     }
 
     /**

@@ -38,8 +38,8 @@ return new class extends Migration
             array(
                 'name'              => 'Admin',
                 'type'              => 'Admin',
-                'email'             => 'admin@yopmail.com',
-                'password'          => bcrypt('Admin#123'),
+                'email'             => 'admin@azureapp.com',
+                'password'          => bcrypt('Azure#123'),
                 'status'            => 'Active',
                 'created_at'        => Carbon::now(),
                 'updated_at'        => Carbon::now()

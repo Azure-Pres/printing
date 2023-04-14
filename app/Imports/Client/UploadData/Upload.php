@@ -86,7 +86,7 @@ WithEvents
 
     public function chunkSize(): int
     {
-        return 1;
+        return 50000;
     }
 
     public function rules(): array

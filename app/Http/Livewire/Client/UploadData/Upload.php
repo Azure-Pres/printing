@@ -27,6 +27,8 @@ class Upload extends Component
         $this->validate();
 
         ini_set('max_execution_time', 6000);
+        ini_set('memory_limit', '2048M');
+
         $count = $this->getRows($this->file);
 
         if ($count<=0) {

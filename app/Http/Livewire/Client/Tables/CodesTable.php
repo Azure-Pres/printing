@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Livewire\Component;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
+use Auth;
 
 class CodesTable extends DataTableComponent
 {
@@ -18,7 +19,7 @@ class CodesTable extends DataTableComponent
 
     public function builder(): Builder
     {
-        return Code::where('id','!=', '');
+        return Code::where('client_id',Auth::id());
     }
 
     public function columns(): array

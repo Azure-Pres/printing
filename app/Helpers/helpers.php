@@ -1,7 +1,7 @@
 <?php
 
 use App\CustomClasses\Validations;
-
+use App\Models\UserLog;
 
 if (! function_exists('getRule')) {
 	function getRule($name, $required = false, $nullable = false)
@@ -47,3 +47,17 @@ if (! function_exists('getDateWithFormat')) {
 		return date('M d, Y',strtotime($date));
 	}
 }
+
+if (! function_exists('userlog')) {
+	function userlog($action,$description)
+	{
+		$log  = new UserLog;
+		$log->action   = $action;
+		$log->user_id  = Auth::id();
+		$log->description = json_encode([
+			'event' => $description
+		]);
+		$log->save();
+	}
+}
+

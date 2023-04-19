@@ -54,6 +54,8 @@ class Upload extends Component
         $import = Excel::import(new UploadCode($data), $this->file);
         session()->flash('message', 'Upload progress started. Please check status here.');
 
+        userlog('Code','Code Uploaded');
+
         return redirect('client/upload-data');
     }
 

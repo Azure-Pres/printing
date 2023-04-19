@@ -66,6 +66,8 @@ class Create extends Component
 
         $job_card = JobCard::create($validated);
 
+        userlog('Job card','Job Card Added');
+
         return redirect('admin/job-cards');
     }
 

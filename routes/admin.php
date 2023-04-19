@@ -49,4 +49,9 @@ Route::group(['prefix' => 'client-uploads'], function() {
 	Route::get('/', App\Http\Livewire\Admin\ClientUploads\Home::class)->name('admin-client-uploads');
 	Route::get('/view/{id}', App\Http\Livewire\Admin\ClientUploads\View::class)->name('admin-client-uploads-view');
 });
-//End Users related route
+
+//User log related route
+Route::group(['prefix' => 'user-logs'], function() {
+	Route::get('/', App\Http\Livewire\Admin\UserLogs\Home::class)->name('admin-user-logs');
+	Route::get('/view/{id}', App\Http\Livewire\Admin\UserLogs\View::class)->name('admin-user-logs-view');
+});

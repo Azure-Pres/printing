@@ -46,13 +46,15 @@ class Create extends Component
             'applicable' => getRule('',true),
             'unique'     => getRule('',true),
         ];
-
+        
         $validated = $this->validate($rules);
-
+        
         $validated['type']  = $this->type;
+
         $validated['password']  = bcrypt($this->password);
 
         $client = User::create($validated);
+
 
         $destroy_permissions = ClientAttribute::where('user_id',$client->id)->delete();
 
@@ -67,6 +69,8 @@ class Create extends Component
                 $assign = $this->assignApplicable('unique',$attribute,$client->id);
             }
         }
+        
+        userlog('Client','Client Added');
 
         return redirect('admin/clients');
     }

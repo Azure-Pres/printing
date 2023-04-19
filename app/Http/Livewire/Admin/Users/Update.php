@@ -96,6 +96,8 @@ class Update extends Component
         $this->user->machines = json_encode($this->machines);
         $this->user->save();
         
+        userlog('User','User Updated');        
+
         return redirect('admin/users');
     }
 

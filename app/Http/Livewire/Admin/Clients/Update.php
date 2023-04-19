@@ -83,6 +83,8 @@ class Update extends Component
             }
         }
 
+        userlog('Client','Client Updated');
+
         return redirect('admin/clients');
 
     }

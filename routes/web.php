@@ -21,6 +21,7 @@ Route::get('/', function () {
 
 Route::get('/login', Login::class)->name('login');
 Route::get('/logout', function () {
+    userlog('Logout','logout');
     Auth::logout();
     return Redirect::to('login');
 });

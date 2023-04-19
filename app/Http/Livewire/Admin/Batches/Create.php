@@ -50,6 +50,8 @@ class Create extends Component
 
         $update_codes = Code::where('serial_no','>=',$this->from_serial_number)->where('serial_no','<=',$this->to_serial_number)->where('client_id',$this->client)->update(['batch_id'=>$batch->id]);
 
+        userlog('Batch','Batch Added');
+
         return redirect('admin/batches');
 
     }

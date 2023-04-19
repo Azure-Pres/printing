@@ -69,6 +69,8 @@ class Create extends Component
         $user->machines = json_encode($this->machines);
         $user->save();
 
+        userlog('User','User Added');
+        
         return redirect('admin/users');
     }
 

@@ -85,6 +85,9 @@ class Update extends Component
         }
 
         $this->job_card->update($validated);
+
+        userlog('Job card','Job Card Updated');
+
         return redirect('admin/job-cards');
 
     }

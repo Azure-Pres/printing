@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Auth;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
+use App\Models\UserLog;
 
 class Login extends Component
 {
@@ -43,6 +44,8 @@ class Login extends Component
         }
 
         $user = Auth::user();
+
+        userlog('login','login');
 
         if($user->status == 'Pending'){
             Auth::logout();

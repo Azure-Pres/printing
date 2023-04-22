@@ -4,6 +4,10 @@
             <h5 class="mb-2 text-titlecase mb-2">Upload Data</h5>
         </div>
 
+        <div class="col-xl-12 grid-margin stretch-card flex-column">
+            <x-client.progress></x-client.progress>
+        </div>
+
         <div class="col-sm-12">
             <form class="forms-sample" wire:submit.prevent="modify()">
                 <div class="row">

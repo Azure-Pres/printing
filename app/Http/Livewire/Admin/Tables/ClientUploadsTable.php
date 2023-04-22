@@ -3,10 +3,12 @@
 namespace App\Http\Livewire\Admin\Tables;
 
 use App\Models\ClientUpload;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Livewire\Component;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
+use Rappasoft\LaravelLivewireTables\Views\Filters\SelectFilter;
 
 class ClientUploadsTable extends DataTableComponent
 {
@@ -20,6 +22,24 @@ class ClientUploadsTable extends DataTableComponent
         return ClientUpload::where('id','!=', '');
     }
 
+    public function filters(): array
+    {
+        $clients = User::where('type','Client')->get();
+        $client_options = [];
+
+        foreach ($clients as $key => $client) {
+            $client_options[$client->id] = $client->name;
+        }
+
+        return [
+            SelectFilter::make('Client','client_id')
+            ->options($client_options)
+            ->filter(function(Builder $builder, string $value) {
+                $builder->where('client_id', $value);
+            }),
+        ];
+    }
+
     public function columns(): array
     {
         return [
@@ -28,12 +48,6 @@ class ClientUploadsTable extends DataTableComponent
             ->sortable()->format(
                 fn($value, $row, Column $column) => $row->getClient->name??'-'
             ),
-            // Column::make('Lot Number')
-            // ->sortable(),
-            // Column::make('Lot Size')
-            // ->sortable(),
-            // Column::make('Category')
-            // ->sortable(),
             Column::make('Status')
             ->sortable()->format(
                 fn($value, $row, Column $column) => uploadStatusText($row->status)

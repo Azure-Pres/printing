@@ -2,6 +2,7 @@
 
 use App\CustomClasses\Validations;
 use App\Models\UserLog;
+use App\Models\ClientUpload;
 
 if (! function_exists('getRule')) {
 	function getRule($name, $required = false, $nullable = false)
@@ -58,6 +59,13 @@ if (! function_exists('userlog')) {
 			'event' => $description
 		]);
 		$log->save();
+	}
+}
+
+if (! function_exists('currentUploadProgresses')) {
+	function currentUploadProgresses()
+	{
+		return ClientUpload::where('client_id',Auth::id())->whereIn('status',['0','1'])->get();
 	}
 }
 

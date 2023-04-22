@@ -7,7 +7,9 @@
         <div class="col-xl-12 grid-margin stretch-card flex-column">
             <x-client.flash></x-client.flash>
         </div>
-
+        <div class="col-xl-12 grid-margin stretch-card flex-column">
+            <x-client.progress></x-client.progress>
+        </div>
         <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">

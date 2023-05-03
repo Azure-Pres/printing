@@ -6,7 +6,7 @@
 
 		@foreach($progresses as $progress)
 		<div class="alert alert-primary">
-			Uploading progress {{$progress->progress_id}}. Total {{$progress->total_rows}} rows. Processed {{$progress->processed_rows}} rows. Uploaded {{$progress->uploaded_rows}} rows.
+			Uploading progress {{$progress->progress_id}}. We have processed {{$progress->processed_rows}} rows.
 		</div>
 		@endforeach
 	</div>

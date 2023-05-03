@@ -18,14 +18,18 @@ class UploadHistoryTable extends DataTableComponent
 
     public function builder(): Builder
     {
-        return ClientUpload::where('client_id', Auth::id());
+        return ClientUpload::where('client_id', Auth::id())->orderBy('created_at','DESC');
     }
 
     public function columns(): array
     {
         return [
             Column::make('id')->hideIf(true),
+            Column::make('Progress Id','progress_id')
+            ->sortable(),
             Column::make('Date','created_at')
+            ->sortable(),
+            Column::make('Processed Rows','processed_rows')
             ->sortable(),
             Column::make('Status')
             ->sortable()->format(

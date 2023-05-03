@@ -23,13 +23,10 @@
                                     <label>Date : {{date('M d, Y',strtotime($data->created_at))}}</label>
                                 </div>
                                 <div class="col-sm-4">
-                                    <label>Total Rows : {{$data->total_rows}}</label>
-                                </div>
-                                <div class="col-sm-4">
                                     <label>Processed Rows : {{$data->processed_rows}}</label>
                                 </div>
                                 <div class="col-sm-4">
-                                    <label>Uploaded Rows : {{$data->uploaded_rows}}</label>
+                                    <label>Uploaded Rows : {{$uploaded_rows}}</label>
                                 </div>
                             </div>
                         </div>

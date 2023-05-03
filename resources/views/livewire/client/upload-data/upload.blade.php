@@ -4,10 +4,6 @@
             <h5 class="mb-2 text-titlecase mb-2">Upload Data</h5>
         </div>
 
-        <div class="col-xl-12 grid-margin stretch-card flex-column">
-            <x-client.progress></x-client.progress>
-        </div>
-
         <div class="col-sm-12">
             <form class="forms-sample" wire:submit.prevent="modify()">
                 <div class="row">
@@ -40,7 +36,12 @@
                                         <a href="{{url('/client/upload-data')}}" class="btn btn-light" >Cancel</a>
                                     </div>
                                     <div class="col-sm-6 mb-2 text-right">
-                                        <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                                        <div wire:loading.remove>
+                                            <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                                        </div>
+                                        <div wire:loading>
+                                            <a href="javascript:;" class="btn btn-primary mr-2">Please Wait</a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

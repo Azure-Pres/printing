@@ -42,6 +42,8 @@ WithEvents
 
     public function  __construct($data)
     {
+        ini_set('max_execution_time', 6000);
+        ini_set('memory_limit', '-1');
         $this->client_id       = $data['client_id'];
         $this->progress_id     = $data['progress_id'];
     }
@@ -74,7 +76,7 @@ WithEvents
 
     public function chunkSize(): int
     {
-        return 2000;
+        return 500;
     }
 
     public function rules(): array

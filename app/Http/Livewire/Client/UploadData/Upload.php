@@ -25,11 +25,10 @@ class Upload extends Component
     public function modify()
     {
         $this->validate();
-
         ini_set('max_execution_time', 6000);
+        ini_set('memory_limit', '-1');
 
         $progress_id = uniqid();
-
         $data = [
             'client_id'   => Auth::id(),
             'progress_id' => $progress_id

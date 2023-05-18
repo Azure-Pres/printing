@@ -14,9 +14,6 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-sm-4">
-                                    <label>Client Name : {{$data->getClient->name??'-'}}</label>
-                                </div>
-                                <div class="col-sm-4">
                                     <label>Progress Id : {{$data->progress_id}}</label>
                                 </div>
                                 <div class="col-sm-4">
@@ -26,13 +23,10 @@
                                     <label>Date : {{date('M d, Y',strtotime($data->created_at))}}</label>
                                 </div>
                                 <div class="col-sm-4">
-                                    <label>Total Rows : {{$data->total_rows}}</label>
-                                </div>
-                                <div class="col-sm-4">
                                     <label>Processed Rows : {{$data->processed_rows}}</label>
                                 </div>
                                 <div class="col-sm-4">
-                                    <label>Uploaded Rows : {{$data->uploaded_rows}}</label>
+                                    <label>Uploaded Rows : {{$uploaded_rows}}</label>
                                 </div>
                             </div>
                         </div>
@@ -53,7 +47,7 @@
 
                                 @if (!empty($errors))
                                 @foreach ($errors as $key=>$error)
-                                <div class="col-sm-12">{{$key+1}}. {{$error}}</div>
+                                <div class="col-sm-12">On row {{$key}} : {{$error}}</div>
                                 @endforeach
                                 @endif
                             </div>
@@ -67,7 +61,7 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-sm-6 mb-2">
-                                    <a href="{{url('/admin/client-uploads')}}" class="btn btn-light" >Go Back</a>
+                                    <a href="{{url('/admin/upload-data')}}" class="btn btn-light" >Go Back</a>
                                 </div>
                             </div>
                         </div>

@@ -47,7 +47,7 @@
 
                                 @if (!empty($errors))
                                 @foreach ($errors as $key=>$error)
-                                <div class="col-sm-12">{{$key+1}}. {{$error}}</div>
+                                <div class="col-sm-12">On row {{$key}} : {{$error}}</div>
                                 @endforeach
                                 @endif
                             </div>

@@ -2,6 +2,7 @@
 
 namespace App\Imports\Client\UploadData;
 
+use App\Jobs\TransferJob;
 use App\Models\ClientUpload;
 use App\Models\Code;
 use App\Models\TempCode;
@@ -27,6 +28,7 @@ use Maatwebsite\Excel\Events\AfterImport;
 use Maatwebsite\Excel\Validators\Failure;
 use Str;
 use Throwable;
+use Illuminate\Support\Facades\Bus;
 
 class Upload implements
 ToArray,
@@ -42,8 +44,6 @@ WithEvents
 
     public function  __construct($data)
     {
-        ini_set('max_execution_time', 6000);
-        ini_set('memory_limit', '-1');
         $this->client_id       = $data['client_id'];
         $this->progress_id     = $data['progress_id'];
     }
@@ -76,7 +76,7 @@ WithEvents
 
     public function chunkSize(): int
     {
-        return 500;
+        return 10;
     }
 
     public function rules(): array
@@ -99,32 +99,15 @@ WithEvents
     public static function afterImport(AfterImport $event)
     {
         $thisobj  = $event->getConcernable();
-        $progress = ClientUpload::where('client_id',$thisobj->client_id)->where('progress_id',$thisobj->progress_id)->first();
 
-        if ($progress->processed_rows>0 && $progress->uploaded_rows==$progress->processed_rows) {
-            $temp_codes = TempCode::where('upload_id',$progress->id)->get();
-            $count = Code::where('client_id',$thisobj->client_id)->count();
+        $transfer_data = [
+            'client_id' => $thisobj->client_id,
+            'progress_id' => $thisobj->progress_id
+        ];
 
-            foreach ($temp_codes as $key => $temp_code) {
-                $count = $count+1;
-
-                $collect = [
-                    'client_id'           => $thisobj->client_id,
-                    'code_data'           => $temp_code->code_data,
-                    'serial_no'           => $count,
-                    'upload_id'           => $progress->id
-                ];
-
-                Code::create($collect);
-            }
-
-            $progress->status = '2';
-            $progress->save();
-
-        }else{
-            $progress->status = '3';
-            $progress->save();
-        }
+        Bus::batch([
+            new TransferJob($transfer_data),
+        ])->dispatch();
     }
 
     public function onFailure(Failure ...$failure)
@@ -139,14 +122,15 @@ WithEvents
             }
 
             foreach ($failure as $key => $fail) {
-                $item = 'On row '.$fail->row().': '.implode(',', $fail->errors());
-                array_push($errors, $item);
+                if (!isset($errors[$fail->row()])) {
+                    $errors[$fail->row()] = ($fail->errors())[0]??'Validation Error';
+                    $progress->processed_rows = $progress->processed_rows+1;
+                    $progress->save();
+                }
             }
 
             $progress->error_logs = json_encode($errors);
             $progress->save();
-
-            $this->rollback = true;
         }
     }
 

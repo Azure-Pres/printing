@@ -15,11 +15,12 @@ class ClientUploadsTable extends DataTableComponent
     public function configure(): void
     {
         $this->setPrimaryKey('id');
+        $this->setRefreshTime(2000);
     }
 
     public function builder(): Builder
     {
-        return ClientUpload::where('id','!=', '');
+        return ClientUpload::orderBy('created_at','DESC');
     }
 
     public function filters(): array

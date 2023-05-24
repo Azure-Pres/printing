@@ -76,22 +76,22 @@ WithEvents
 
     public function chunkSize(): int
     {
-        return 10;
+        return 10000;
     }
 
     public function rules(): array
     {   
         $rules = [];
 
-        $client = User::find($this->client_id);
+        // $client = User::find($this->client_id);
 
-        foreach ($client->getClientAttributes as $key => $client_attribute) {
-            $rules[$client_attribute->getCodeAttribute->name] = getRule('',true);
+        // foreach ($client->getClientAttributes as $key => $client_attribute) {
+        //     $rules[$client_attribute->getCodeAttribute->name] = getRule('',true);
 
-            if($client_attribute->unique=='1'){
-                $rules[$client_attribute->getCodeAttribute->name] = getRule('',true).'|unique:codes,code_data->'.$client_attribute->getCodeAttribute->name;
-            }
-        }
+        //     if($client_attribute->unique=='1'){
+        //         $rules[$client_attribute->getCodeAttribute->name] = getRule('',true).'|unique:codes,code_data->'.$client_attribute->getCodeAttribute->name;
+        //     }
+        // }
 
         return $rules;
     }

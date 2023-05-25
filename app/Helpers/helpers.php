@@ -25,7 +25,7 @@ if (! function_exists('uploadStatusText')) {
 	{
 		switch ($status) {
 			case '1':
-			$text = 'In Progress';
+			$text = 'Verifying';
 			break;
 			case '2':
 			$text = 'Completed';

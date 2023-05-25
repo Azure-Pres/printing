@@ -23,7 +23,6 @@ use Maatwebsite\Excel\Concerns\WithBatchInserts;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
-use Maatwebsite\Excel\Concerns\WithValidation;
 use Maatwebsite\Excel\Events\AfterImport;
 use Maatwebsite\Excel\Validators\Failure;
 use Str;
@@ -34,7 +33,6 @@ class Upload implements
 ToArray,
 WithHeadingRow,
 SkipsOnError,
-WithValidation,
 SkipsOnFailure,
 WithChunkReading,
 ShouldQueue,
@@ -79,23 +77,6 @@ WithEvents
         return 10000;
     }
 
-    public function rules(): array
-    {   
-        $rules = [];
-
-        // $client = User::find($this->client_id);
-
-        // foreach ($client->getClientAttributes as $key => $client_attribute) {
-        //     $rules[$client_attribute->getCodeAttribute->name] = getRule('',true);
-
-        //     if($client_attribute->unique=='1'){
-        //         $rules[$client_attribute->getCodeAttribute->name] = getRule('',true).'|unique:codes,code_data->'.$client_attribute->getCodeAttribute->name;
-        //     }
-        // }
-
-        return $rules;
-    }
-
     public static function afterImport(AfterImport $event)
     {
         $thisobj  = $event->getConcernable();
@@ -105,33 +86,13 @@ WithEvents
             'progress_id' => $thisobj->progress_id
         ];
 
+        $progress = ClientUpload::where('client_id',$thisobj->client_id)->where('progress_id',$thisobj->progress_id)->first();
+        $progress->status = '1';
+        $progress->save();
+
         Bus::batch([
             new TransferJob($transfer_data),
         ])->dispatch();
-    }
-
-    public function onFailure(Failure ...$failure)
-    {
-        if (!empty($failure)) {
-            $progress = ClientUpload::where('client_id',$this->client_id)->where('progress_id',$this->progress_id)->first();
-
-            $errors = [];
-
-            if ($progress->error_logs!='') {
-                $errors = json_decode($progress->error_logs,true);
-            }
-
-            foreach ($failure as $key => $fail) {
-                if (!isset($errors[$fail->row()])) {
-                    $errors[$fail->row()] = ($fail->errors())[0]??'Validation Error';
-                    $progress->processed_rows = $progress->processed_rows+1;
-                    $progress->save();
-                }
-            }
-
-            $progress->error_logs = json_encode($errors);
-            $progress->save();
-        }
     }
 
 }

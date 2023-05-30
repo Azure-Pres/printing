@@ -3,6 +3,8 @@
 namespace App\Http\Livewire\Client\Tables;
 
 use App\Models\ClientUpload;
+use App\Models\Code;
+use App\Models\TempCode;
 use Illuminate\Database\Eloquent\Builder;
 use Livewire\Component;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
@@ -41,5 +43,18 @@ class UploadHistoryTable extends DataTableComponent
                 return view('livewire.client.upload-data.actions')->withData($row);
             }),
         ];
+    }
+
+    public function cancel($id)
+    {
+        $clear = TempCode::where('upload_id',$id)->delete();
+        $delete = Code::where('client_id',Auth::id())->where('upload_id',$id)->delete();
+        $progress = ClientUpload::where('client_id',Auth::id())->where('id',$id)->first();
+        if($progress){
+            $progress->status = '3';
+            $progress->save();
+        }
+
+        return redirect('client/upload-data');
     }
 }

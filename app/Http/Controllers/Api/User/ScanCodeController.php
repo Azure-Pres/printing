@@ -53,10 +53,10 @@ class ScanCodeController extends Controller
                     $result['month'] = date("M'Y",strtotime($code_data['date']));
                 }
 
-                if (isset($code_data['material_type'])) {
-                    $result['material_type'] = $code_data['material_type'];
+                if (isset($code_data['material_name'])) {
+                    $result['material_type'] = $code_data['material_name'];
 
-                    $broken = str_split($code_data['material_type'],50);
+                    $broken = str_split($code_data['material_name'],50);
 
                     $result['field_one'] = $broken[0]?trim($broken[0]):'';
                     $result['field_two'] = $broken[1]?trim($broken[1]):'';

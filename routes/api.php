@@ -27,4 +27,5 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
     Route::resource("permissions",ApiRoot\User\PermissionController::class);
 });
 
+Route::post('scan-code',[ApiRoot\User\ScanCodeController::class,'index']);
 Route::get('print-file/{id}',[ApiRoot\User\PrintingController::class,'download']);

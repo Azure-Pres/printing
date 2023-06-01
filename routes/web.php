@@ -25,3 +25,6 @@ Route::get('/logout', function () {
     Auth::logout();
     return Redirect::to('login');
 });
+
+
+// Route::get('/duplicate',[App\Http\Controllers\Api\User\ScanCodeController::class,'duplicate']);

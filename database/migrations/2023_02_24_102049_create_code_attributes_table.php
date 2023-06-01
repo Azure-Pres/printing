@@ -30,7 +30,7 @@ return new class extends Migration
 
         DB::table('code_attributes')->insert(
             array(
-                'name'          => 'upi_string',
+                'name'          => 'upistring',
                 'created_at'    => Carbon::now(),
                 'updated_at'    => Carbon::now()
             )
@@ -159,6 +159,22 @@ return new class extends Migration
         DB::table('code_attributes')->insert(
             array(
                 'name'          => 'lot_no',
+                'created_at'    => Carbon::now(),
+                'updated_at'    => Carbon::now()
+            )
+        );
+
+        DB::table('code_attributes')->insert(
+            array(
+                'name'          => 'material_name',
+                'created_at'    => Carbon::now(),
+                'updated_at'    => Carbon::now()
+            )
+        );
+
+        DB::table('code_attributes')->insert(
+            array(
+                'name'          => 'sku_id',
                 'created_at'    => Carbon::now(),
                 'updated_at'    => Carbon::now()
             )

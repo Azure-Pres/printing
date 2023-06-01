@@ -13,6 +13,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use DB;
 
 class TransferJob implements ShouldQueue
 {
@@ -55,44 +56,51 @@ class TransferJob implements ShouldQueue
 
         $errors = [];
 
-        if ($progress->error_logs!='') {
-            $errors = json_decode($progress->error_logs,true);
+        // if ($progress->error_logs!='') {
+        //     $errors = json_decode($progress->error_logs,true);
+        // }
+
+
+        $count = Code::where('client_id',$this->client_id)->count();
+        foreach ($temp_codes as $key => $temp_code) {
+            $count = $count+1;
+            $collect = [
+                'client_id'           => $this->client_id,
+                'code_data'           => $temp_code->code_data,
+                'serial_no'           => $count,
+                'upload_id'           => $progress->id
+            ];
+            Code::create($collect);
         }
 
+
         if (!empty($unique_fields)) {
-            foreach($temp_codes as $key=>$temp_code){
-                $code_data = [];
+            foreach ($unique_fields as $unique_field) {
 
-                foreach ($unique_fields as $unique_field) {
-                    if (isset(json_decode($temp_code->code_data,true)[$unique_field])) {
-                        $code_data[$unique_field] = json_decode($temp_code->code_data,true)[$unique_field];
-                    }
-                }
+                $sqlQuery = 'select id,dup_count,dup_value
+                from (select id,json_extract(`code_data`,"$.'.$unique_field.'") as dup_v
+                from codes where client_id = '.$this->client_id.') t1 
+                join
+                (select count(id) dup_count, json_extract(`code_data`,"$.'.$unique_field.'") as dup_value
+                from codes where client_id = '.$this->client_id.'
+                group by json_extract(`code_data`,"$.'.$unique_field.'") 
+                having dup_count>1) t2
+                on t1.dup_v=t2.dup_value';
 
-                $exists = Code::where('client_id',$this->client_id)->whereJsonContains('code_data',$code_data)->exists();
+                $count = count(DB::select(DB::raw($sqlQuery)));
 
-                if ($exists) {
+                if ($count>0) {
                     $verified=false;
-                    $errors[$key+2] = 'Duplicate data found';
                 }
             }
         }
 
         if ($verified) {
-            $count = Code::where('client_id',$this->client_id)->count();
-            foreach ($temp_codes as $key => $temp_code) {
-                $count = $count+1;
-                $collect = [
-                    'client_id'           => $this->client_id,
-                    'code_data'           => $temp_code->code_data,
-                    'serial_no'           => $count,
-                    'upload_id'           => $progress->id
-                ];
-                Code::create($collect);
-            }
             $progress->status = '2';
             $progress->save();
         }else{
+            $delete = Code::where('client_id',$this->client_id)->where('upload_id',$progress->id)->delete();
+            $errors = ['error' => 'Duplicate Data Found !'];
             $progress->error_logs = json_encode($errors);
             $progress->status = '3';
             $progress->save();
@@ -103,6 +111,8 @@ class TransferJob implements ShouldQueue
 
     public function failed()
     {
+        $clear = TempCode::where('upload_id',$progress->id)->delete();
+        $delete = Code::where('client_id',$this->client_id)->where('upload_id',$progress->id)->delete();
         $progress = ClientUpload::where('client_id',$this->client_id)->where('progress_id',$this->progress_id)->first();
         $progress->status = '3';
         $progress->save();

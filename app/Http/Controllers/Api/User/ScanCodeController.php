@@ -14,7 +14,7 @@ class ScanCodeController extends Controller
 {
     public function index(Request $request)
     {
-        try{
+        // try{
             $input = $request->all();
             $validator = Validator::make($input, [
                 'scan_code' => getRule('',true)
@@ -50,17 +50,18 @@ class ScanCodeController extends Controller
                 }
 
                 if (isset($code_data['date'])) {
-                    $result['month'] = date("M'Y",strtotime($code_data['date']));
+                    // $result['month'] = date("M'Y",strtotime($code_data['date']));
                 }
+                $result['month'] = date("M'Y",strtotime("01-June-2023"));
 
                 if (isset($code_data['material_name'])) {
                     $result['material_type'] = $code_data['material_name'];
 
                     $broken = str_split($code_data['material_name'],50);
 
-                    $result['field_one'] = $broken[0]?trim($broken[0]):'';
-                    $result['field_two'] = $broken[1]?trim($broken[1]):'';
-                    $result['field_three'] = $broken[2]?trim($broken[2]):'';
+                    $result['field_one'] = isset($broken[0])?trim($broken[0]):'';
+                    $result['field_two'] = isset($broken[1])?trim($broken[1]):'';
+                    $result['field_three'] = isset($broken[2])?trim($broken[2]):'';
                 }
 
                 if (isset($code_data['lot_no'])) {
@@ -74,12 +75,12 @@ class ScanCodeController extends Controller
                 ], 200);
 
             }
-        }catch(Exception $e){
-            return response([
-                'success'  => false,
-                'message'  => 'Something went wrong.'
-            ], 200);
-        }
+        // }catch(Exception $e){
+        //     return response([
+        //         'success'  => false,
+        //         'message'  => 'Something went wrong.'
+        //     ], 200);
+        // }
     }
 
     public $client_id = 4;

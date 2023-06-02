@@ -147,6 +147,26 @@
                                     </div>
                                 </div>
                                 @endif
+
+                                <div class="row">
+                                    <div class="col-5">
+                                        <label class="col-form-label">3. Batch Printing</label>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="form-check">
+                                            <input wire:model.defer="view" id="batch_printing-view" class="form-check-input" type="checkbox" value="batch_printing">
+                                            <label for="batch_printing-view">View</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-3">
+                                        <div class="form-check">
+                                            <input wire:model.defer="modify" id="batch_printing-modify" class="form-check-input" type="checkbox" value="batch_printing">
+                                            <label  for="batch_printing-modify">Modify
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

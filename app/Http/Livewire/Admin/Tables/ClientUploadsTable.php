@@ -53,6 +53,10 @@ class ClientUploadsTable extends DataTableComponent
             ->sortable()->format(
                 fn($value, $row, Column $column) => uploadStatusText($row->status)
             ),
+            Column::make('Serial No')
+            ->label(function($row, Column $column) {
+                return view('livewire.admin.clientuploads.serial')->withData($row);
+            }),
             Column::make('Created At')
             ->sortable(),
             Column::make('Actions')

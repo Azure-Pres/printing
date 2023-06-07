@@ -15,4 +15,9 @@ class Batch extends Model
     {
         return $this->belongsTo(User::class,'client','id');
     }
+
+    public function getJobcard()
+    {
+        return $this->belongsTo(JobCard::class,'id','batch_id');
+    }
 }

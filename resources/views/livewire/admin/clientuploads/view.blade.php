@@ -61,7 +61,7 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-sm-6 mb-2">
-                                    <a href="{{url('/admin/upload-data')}}" class="btn btn-light" >Go Back</a>
+                                    <a href="{{url('/admin/client-uploads')}}" class="btn btn-light" >Go Back</a>
                                 </div>
                             </div>
                         </div>

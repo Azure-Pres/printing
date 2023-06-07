@@ -4,9 +4,10 @@ namespace App\Http\Controllers\Api\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\JobCard;
+use App\Models\User;
+use Auth;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Auth;
 
 class DashboardController extends Controller
 {
@@ -43,5 +44,24 @@ class DashboardController extends Controller
             'month_printed_jobcards' => $printed_jobcards,
             'month_in_progress' => $in_progress,
         ];
+    }
+
+    public function clients()
+    {
+        $clients = User::where('type','Client')->get();
+        $response = [];
+
+        foreach ($clients as $key => $client) {
+            array_push($response, [
+                'id' => $client->id,
+                'name' => $client->name
+            ]);
+        }
+
+        return response([
+            'success'   => true,
+            'message'   => 'Clients fetched successfully.',
+            'clients'   => $response
+        ], 200);
     }
 }

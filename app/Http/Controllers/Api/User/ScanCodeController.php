@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\User;
 
 use App\Http\Controllers\Controller;
+use App\Models\BatchPrint;
 use App\Models\Code;
 use App\Models\User;
 use DB;
@@ -43,6 +44,14 @@ class ScanCodeController extends Controller
 
                 if (isset($code_data['batch_id'])) {
                     $result['batch'] = $code_data['batch_id'];
+                    $check = BatchPrint::where('batch',$code_data['batch_id'])->exists();
+
+                    if ($check) {
+                        return response([
+                            'success'   => false,
+                            'message'   => 'Duplicate print is not allowed.'
+                        ], 400);
+                    }
                 }
 
                 if (isset($code_data['sku_id'])) {
@@ -83,38 +92,36 @@ class ScanCodeController extends Controller
         // }
     }
 
-    public $client_id = 4;
+    public function updateBatchPrint(Request $request)
+    {
+        // try{
+            $input = $request->all();
+            $validator = Validator::make($input, [
+                'batch' => getRule('',true)
+            ]);
 
-    // public function duplicate()
-    // {
+            if($validator->fails()) {
+                return response([
+                    'success'   => false,
+                    'message'   => 'Invalid given data.',
+                    'errors'    => $validator->errors()
+                ], 200);
+            }else{
 
-    //     $client = User::find($this->client_id);
-    //     $unique_fields = [];
-    //     $verified=true;
+                $batch = $input['batch'];
+                $store = BatchPrint::create(['batch'=>$input['batch']]);
 
-    //     foreach ($client->getClientAttributes as $attr_key => $client_attribute) {
-    //         if($client_attribute->unique=='1'){
-    //             array_push($unique_fields, $client_attribute->getCodeAttribute->name);
-    //         }
-    //     }
+                return response([
+                    'success'   => true,
+                    'message'   => 'Batch updated successfully.'
+                ], 200);
 
-    //     if (!empty($unique_fields)) {
-
-    //         $sqlQuery = 'select id,dup_count,dup_value
-    //         from (select id,json_extract(`code_data`,"$.'.$unique_fields[0].'") as dup_v
-    //         from codes where client_id = '.$this->client_id.') t1 
-    //         join
-    //         (select count(id) dup_count, json_extract(`code_data`,"$.'.$unique_fields[0].'") as dup_value
-    //         from codes where client_id = '.$this->client_id.'
-    //         group by json_extract(`code_data`,"$.'.$unique_fields[0].'") 
-    //         having dup_count>1) t2
-    //         on t1.dup_v=t2.dup_value';
-
-    //         $count = count(DB::select(DB::raw($sqlQuery)));
-
-    //         if ($count>0) {
-    //             $verified=false;
-    //         }
-    //     }
-    // }
+            }
+        // }catch(Exception $e){
+        //     return response([
+        //         'success'  => false,
+        //         'message'  => 'Something went wrong.'
+        //     ], 200);
+        // }
+    }
 }

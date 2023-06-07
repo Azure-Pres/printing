@@ -1,8 +1,9 @@
 <?php
 
 use App\CustomClasses\Validations;
-use App\Models\UserLog;
 use App\Models\ClientUpload;
+use App\Models\Code;
+use App\Models\UserLog;
 
 if (! function_exists('getRule')) {
 	function getRule($name, $required = false, $nullable = false)
@@ -66,6 +67,24 @@ if (! function_exists('currentUploadProgresses')) {
 	function currentUploadProgresses()
 	{
 		return ClientUpload::where('client_id',Auth::id())->whereIn('status',['0','1'])->get();
+	}
+}
+
+if (! function_exists('getSerialNo')) {
+	function getSerialNo($upload_id)
+	{
+		$from = null;
+		$to = null;
+
+		$from_code = Code::where('upload_id',$upload_id)->orderBy('serial_no','ASC')->first();
+		$to_code = Code::where('upload_id',$upload_id)->orderBy('serial_no','DESC')->first();
+
+		if ($from_code && $to_code) {
+			$from = $from_code->serial_no;
+			$to = $to_code->serial_no;
+		}
+
+		return ['from'=>$from, 'to'=>$to];	
 	}
 }
 

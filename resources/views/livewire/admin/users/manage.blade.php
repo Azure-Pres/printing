@@ -150,7 +150,27 @@
 
                                 <div class="row">
                                     <div class="col-5">
-                                        <label class="col-form-label">3. Batch Printing</label>
+                                        <label class="col-form-label">3. Verification</label>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="form-check">
+                                            <input wire:model.defer="view" id="verification-view" class="form-check-input" type="checkbox" value="verification">
+                                            <label for="verification-view">View</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-3">
+                                        <div class="form-check">
+                                            <input wire:model.defer="modify" id="verification-modify" class="form-check-input" type="checkbox" value="verification">
+                                            <label  for="verification-modify">Modify
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-5">
+                                        <label class="col-form-label">4. Batch Printing</label>
                                     </div>
                                     <div class="col-3">
                                         <div class="form-check">

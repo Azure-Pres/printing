@@ -70,7 +70,7 @@ class Create extends Component
             }
         }
         
-        userlog('Client','Client Added');
+        userlog('Client','Client '.$validated['name'].' Added');
 
         return redirect('admin/clients');
     }

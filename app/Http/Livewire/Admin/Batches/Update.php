@@ -39,7 +39,7 @@ class Update extends Component
         $validated = $this->validate($rules);
         $this->batch->update($validated);
 
-        userlog('Batch','Batch Updated');
+        userlog('Batch','Batch '.$validated['batch_code'].' Updated');
 
         return redirect('admin/batches');
 

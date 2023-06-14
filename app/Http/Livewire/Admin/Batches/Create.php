@@ -22,6 +22,17 @@ class Create extends Component
         return view('livewire.admin.batches.manage')->with('clients',$clients)->layout('layouts.app');
     }
 
+    public function serial()
+    {
+        $from = Code::whereNull('batch_id')->where('client_id',$this->client)->orderBy('serial_no','ASC')->first();
+
+        if ($from) {
+            $this->from_serial_number = $from->serial_no;
+        }else{
+            $this->from_serial_number = '';
+        }
+    }
+
     public function modify()
     {
         $rules = [
@@ -50,7 +61,7 @@ class Create extends Component
 
         $update_codes = Code::where('serial_no','>=',$this->from_serial_number)->where('serial_no','<=',$this->to_serial_number)->where('client_id',$this->client)->update(['batch_id'=>$batch->id]);
 
-        userlog('Batch','Batch Added');
+        userlog('Batch','Batch '.$validated['batch_code'].' Added');
 
         return redirect('admin/batches');
 

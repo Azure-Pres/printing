@@ -45,10 +45,15 @@ class ClientUploadsTable extends DataTableComponent
     {
         return [
             Column::make('id')->hideIf(true),
+            Column::make('File Name','file_name'),
+            Column::make('Progress Id','progress_id')
+            ->sortable(),
             Column::make('Client','client_id')
             ->sortable()->format(
                 fn($value, $row, Column $column) => $row->getClient->name??'-'
             ),
+            Column::make('Processed Rows','processed_rows')
+            ->sortable(),
             Column::make('Status')
             ->sortable()->format(
                 fn($value, $row, Column $column) => uploadStatusText($row->status)

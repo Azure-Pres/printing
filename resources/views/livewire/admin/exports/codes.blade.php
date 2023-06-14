@@ -18,10 +18,6 @@
 	</thead>
 
 	<tbody>
-		@php
-		$lot = 1;
-		$lot_s_no = 1;
-		@endphp
 
 		@foreach($codes as $code)
 		<tr>
@@ -37,18 +33,8 @@
 			@endforeach
 
 			@if($job_card->divide_in_lot=='Yes')
-			<td>{{$lot}}</td>
-			<td>{{$lot_s_no}}</td>
-
-			@php
-
-			if ($job_card->lot_size==$lot_s_no) {
-				$lot = $lot+1;
-				$lot_s_no=0;
-			}
-
-			$lot_s_no=$lot_s_no+1;
-			@endphp
+			<td>{{$code->lot??''}}</td>
+			<td>{{$code->lot_s_no??''}}</td>
 			@endif
 
 			<td>{{date("M'y")}}</td>

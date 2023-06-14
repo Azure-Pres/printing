@@ -18,6 +18,7 @@ class Validations
 			'photo' 				=>  'image|mimes:jpeg,jpg,png|max:2000',
 			'media' 				=>  'image|mimes:jpeg,jpg,png|max:10000',
 			'excel' 				=>  'mimes:csv,txt,xlsx|max:500000',
+			'pdf' 				    =>  'mimes:pdf|max:500000',
 			'phone' 				=>  'min:6|max:10|regex:/^[0-9-]+$/',
 			'username'				=>  'min:3|max:50|regex:/^[0-9A-Za-z.\_\-]+$/',
 			'dob'					=>  'date_format:"'.env('DATE_FORMAT_PHP', 'm/d/Y').'"',

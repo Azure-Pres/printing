@@ -26,7 +26,7 @@
                                     <div class="col-sm-6 ">
                                         <div class="form-group mb-2">
                                             <label for="client">Select Client</label>
-                                            <select wire:model.defer="client" class="form-control" id="client">
+                                            <select wire:model.defer="client" wire:change="serial()" class="form-control" id="client">
                                                 <option value="">Please select</option>
                                                 @foreach($clients as $client)
                                                 <option value="{{$client->id}}">{{$client->name}}</option>

@@ -5,19 +5,19 @@ namespace App\Http\Controllers\Api\User;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Api\Verification\VerificationResource;
 use App\Models\Code;
-use App\Models\OnlineHistory;
+use App\Models\OfflineHistory;
+use App\Models\OfflineVerification;
 use App\Models\User;
-use App\Models\Verification;
 use Auth;
 use Illuminate\Http\Request;
 use Validator;
 
-class VerificationController extends Controller
+class OfflineVerificationController extends Controller
 {
     public function index(Request $request)
     {
         $input = $request->all();
-        $verifications   = Verification::getApiVerificationModel($input);
+        $verifications   = OfflineVerification::getApiVerificationModel($input);
         $response   = VerificationResource::collection($verifications);
 
         return response([
@@ -55,7 +55,7 @@ class VerificationController extends Controller
 
             foreach ($input_codes as $input_code) {
 
-                $create = new Verification;
+                $create = new OfflineVerification;
                 $create->code_data = $input_code;
                 $create->client_id = $input['client_id'];
                 $create->scanned_by = Auth::id();
@@ -63,7 +63,7 @@ class VerificationController extends Controller
 
                 $code = Code::where('client_id',$input['client_id'])->where(function($query) use ($input_code){
                     $query->whereJsonContains('code_data', ['upi_qr_url'=>$input_code])->orWhereJsonContains('code_data', ['upistring'=>$input_code])->orWhereJsonContains('code_data', ['intent_string'=>$input_code])->orWhereJsonContains('code_data', ['qr_text'=>$input_code]);
-                })->first();
+                })->whereNull('second_verification_status')->where('first_verification_status','Success')->first();
 
                 $message = 'Verified';
                 $status = 'Success';
@@ -72,35 +72,17 @@ class VerificationController extends Controller
                     $message   = 'Invalid or broken code.';
                     $status    = 'Failed';
                 }else{
-                    if (!$code->getBatch) {
-                        $message   = 'Batch not assigned.';
-                        $status    = 'Failed';
-                    }else{
-                        $batch = $code->getBatch;
-                        if ($batch->status!='Active') {
-                            $message   = 'Batch not active.';
-                            $status    = 'Failed';
-                        }
-                        if (!$code->getBatch->getJobcard) {
-                            $message   = 'Job card not assigned.';
-                            $status    = 'Failed';
-                        }else{
-                            $jobcard = $code->getBatch->getJobcard;
-                            if ($jobcard->status!='Active') {
-                                $message   = 'Jobcard inactive.';
-                                $status    = 'Failed';
-                            }
-                            $count = Verification::where('code_id',$code->id)->where('client_id',$client->id)->count();
-                            if ($count>=$jobcard->allowed_copies) {
-                                $message   = 'Maximum copy exceeded.';
-                                $status    = 'Failed';
-                            }
+                    $jobcard = $code->getBatch->getJobcard;
+                    $count = OfflineVerification::where('code_id',$code->id)->where('client_id',$client->id)->count();
 
-                            if ($count==$jobcard->allowed_copies-1) {
-                                array_push($code_ids, $code->id);
-                            }
-                        }
-                    }                    
+                    if ($count>=$jobcard->allowed_copies) {
+                        $message   = 'Maximum copy exceeded.';
+                        $status    = 'Failed';
+                    }
+
+                    if ($count==$jobcard->allowed_copies-1) {
+                        array_push($code_ids, $code->id);
+                    }
                 }
 
                 $create->message   = $message;
@@ -122,12 +104,12 @@ class VerificationController extends Controller
             }
 
             if ($request_verified) {
-                $update_first_verification = Code::whereIn('id',$code_ids)->update([
-                    'first_verification_status' => 'Success'
+                $update_second_verification = Code::whereIn('id',$code_ids)->update([
+                    'second_verification_status' => 'Success'
                 ]);
             }
 
-            $online_history = OnlineHistory::create([
+            $online_history = OfflineHistory::create([
                 'history' => json_encode($data)
             ]);
 

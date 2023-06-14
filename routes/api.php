@@ -26,6 +26,7 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
     Route::resource("printing",ApiRoot\User\PrintingController::class);
     Route::resource("permissions",ApiRoot\User\PermissionController::class);
     Route::resource("verifications",ApiRoot\User\VerificationController::class);
+    Route::resource("verifications-offline",ApiRoot\User\OfflineVerificationController::class);
     Route::post('scan-code',[ApiRoot\User\ScanCodeController::class,'index']);
     Route::get('clients',[ApiRoot\User\DashboardController::class,'clients']);
     Route::post('update-batch-print',[ApiRoot\User\ScanCodeController::class,'updateBatchPrint']);

@@ -83,7 +83,7 @@ class Update extends Component
             }
         }
 
-        userlog('Client','Client Updated');
+        userlog('Client','Client '.$validated['name'].' Updated');
 
         return redirect('admin/clients');
 

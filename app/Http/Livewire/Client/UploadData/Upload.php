@@ -43,6 +43,7 @@ class Upload extends Component
         $client_upload = new ClientUpload;
         $client_upload->client_id  = Auth::id();
         $client_upload->file_url   = $this->importFilePath;
+        $client_upload->file_name  = $this->file->getClientOriginalName();
         $client_upload->progress_id= $progress_id;
         $client_upload->status     = '0';
         $client_upload->save();

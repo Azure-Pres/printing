@@ -3,10 +3,13 @@
 namespace App\Http\Livewire\Admin\JobCards;
 
 use App\Exports\Admin\Code\CodeExport;
+use App\Models\Batch;
+use App\Models\Code;
 use App\Models\JobCard;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Maatwebsite\Excel\Facades\Excel;
+use Storage;
 
 class Update extends Component
 {
@@ -62,8 +65,8 @@ class Update extends Component
             'machine'        => getRule('',true),
             'print_status'   => getRule('',true),
             'allowed_copies' => getRule('',true),
-            'first_verification_status'  => getRule('',true),
-            'second_verification_status' => getRule('',true),
+            // 'first_verification_status'  => getRule('',true),
+            // 'second_verification_status' => getRule('',true),
             'remarks'        => getRule('',true),
             'status'         => getRule('',true),
             'divide_in_lot'  => getRule('',true),
@@ -71,7 +74,7 @@ class Update extends Component
         ];
 
         if ($this->print_status=='Ready for Print' && $this->machine=='Handtop') {
-            $rules['print_file'] = getRule('',true);
+            $rules['print_file'] = getRule('pdf',true);
         }
 
         if ($this->divide_in_lot=='Yes'){
@@ -86,7 +89,9 @@ class Update extends Component
 
         $this->job_card->update($validated);
 
-        userlog('Job card','Job Card Updated');
+        $divide = $this->divide_lot();
+
+        userlog('Job card','Job Card '.$validated['job_card_id'].' Updated');
 
         return redirect('admin/job-cards');
 
@@ -94,6 +99,7 @@ class Update extends Component
 
     public function downloadCodes()
     {
+        userlog('Job card','Job Card '.$this->job_card->job_card_id.' Downloaded');
         return Excel::download(new CodeExport($this->job_card), date('Y-m-d').'-codes.csv');
     }
 
@@ -101,4 +107,80 @@ class Update extends Component
         $this->show_lot_size = $this->divide_in_lot=='Yes'?true:false;
     } 
 
+    public function divide_lot()
+    {
+        $batch = Batch::find($this->batch_id);
+        if ($this->divide_in_lot=='Yes') {
+            $codes = Code::where('batch_id',$batch->id)->get();
+            $lot = 1;
+            $lot_s_no = 1;
+
+            foreach($codes as $code){
+                $code->update([
+                    'lot' => $lot,
+                    'lot_s_no' => $lot_s_no
+                ]);
+                if ($this->lot_size==$lot_s_no) {
+                    $lot = $lot+1;
+                    $lot_s_no=0;
+                }
+                $lot_s_no=$lot_s_no+1;
+            }
+        }else{
+            $codes = Code::where('client_id',$batch->client)->where('batch_id',$this->batch_id)->update([
+                'lot' => NULL,
+                'lot_s_no' => NULL
+            ]);
+        }
+
+        return true;
+    }
+
+    public function sendForPrint()
+    {
+        if ($this->machine=='VDP') {
+            $store = Excel::store(new CodeExport($this->job_card), $this->getFileName());
+        }else{
+
+            if(!$this->job_card->file_url){
+
+                $this->dispatchBrowserEvent('messageTriggered', 
+                    [
+                        'success' => false,
+                        'message' =>'Please upload pdf print file first.'
+                    ]
+                );
+
+                return false;
+            }
+
+            $subpath = $this->job_card->file_url;
+            $copy = Storage::copy($subpath, $this->getFileName());
+        }
+
+        userlog('Job card','Job Card '.$this->job_card->job_card_id.' Sent for Print.');
+
+        $this->dispatchBrowserEvent('messageTriggered', 
+            [
+                'success' => true,
+                'message' =>'File created successfully.'
+            ]
+        );
+    }
+
+    public function getFileName()
+    {
+        $batch = Batch::find($this->batch_id);
+        $path = 'output';   
+
+        if ($this->machine=='VDP') {
+            $name = $batch->batch_code.'_'.$this->job_card_id.'.csv';
+            $path = $path.'/'.$batch->getClient->name.'/'.'vdp'.'/'.date('dmY').'/'.$name;
+        }else{
+            $name = $batch->batch_code.'_'.$this->job_card_id.'.pdf';
+            $path = $path.'/'.$batch->getClient->name.'/'.'handtop'.'/'.date('dmY').'/'.$name;
+        }
+
+        return $path;
+    }
 }

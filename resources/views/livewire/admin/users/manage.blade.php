@@ -111,7 +111,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
+                                {{-- <div class="row">
                                     <div class="col-5">
                                         <label class="col-form-label">2. Printing</label>
                                     </div>
@@ -146,23 +146,43 @@
                                         </div>
                                     </div>
                                 </div>
-                                @endif
+                                @endif --}}
 
                                 <div class="row">
                                     <div class="col-5">
-                                        <label class="col-form-label">3. Verification</label>
+                                        <label class="col-form-label">2. Online Verification</label>
                                     </div>
                                     <div class="col-3">
                                         <div class="form-check">
-                                            <input wire:model.defer="view" id="verification-view" class="form-check-input" type="checkbox" value="verification">
-                                            <label for="verification-view">View</label>
+                                            <input wire:model.defer="view" id="online_verification-view" class="form-check-input" type="checkbox" value="online_verification">
+                                            <label for="online_verification-view">View</label>
                                         </div>
                                     </div>
 
                                     <div class="col-3">
                                         <div class="form-check">
-                                            <input wire:model.defer="modify" id="verification-modify" class="form-check-input" type="checkbox" value="verification">
-                                            <label  for="verification-modify">Modify
+                                            <input wire:model.defer="modify" id="online_verification-modify" class="form-check-input" type="checkbox" value="online_verification">
+                                            <label  for="online_verification-modify">Modify
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-5">
+                                        <label class="col-form-label">3. Offline Verification</label>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="form-check">
+                                            <input wire:model.defer="view" id="offline_verification-view" class="form-check-input" type="checkbox" value="offline_verification">
+                                            <label for="offline_verification-view">View</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-3">
+                                        <div class="form-check">
+                                            <input wire:model.defer="modify" id="offline_verification-modify" class="form-check-input" type="checkbox" value="offline_verification">
+                                            <label  for="offline_verification-modify">Modify
                                             </label>
                                         </div>
                                     </div>

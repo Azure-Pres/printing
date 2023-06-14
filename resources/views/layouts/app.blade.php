@@ -26,6 +26,8 @@
     <script src="{{ asset('assets/js/off-canvas.js') }}"></script>
     <script src="{{ asset('assets/js/hoverable-collapse.js') }}"></script>
     <script src="{{ asset('assets/js/template.js') }}"></script>
+    <script src="{{ asset('assets/js/swal.js') }}"></script>
+    <script src="{{ asset('assets/js/custom.js')}}"></script>
     @stack('scripts')
     @livewireScripts
 </body>

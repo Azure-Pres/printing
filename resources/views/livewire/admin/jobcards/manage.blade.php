@@ -10,7 +10,17 @@
                     <div class="card-header">
                         <div class="card-title mb-0">Job card basic information 
                             @if($job_card)
-                            <a href="javascript:;" wire:click="downloadCodes()" class="btn btn-primary btn-sm float-right">Download Codes</a>
+                            <a href="javascript:;" wire:click="downloadCodes()" class="btn btn-primary btn-sm float-right">
+                                <span wire:loading>Please wait</span>
+                                <span wire:loading.remove>Download Codes</span>
+                            </a>
+
+                            @if($print_status=='Ready for Print')
+                            <a href="javascript:;" wire:click="sendForPrint()" class="btn btn-primary btn-sm float-right mr-2">
+                                <span wire:loading>Please wait</span>
+                                <span wire:loading.remove>Send for print</span>
+                            </a>
+                            @endif
                             @endif
                         </div>
                     </div>
@@ -66,6 +76,7 @@
                                         <option value="">Select</option>
                                         <option value="Pending">Pending</option>
                                         <option value="Ready for Print">Ready for Print</option>
+                                        <option value="Printing in Progress">Printing in Progress</option>
                                         <option value="Printed">Printed</option>
                                     </select>
                                     <x-basic.message class="text-danger" :message="$errors->has('print_status')?$errors->first('print_status'):''"></x-basic.message>
@@ -80,7 +91,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-sm-4 ">
+                            {{-- <div class="col-sm-4 ">
                                 <div class="form-group mb-2">
                                     <label for="first_verification_status">First verification status</label>
                                     <select wire:model.defer="first_verification_status" class="form-control" id="first_verification_status">
@@ -104,7 +115,7 @@
                                     </select>
                                     <x-basic.message class="text-danger" :message="$errors->has('second_verification_status')?$errors->first('second_verification_status'):''"></x-basic.message>
                                 </div>
-                            </div>
+                            </div> --}}
 
                             <div class="col-sm-4 ">
                                 <div class="form-group mb-2">
@@ -160,7 +171,7 @@
                             <div class="col-sm-12">
                                 <div class="form-group mb-2">
                                     <label for="print_file">Print File</label>
-                                    <input wire:model.defer="print_file" type="file" class="form-control" id="print_file">
+                                    <input wire:model.defer="print_file" accept=".pdf" type="file" class="form-control" id="print_file">
                                     <x-basic.message class="text-danger" :message="$errors->has('print_file')?$errors->first('print_file'):''"></x-basic.message>
                                 </div>
                             </div>

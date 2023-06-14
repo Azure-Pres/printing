@@ -9,7 +9,7 @@ class Code extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['client_id','batch_id','upload_id','code_data','status','serial_no','created_at','updated_at'];
+    protected $fillable = ['client_id','batch_id','upload_id','code_data','status','lot','lot_s_no','serial_no','created_at','updated_at','first_verification_status','second_verification_status'];
 
     public function getClient()
     {

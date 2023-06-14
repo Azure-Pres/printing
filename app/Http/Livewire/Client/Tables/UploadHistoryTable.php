@@ -28,6 +28,7 @@ class UploadHistoryTable extends DataTableComponent
     {
         return [
             Column::make('id')->hideIf(true),
+            Column::make('File Name','file_name'),
             Column::make('Progress Id','progress_id')
             ->sortable(),
             Column::make('Date','created_at')

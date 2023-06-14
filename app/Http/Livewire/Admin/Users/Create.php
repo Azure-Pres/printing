@@ -69,7 +69,7 @@ class Create extends Component
         $user->machines = json_encode($this->machines);
         $user->save();
 
-        userlog('User','User Added');
+        userlog('User','User '.$validated['name'].' Added');
         
         return redirect('admin/users');
     }

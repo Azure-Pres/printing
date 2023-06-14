@@ -2,9 +2,10 @@
 
 namespace App\Http\Livewire\Admin\JobCards;
 
-use Livewire\Component;
-use App\Models\JobCard;
 use App\Models\Batch;
+use App\Models\Code;
+use App\Models\JobCard;
+use Livewire\Component;
 use Livewire\WithFileUploads;
 
 class Create extends Component
@@ -42,8 +43,8 @@ class Create extends Component
             'machine'        => getRule('',true),
             'print_status'   => getRule('',true),
             'allowed_copies' => getRule('',true),
-            'first_verification_status'  => getRule('',true),
-            'second_verification_status' => getRule('',true),
+            // 'first_verification_status'  => getRule('',true),
+            // 'second_verification_status' => getRule('',true),
             'remarks'        => getRule('',true),
             'status'         => getRule('',true),
             'divide_in_lot'  => getRule('',true),
@@ -66,7 +67,9 @@ class Create extends Component
 
         $job_card = JobCard::create($validated);
 
-        userlog('Job card','Job Card Added');
+        $divide = $this->divide_lot();
+
+        userlog('Job card','Job Card '.$validated['job_card_id'].' Added');
 
         return redirect('admin/job-cards');
     }
@@ -75,4 +78,33 @@ class Create extends Component
     {
         $this->show_lot_size = $this->divide_in_lot=='Yes'?true:false;
     } 
+
+    public function divide_lot()
+    {
+        $batch = Batch::find($this->batch_id);
+        if ($this->divide_in_lot=='Yes') {
+            $codes = Code::where('batch_id',$batch->id)->get();
+            $lot = 1;
+            $lot_s_no = 1;
+
+            foreach($codes as $code){
+                $code->update([
+                    'lot' => $lot,
+                    'lot_s_no' => $lot_s_no
+                ]);
+                if ($this->lot_size==$lot_s_no) {
+                    $lot = $lot+1;
+                    $lot_s_no=0;
+                }
+                $lot_s_no=$lot_s_no+1;
+            }
+        }else{
+            $codes = Code::where('client_id',$batch->client)->where('batch_id',$this->batch_id)->update([
+                'lot' => NULL,
+                'lot_s_no' => NULL
+            ]);
+        }
+
+        return true;
+    }
 }

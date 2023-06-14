@@ -96,7 +96,7 @@ class Update extends Component
         $this->user->machines = json_encode($this->machines);
         $this->user->save();
         
-        userlog('User','User Updated');        
+        userlog('User','User '.$validated['name'].' Updated');        
 
         return redirect('admin/users');
     }

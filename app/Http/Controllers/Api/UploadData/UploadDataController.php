@@ -28,9 +28,6 @@ class UploadDataController extends Controller
 
                 $client_upload = new ClientUpload;
                 $client_upload->client_id  = Auth::id();
-                $client_upload->lot_number = $input['lot_number'];
-                $client_upload->lot_size   = $input['lot_size'];
-                $client_upload->category   = $input['category'];
                 $client_upload->progress_id= $progress_id = uniqid();;
                 $client_upload->total_rows = count($input['data']);
                 $client_upload->status     = '2';
@@ -38,14 +35,15 @@ class UploadDataController extends Controller
 
                 foreach ($input['data'] as $key => $row) {
 
-                    $count = Code::where('client_id',$this->client_id)->count();              
+                    $count = Code::where('client_id',Auth::id())->count();              
                     $serial_no = $count+1;
 
                     try{
                         $collect = [
                             'client_id'           => Auth::id(),
                             'code_data'           => json_encode($row),
-                            'serial_no'           => $serial_no
+                            'serial_no'           => $serial_no,
+                            'upload_id'           => $client_upload->id
                         ];
 
                         Code::create($collect);
@@ -74,9 +72,6 @@ class UploadDataController extends Controller
     public function dataRules()
     {
         $rules = [
-            'lot_number' => getRule('',true),
-            'lot_size'   => getRule('quantity',true),
-            'category'   => getRule('',true),
             'data'       => getRule('',true),
         ];
 

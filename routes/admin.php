@@ -55,3 +55,10 @@ Route::group(['prefix' => 'user-logs'], function() {
 	Route::get('/', App\Http\Livewire\Admin\UserLogs\Home::class)->name('admin-user-logs');
 	Route::get('/view/{id}', App\Http\Livewire\Admin\UserLogs\View::class)->name('admin-user-logs-view');
 });
+
+//Templates related route
+Route::group(['prefix' => 'templates'], function() {
+	Route::get('/', App\Http\Livewire\Admin\Templates\Home::class)->name('admin-templates');
+	Route::get('/create', App\Http\Livewire\Admin\Templates\Create::class)->name('admin-create-templates');
+	Route::get('/update/{id}', App\Http\Livewire\Admin\Templates\Update::class)->name('admin-update-templates');
+});

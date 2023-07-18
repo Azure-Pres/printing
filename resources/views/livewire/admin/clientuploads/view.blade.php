@@ -12,12 +12,18 @@
                             <div class="card-title mb-0">Upload details</div>
                         </div>
                         <div class="card-body">
+                            @php
+                            $serials = getSerialNo($data->id);
+                            @endphp
                             <div class="row">
+                                <div class="col-sm-4">
+                                    <label>Client : {{$data->getClient->name}}</label>
+                                </div>
                                 <div class="col-sm-4">
                                     <label>Progress Id : {{$data->progress_id}}</label>
                                 </div>
                                 <div class="col-sm-4">
-                                    <label>Status : {{uploadStatusText($data->status)}}</label>
+                                    <label>Upload Status : {{uploadStatusText($data->status)}}</label>
                                 </div>
                                 <div class="col-sm-4">
                                     <label>Date : {{date('M d, Y',strtotime($data->created_at))}}</label>
@@ -28,6 +34,18 @@
                                 <div class="col-sm-4">
                                     <label>Uploaded Rows : {{$uploaded_rows}}</label>
                                 </div>
+
+                                @if($serials['from'])
+                                <div class="col-sm-4">
+                                    <label>From Serial No : {{$serials['from']}}</label>
+                                </div>                                
+                                @endif
+
+                                @if($serials['to'])
+                                <div class="col-sm-4">
+                                    <label>To Serial No : {{$serials['to']}}</label>
+                                </div>                                
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -54,6 +72,50 @@
                         </div>
                     </div>
                 </div>
+                @else
+
+                <div class="col-lg-12 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title mb-0">Update Production Status</div>
+                        </div>
+                        <div class="card-body">
+                            <form wire:submit.prevent='modify'>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <label class="floating-label">Status</label>
+                                            <select wire:model="production_status" class="form-control">
+                                                <option value="Pending">Pending</option>
+                                                <option value="In Production">In Production</option>
+                                                <option value="Ready">Ready</option>
+                                                <option value="Dispatched">Dispatched</option>
+                                            </select>
+                                            <x-basic.message class="text-danger" :message="$errors->has('production_status')?$errors->first('production_status'):''"></x-basic.message>
+                                        </div>
+                                    </div>
+
+                                    @if($production_status=='Dispatched')
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <label class="floating-label">Dispatch Details</label>
+                                            <input wire:model="dispatch_data" type="text" class="form-control" placeholder="Dispatch details">
+                                            <x-basic.message class="text-danger" :message="$errors->has('dispatch_data')?$errors->first('dispatch_data'):''"></x-basic.message>
+                                        </div>
+                                    </div>
+                                    @endif
+
+                                    @if($production_status!='Dispatched')
+                                    <div class="col-sm-12 mb-2 text-right">
+                                        <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                                    </div>
+                                    @endif
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
                 @endif
 
                 <div class="col-lg-12 grid-margin stretch-card">

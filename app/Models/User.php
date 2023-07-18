@@ -24,6 +24,8 @@ class User extends Authenticatable
         'type',
         'phone_code',
         'phone',
+        'secret_key',
+        'token',
         'photo',
         'city',
         'state',

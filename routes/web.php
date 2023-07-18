@@ -19,12 +19,15 @@ Route::get('/', function () {
     return redirect('login');
 });
 
+Route::get('/qr-pdf/{id}', [App\Http\Controllers\QrPdfController::class,'index']);
+
 Route::get('/login', Login::class)->name('login');
 Route::get('/logout', function () {
     userlog('Logout','logout');
     Auth::logout();
     return Redirect::to('login');
 });
+
 
 
 // Route::get('/duplicate',[App\Http\Controllers\Api\User\ScanCodeController::class,'duplicate']);

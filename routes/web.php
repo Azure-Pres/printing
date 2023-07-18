@@ -28,3 +28,4 @@ Route::get('/logout', function () {
 
 
 // Route::get('/duplicate',[App\Http\Controllers\Api\User\ScanCodeController::class,'duplicate']);
+Route::get('/mark-success',[App\Http\Controllers\Api\User\ScanCodeController::class,'markSuccess']);

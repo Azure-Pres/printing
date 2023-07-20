@@ -18,7 +18,7 @@ return new class extends Migration
             $table->bigInteger('client_id')->unsigned()->nullable();
             $table->string('name')->nullable();
             $table->string('status')->nullable();
-            $table->string('data')->nullable();
+            $table->text('data')->nullable();
             $table->bigInteger('created_by')->unsigned()->nullable();
             $table->timestamps();
         });

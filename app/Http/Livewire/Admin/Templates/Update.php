@@ -17,28 +17,30 @@ class Update extends Component
     public $template;
     public $master_image;
     public $master_saved_image;
-    public $client='';
-    public $name='';
+    public $client  ='';
+    public $name    ='';
+    public $data_list = [];
 
     public $page_data = [
-        'margin_left' => '0', 
-        'margin_top' => '0', 
-        'margin_right' => '0', 
+        'margin_left'   => '0', 
+        'margin_top'    => '0', 
+        'margin_right'  => '0', 
         'margin_bottom' => '0', 
-        'width' => '0', 
-        'height' => '0',
+        'width'         => '0', 
+        'height'        => '0',
     ];
 
     public $master_layout = [
-        'width' => '0', 
-        'height' => '0', 
+        'width'     => '0', 
+        'height'    => '0', 
     ];
 
     public $qr_code = [
-        'left' => '0', 
-        'top' => '0', 
+        'left'  => '0', 
+        'top'   => '0', 
         'width' => '0', 
-        'height' => '0', 
+        'height'=> '0',
+        'field' => ''
     ];
 
     public $base_data = [
@@ -47,7 +49,11 @@ class Update extends Component
         'left'       => '0',
         'width'      => '0', 
         'height'     => '0', 
-        'font_size'  => '1'
+        'font_size'  => '1',
+        'data_one'   => '',
+        'data_two'   => '',
+        'data_three' => '',
+        'data_four'  => ''
     ];
 
     public $side_data = [
@@ -57,7 +63,11 @@ class Update extends Component
         'width'      => '0', 
         'height'     => '0', 
         'font_size'  => '1',
-        'rotate'     => '270'
+        'rotate'     => '270',
+        'data_one'   => '',
+        'data_two'   => '',
+        'data_three' => '',
+        'data_four'  => ''
     ];
 
     public function render()
@@ -81,6 +91,17 @@ class Update extends Component
         $this->qr_code = $data['qr_code'];
         $this->base_data = $data['base_data'];
         $this->side_data = $data['side_data'];
+
+        $client = User::find($this->client);
+        $this->data_list = $client->getClientAttributes;
+    }
+
+    public function getDataList()
+    {
+        if ($this->client) {
+            $client = User::find($this->client);
+            $this->data_list = $client->getClientAttributes;
+        }
     }
 
     public function modify()

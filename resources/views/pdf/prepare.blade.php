@@ -42,6 +42,11 @@ $side_data = $data['side_data'];
     </style>
 </head>
 <body>
+    @foreach($codes as $code)
+    @php
+    $code_data = json_decode($code->code_data,true);
+    @endphp
+
     <div class="wrapper" style="position: relative; width: {{$master_layout['width']}}mm; height: {{$master_layout['height']}}mm; border: 1px solid #ccc;">
 
         @if ($master_image)
@@ -49,26 +54,26 @@ $side_data = $data['side_data'];
         @endif
 
         <div style="position: absolute; width: {{$qr_code['width']}}mm; height: {{$qr_code['height']}}mm; top: {{$qr_code['top']}}mm; left: {{$qr_code['left']}}mm; ">
-            <img style="width:100%; height:100%;" src="data:image/png;base64, {!! base64_encode(QrCode::generate('http://google.com')) !!} ">
+            <img style="width:100%; height:100%;" src="data:image/png;base64, {!! base64_encode(QrCode::generate($code_data[$qr_code['field']])) !!} ">
         </div>
 
         @if($side_data['applicable'])
         <div class="equal-distribute" style="position: absolute; width: {{$side_data['width']}}mm; height: {{$side_data['height']}}mm; top: {{$side_data['top']}}mm; left: {{$side_data['left']}}mm; transform: rotate({{$side_data['rotate']}}deg); font-size: {{$side_data['font_size']}}mm; ">
 
             @if($side_data['data_one']!='')
-            <span class="left">{{$side_data['data_one']}}</span>
+            <span class="left">{{$code_data[$side_data['data_one']]??''}}</span>
             @endif
 
             @if($side_data['data_two']!='')
-            <span class="left">{{$side_data['data_two']}}</span>
+            <span class="left">{{$code_data[$side_data['data_two']]??''}}</span>
             @endif
 
             @if($side_data['data_three']!='')
-            <span class="left">{{$side_data['data_three']}}</span>
+            <span class="left">{{$code_data[$side_data['data_three']]??''}}</span>
             @endif
 
             @if($side_data['data_four']!='')
-            <span class="left">{{$side_data['data_four']}}</span>
+            <span class="left">{{$code_data[$side_data['data_four']]??''}}</span>
             @endif
 
         </div>
@@ -78,26 +83,27 @@ $side_data = $data['side_data'];
         <div class="equal-distribute" style="position: absolute; width: {{$base_data['width']}}mm; height: {{$base_data['height']}}mm; top: {{$base_data['top']}}mm; left: {{$base_data['left']}}mm; font-size: {{$base_data['font_size']}}mm; ">
 
             @if($base_data['data_one']!='')
-            <span class="center">{{$base_data['data_one']}}</span>
+            <span class="center">{{$code_data[$base_data['data_one']]??''}}</span>
             @endif
 
             @if($base_data['data_two']!='')
-            <span class="center">{{$base_data['data_two']}}</span>
+            <span class="center">{{$code_data[$base_data['data_two']]??''}}</span>
             @endif
 
             @if($base_data['data_three']!='')
-            <span class="center">{{$base_data['data_three']}}</span>
+            <span class="center">{{$code_data[$base_data['data_three']]??''}}</span>
             @endif
 
             @if($base_data['data_four']!='')
-            <span class="center">{{$base_data['data_four']}}</span>
+            <span class="center">{{$code_data[$base_data['data_four']]??''}}</span>
             @endif
 
             @if($base_data['data_five']!='')
-            <span class="center">{{$base_data['data_five']}}</span>
+            <span class="center">{{$code_data[$base_data['data_five']]??''}}</span>
             @endif
 
         </div>
         @endif
     </div>
+    @endforeach
 </body></html>

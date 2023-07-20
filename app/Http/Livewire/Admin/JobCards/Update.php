@@ -6,6 +6,7 @@ use App\Exports\Admin\Code\CodeExport;
 use App\Models\Batch;
 use App\Models\Code;
 use App\Models\JobCard;
+use App\Models\Template;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Maatwebsite\Excel\Facades\Excel;
@@ -31,6 +32,8 @@ class Update extends Component
     public $lot_size   ='';
     public $printing_material ='';
     public $show_lot_size =false;
+    public $templates = [];
+    public $template;
     
     public function render()
     {
@@ -56,6 +59,7 @@ class Update extends Component
         $this->lot_size = $this->job_card->lot_size;
         $this->show_lot_size = $this->job_card->divide_in_lot=='Yes'?true:false;
         $this->printing_material = $this->job_card->printing_material;
+        $this->templates = Template::where('client_id',$this->job_card->getBatch->client)->orderBy('created_at','DESC')->get();
     }
 
     public function modify()
@@ -182,5 +186,20 @@ class Update extends Component
         }
 
         return $path;
+    }
+
+    public function preparePdfFile()
+    {
+        $this->validate([
+            'template' => getRule('',true)
+        ]);
+
+        $url = url('prepare-pdf/'.encrypt($this->job_card->id).'/'.encrypt($this->template));
+
+        $this->dispatchBrowserEvent('openLink', 
+            [
+                'url' => $url
+            ]
+        );
     }
 }

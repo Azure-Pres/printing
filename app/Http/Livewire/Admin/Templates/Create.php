@@ -15,16 +15,17 @@ class Create extends Component
     use WithFileUploads;
 
     public $master_image;
-    public $client='';
-    public $name='';
+    public $client ='';
+    public $name   ='';
+    public $data_list = [];
 
     public $page_data = [
-        'margin_left' => '0', 
-        'margin_top' => '0', 
-        'margin_right' => '0', 
-        'margin_bottom' => '0', 
-        'width' => '0', 
-        'height' => '0',
+        'margin_left'       => '0', 
+        'margin_top'        => '0', 
+        'margin_right'      => '0', 
+        'margin_bottom'     => '0', 
+        'width'             => '0', 
+        'height'            => '0',
     ];
 
     public $master_layout = [
@@ -37,6 +38,7 @@ class Create extends Component
         'top' => '0', 
         'width' => '0', 
         'height' => '0', 
+        'field' => ''
     ];
 
     public $base_data = [
@@ -45,7 +47,12 @@ class Create extends Component
         'left'       => '0',
         'width'      => '0', 
         'height'     => '0', 
-        'font_size'  => '1'
+        'font_size'  => '1',
+        'data_one'   => '',
+        'data_two'   => '',
+        'data_three' => '',
+        'data_four'  => '',
+        'data_five'  => ''
     ];
 
     public $side_data = [
@@ -55,7 +62,11 @@ class Create extends Component
         'width'      => '0', 
         'height'     => '0', 
         'font_size'  => '1',
-        'rotate'     => '270'
+        'rotate'     => '270',
+        'data_one'   => '',
+        'data_two'   => '',
+        'data_three' => '',
+        'data_four'  => ''
     ];
 
     public function render()
@@ -94,5 +105,11 @@ class Create extends Component
         return redirect('admin/templates');
     }
 
-
+    public function getDataList()
+    {
+        if ($this->client) {
+            $client = User::find($this->client);
+            $this->data_list = $client->getClientAttributes;
+        }
+    }
 }

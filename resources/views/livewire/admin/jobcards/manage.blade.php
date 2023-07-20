@@ -9,19 +9,6 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="card-title mb-0">Job card basic information 
-                            @if($job_card)
-                            <a href="javascript:;" wire:click="downloadCodes()" class="btn btn-primary btn-sm float-right">
-                                <span wire:loading>Please wait</span>
-                                <span wire:loading.remove>Download Codes</span>
-                            </a>
-
-                            @if($print_status=='Ready for Print')
-                            <a href="javascript:;" wire:click="sendForPrint()" class="btn btn-primary btn-sm float-right mr-2">
-                                <span wire:loading>Please wait</span>
-                                <span wire:loading.remove>Send for print</span>
-                            </a>
-                            @endif
-                            @endif
                         </div>
                     </div>
                     <div class="card-body">
@@ -181,6 +168,59 @@
                     </div>
                 </div>
             </div>
+
+            @if($job_card)
+            <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title mb-0">Actions
+                        </div>
+                    </div>
+                    <div class="card-body">
+
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <a href="javascript:;" wire:click="downloadCodes()" class="btn btn-primary btn-sm">
+                                    <span wire:loading>Please wait</span>
+                                    <span wire:loading.remove>Download Codes</span>
+                                </a>
+                            </div>
+
+                            <div class="col-sm-6">
+                                @if($print_status=='Ready for Print')
+                                <a href="javascript:;" wire:click="sendForPrint()" class="btn btn-primary btn-sm">
+                                    <span wire:loading>Please wait</span>
+                                    <span wire:loading.remove>Send for print</span>
+                                </a>
+                                @endif
+                            </div>
+
+                            @if($machine=='Handtop')
+                            <div class="col-lg-12 mt-4">
+                                <div class="form-group mb-2">
+                                    <label for="template">Select Template</label>
+                                    <select wire:model.defer="template" class="form-control" id="template">
+                                        <option value="">Select</option>
+                                        @foreach($templates as $temp)
+                                        <option value="{{$temp->id}}">{{$temp->name}}</option>
+                                        @endforeach
+                                    </select>
+                                    <x-basic.message class="text-danger" :message="$errors->has('template')?$errors->first('template'):''"></x-basic.message>
+                                </div>
+
+                                <a href="javascript:;" wire:click="preparePdfFile()" class="btn btn-primary btn-sm">
+                                    <span wire:loading>Please wait</span>
+                                    <span wire:loading.remove>Prepare Pdf file</span>
+                                </a>
+                            </div>
+                            @endif
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            @endif
 
             <div class="col-lg-12 grid-margin stretch-card">
                 <div class="card">

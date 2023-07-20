@@ -21,7 +21,7 @@
                                             <div class="col-sm-6 ">
                                                 <div class="form-group mb-2">
                                                     <label for="client">Select Client</label>
-                                                    <select wire:model.defer="client" class="form-control" id="client">
+                                                    <select wire:model.defer="client" wire:change="getDataList" class="form-control" id="client">
                                                         <option value="">Please select</option>
                                                         @foreach($clients as $client)
                                                         <option value="{{$client->id}}">{{$client->name}}</option>
@@ -78,28 +78,40 @@
                                     </div>
                                     <div class="card-body">
                                         <div class="row">
-                                            <div class="col-sm-6 ">
+                                            <div class="col-sm-6">
                                                 <div class="form-group mb-2">
                                                     <label>Left</label>
                                                     <input wire:model="qr_code.left" type="number" class="form-control" placeholder="Left" required>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-6 ">
+                                            <div class="col-sm-6">
                                                 <div class="form-group mb-2">
                                                     <label>Top</label>
                                                     <input wire:model="qr_code.top" type="number" class="form-control" placeholder="Top" required>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-6 ">
+                                            <div class="col-sm-3">
                                                 <div class="form-group mb-2">
                                                     <label>Width</label>
                                                     <input wire:model="qr_code.width" type="number" class="form-control" placeholder="Width" required>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-6 ">
+                                            <div class="col-sm-3">
                                                 <div class="form-group mb-2">
                                                     <label>Height</label>
                                                     <input wire:model="qr_code.height" type="number" class="form-control" placeholder="Height" required>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-6 ">
+                                                <div class="form-group mb-2">
+                                                    <label>Dynamic Field</label>
+                                                    <select wire:model="qr_code.field" class="form-control">
+                                                        <option value="">Please select</option>
+                                                        @foreach($data_list as $data)
+                                                        <option value="{{$data->getCodeAttribute->name}}">{{$data->getCodeAttribute->name}}</option>
+                                                        @endforeach
+                                                    </select>
                                                 </div>
                                             </div>
                                         </div>
@@ -114,7 +126,7 @@
                                     </div>
                                     <div class="card-body">
                                         <div class="row">
-                                            <div class="col-sm-6 ">
+                                            <div class="col-sm-6">
                                                 <div class="form-group mb-2">
                                                     <label>Applicable</label>
                                                     <select wire:model="side_data.applicable" class="form-control" required>
@@ -123,40 +135,84 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-6 ">
+                                            <div class="col-sm-3">
                                                 <div class="form-group mb-2">
                                                     <label>Left</label>
                                                     <input wire:model="side_data.left" type="number" class="form-control" placeholder="Left" required>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-6 ">
+                                            <div class="col-sm-3">
                                                 <div class="form-group mb-2">
                                                     <label>Top</label>
                                                     <input wire:model="side_data.top" type="number" class="form-control" placeholder="Top" required>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-6 ">
+                                            <div class="col-sm-3">
                                                 <div class="form-group mb-2">
                                                     <label>Width</label>
                                                     <input wire:model="side_data.width" type="number" class="form-control" placeholder="Width" required>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-6 ">
+                                            <div class="col-sm-3">
                                                 <div class="form-group mb-2">
                                                     <label>Height</label>
                                                     <input wire:model="side_data.height" type="number" class="form-control" placeholder="Height" required>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-6 ">
+                                            <div class="col-sm-3">
                                                 <div class="form-group mb-2">
                                                     <label>Font Size</label>
                                                     <input wire:model="side_data.font_size" type="number" class="form-control" placeholder="Font Size" required>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-6 ">
+                                            <div class="col-sm-3">
                                                 <div class="form-group mb-2">
                                                     <label>Rotate</label>
                                                     <input wire:model="side_data.rotate" type="number" class="form-control" placeholder="Rotate" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6 ">
+                                                <div class="form-group mb-2">
+                                                    <label>Data 1</label>
+                                                    <select wire:model="side_data.data_one" class="form-control">
+                                                        <option value="">Please select</option>
+                                                        @foreach($data_list as $data)
+                                                        <option value="{{$data->getCodeAttribute->name}}">{{$data->getCodeAttribute->name}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6 ">
+                                                <div class="form-group mb-2">
+                                                    <label>Data 2</label>
+                                                    <select wire:model="side_data.data_two" class="form-control">
+                                                        <option value="">Please select</option>
+                                                        @foreach($data_list as $data)
+                                                        <option value="{{$data->getCodeAttribute->name}}">{{$data->getCodeAttribute->name}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6 ">
+                                                <div class="form-group mb-2">
+                                                    <label>Data 3</label>
+                                                    <select wire:model="side_data.data_three" class="form-control">
+                                                        <option value="">Please select</option>
+                                                        @foreach($data_list as $data)
+                                                        <option value="{{$data->getCodeAttribute->name}}">{{$data->getCodeAttribute->name}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6 ">
+                                                <div class="form-group mb-2">
+                                                    <label>Data 4</label>
+                                                    <select wire:model="side_data.data_four" class="form-control">
+                                                        <option value="">Please select</option>
+                                                        @foreach($data_list as $data)
+                                                        <option value="{{$data->getCodeAttribute->name}}">{{$data->getCodeAttribute->name}}</option>
+                                                        @endforeach
+                                                    </select>
                                                 </div>
                                             </div>
                                         </div>
@@ -171,7 +227,7 @@
                                     </div>
                                     <div class="card-body">
                                         <div class="row">
-                                            <div class="col-sm-6 ">
+                                            <div class="col-sm-4">
                                                 <div class="form-group mb-2">
                                                     <label>Applicable</label>
                                                     <select wire:model="base_data.applicable" class="form-control" required>
@@ -180,34 +236,89 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-6 ">
+                                            <div class="col-sm-4">
                                                 <div class="form-group mb-2">
                                                     <label>Left</label>
                                                     <input wire:model="base_data.left" type="number" class="form-control" placeholder="Left" required>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-6 ">
+                                            <div class="col-sm-4">
                                                 <div class="form-group mb-2">
                                                     <label>Top</label>
                                                     <input wire:model="base_data.top" type="number" class="form-control" placeholder="Top" required>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-6 ">
+                                            <div class="col-sm-4">
                                                 <div class="form-group mb-2">
                                                     <label>Width</label>
                                                     <input wire:model="base_data.width" type="number" class="form-control" placeholder="Width" required>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-6 ">
+                                            <div class="col-sm-4">
                                                 <div class="form-group mb-2">
                                                     <label>Height</label>
                                                     <input wire:model="base_data.height" type="number" class="form-control" placeholder="Height" required>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-6 ">
+                                            <div class="col-sm-4">
                                                 <div class="form-group mb-2">
                                                     <label>Font Size</label>
                                                     <input wire:model="base_data.font_size" type="number" class="form-control" placeholder="Font Size" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6 ">
+                                                <div class="form-group mb-2">
+                                                    <label>Data 1</label>
+                                                    <select wire:model="base_data.data_one" class="form-control">
+                                                        <option value="">Please select</option>
+                                                        @foreach($data_list as $data)
+                                                        <option value="{{$data->getCodeAttribute->name}}">{{$data->getCodeAttribute->name}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6 ">
+                                                <div class="form-group mb-2">
+                                                    <label>Data 2</label>
+                                                    <select wire:model="base_data.data_two" class="form-control">
+                                                        <option value="">Please select</option>
+                                                        @foreach($data_list as $data)
+                                                        <option value="{{$data->getCodeAttribute->name}}">{{$data->getCodeAttribute->name}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4 ">
+                                                <div class="form-group mb-2">
+                                                    <label>Data 3</label>
+                                                    <select wire:model="base_data.data_three" class="form-control">
+                                                        <option value="">Please select</option>
+                                                        @foreach($data_list as $data)
+                                                        <option value="{{$data->getCodeAttribute->name}}">{{$data->getCodeAttribute->name}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4 ">
+                                                <div class="form-group mb-2">
+                                                    <label>Data 4</label>
+                                                    <select wire:model="base_data.data_four" class="form-control">
+                                                        <option value="">Please select</option>
+                                                        @foreach($data_list as $data)
+                                                        <option value="{{$data->getCodeAttribute->name}}">{{$data->getCodeAttribute->name}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4 ">
+                                                <div class="form-group mb-2">
+                                                    <label>Data 5</label>
+                                                    <select wire:model="base_data.data_five" class="form-control">
+                                                        <option value="">Please select</option>
+                                                        @foreach($data_list as $data)
+                                                        <option value="{{$data->getCodeAttribute->name}}">{{$data->getCodeAttribute->name}}</option>
+                                                        @endforeach
+                                                    </select>
                                                 </div>
                                             </div>
                                         </div>
@@ -222,37 +333,37 @@
                                     </div>
                                     <div class="card-body">
                                         <div class="row">
-                                            <div class="col-sm-6 ">
+                                            <div class="col-sm-4 ">
                                                 <div class="form-group mb-2">
                                                     <label>Width</label>
                                                     <input wire:model="page_data.width" type="number" class="form-control" placeholder="Width" required>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-6 ">
+                                            <div class="col-sm-4 ">
                                                 <div class="form-group mb-2">
                                                     <label>Height</label>
                                                     <input wire:model="page_data.height" type="number" class="form-control" placeholder="Height" required>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-6 ">
+                                            <div class="col-sm-4 ">
                                                 <div class="form-group mb-2">
                                                     <label>Margin Left</label>
                                                     <input wire:model="page_data.margin_left" type="number" class="form-control" placeholder="Margin Left" required>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-6 ">
+                                            <div class="col-sm-4 ">
                                                 <div class="form-group mb-2">
                                                     <label>Margin Top</label>
                                                     <input wire:model="page_data.margin_top" type="number" class="form-control" placeholder="Margin Top" required>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-6 ">
+                                            <div class="col-sm-4 ">
                                                 <div class="form-group mb-2">
                                                     <label>Margin Right</label>
                                                     <input wire:model="page_data.margin_right" type="number" class="form-control" placeholder="Margin Right" required>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-6 ">
+                                            <div class="col-sm-4 ">
                                                 <div class="form-group mb-2">
                                                     <label>Margin Bottom</label>
                                                     <input wire:model="page_data.margin_bottom" type="number" class="form-control" placeholder="Margin Bottom" required>
@@ -285,19 +396,49 @@
 
                                             @if($side_data['applicable'])
                                             <div class="equal-distribute" style="position: absolute; width: {{$side_data['width']}}mm; height: {{$side_data['height']}}mm; top: {{$side_data['top']}}mm; left: {{$side_data['left']}}mm; rotate: {{$side_data['rotate']}}deg; font-size: {{$side_data['font_size']}}mm; border: 1px solid #ccc;">
-                                                <span class="left">00000000</span>
-                                                <span class="left">0000000</span>
-                                                <span class="left">000000</span>
+
+                                                @if($side_data['data_one']!='')
+                                                <span class="left">{{$side_data['data_one']}}</span>
+                                                @endif
+
+                                                @if($side_data['data_two']!='')
+                                                <span class="left">{{$side_data['data_two']}}</span>
+                                                @endif
+
+                                                @if($side_data['data_three']!='')
+                                                <span class="left">{{$side_data['data_three']}}</span>
+                                                @endif
+
+                                                @if($side_data['data_four']!='')
+                                                <span class="left">{{$side_data['data_four']}}</span>
+                                                @endif
+                                                
                                             </div>
                                             @endif
 
                                             @if($base_data['applicable'])
                                             <div class="equal-distribute" style="position: absolute; width: {{$base_data['width']}}mm; height: {{$base_data['height']}}mm; top: {{$base_data['top']}}mm; left: {{$base_data['left']}}mm; font-size: {{$base_data['font_size']}}mm; border: 1px solid #ccc;">
-                                                <span class="center">00000000</span>
-                                                <span class="center">0000000</span>
-                                                <span class="center">000000</span>
-                                                <span class="center">000</span>
-                                                <span class="center">0-0</span>
+
+                                                @if($base_data['data_one']!='')
+                                                <span class="center">{{$base_data['data_one']}}</span>
+                                                @endif
+
+                                                @if($base_data['data_two']!='')
+                                                <span class="center">{{$base_data['data_two']}}</span>
+                                                @endif
+
+                                                @if($base_data['data_three']!='')
+                                                <span class="center">{{$base_data['data_three']}}</span>
+                                                @endif
+
+                                                @if($base_data['data_four']!='')
+                                                <span class="center">{{$base_data['data_four']}}</span>
+                                                @endif
+
+                                                @if($base_data['data_five']!='')
+                                                <span class="center">{{$base_data['data_five']}}</span>
+                                                @endif
+
                                             </div>
                                             @endif
 

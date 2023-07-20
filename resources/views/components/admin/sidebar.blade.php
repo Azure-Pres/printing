@@ -30,12 +30,12 @@
                 <span class="menu-title">Codes</span>
             </a>
         </li>
-        {{-- <li class="nav-item">
+        <li class="nav-item">
             <a class="nav-link" href="{{ url('/admin/templates') }}">
                 <i class="typcn typcn-chart-pie menu-icon"></i>
                 <span class="menu-title">Templates</span>
             </a>
-        </li> --}}
+        </li>
         <li class="nav-item">
             <a class="nav-link" href="{{ url('/admin/job-cards') }}">
                 <i class="typcn typcn-chart-pie menu-icon"></i>

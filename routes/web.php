@@ -20,6 +20,7 @@ Route::get('/', function () {
 });
 
 Route::get('/qr-pdf/{id}', [App\Http\Controllers\QrPdfController::class,'index']);
+Route::get('/prepare-pdf/{jobcard}/{template}', [App\Http\Controllers\QrPdfController::class,'preparePdf']);
 
 Route::get('/login', Login::class)->name('login');
 Route::get('/logout', function () {

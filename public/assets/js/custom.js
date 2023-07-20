@@ -6,6 +6,13 @@ window.addEventListener('messageTriggered', (e) => {
     }
 });
 
+window.addEventListener('openLink', (e) => {
+    if(e.detail.url){
+        window.open(e.detail.url, '_blank').focus();
+    }
+});
+
+
 function showError(message,delay=3000){
     Swal.fire({
         text:message,

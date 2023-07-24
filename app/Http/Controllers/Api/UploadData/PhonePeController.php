@@ -20,16 +20,13 @@ class PhonePeController extends Controller
             return response([
                 "success"  => false,
                 "message"  => 'Invalid Key'
-            ],200);
+            ],400);
         }
 
         $client->token = $client->createToken('app-token')->plainTextToken;
         $client->save();
 
-        return response([
-            "success" => true,
-            "token"   => $client->token
-        ],200);
+        return response($client->token, 200);
     }
 
     public function store(Request $request)
@@ -45,14 +42,14 @@ class PhonePeController extends Controller
             return response([
                 "success"  => false,
                 "message"  => 'Authentication Fail'
-            ],200);
+            ],400);
         }
 
         if ($request->LotChecksum!=hash('sha224', $request->LotData)) {
             return response([
                 "success"  => false,
                 "message"  => 'Invalid Lot Checksum'
-            ],200);
+            ],400);
         }
 
         $data = $this->extractCsv($request->LotData);
@@ -61,21 +58,21 @@ class PhonePeController extends Controller
             return response([
                 "success"  => false,
                 "message"  => 'Malformed'
-            ],200);
+            ],400);
         }
 
         if (!$this->hasNoBlankEntry($data)) {
             return response([
                 "success"  => false,
                 "message"  => 'Malformed. Blank entry found.'
-            ],200);
+            ],400);
         }
 
         if (count($data)!=$request->LotSize) {
             return response([
                 "success"  => false,
                 "message"  => 'Incorrect count'
-            ],200);
+            ],400);
         }
 
         $lot_position = 2;
@@ -85,7 +82,7 @@ class PhonePeController extends Controller
             return response([
                 "success"  => false,
                 "message"  => 'Printing material missing'
-            ],200);
+            ],400);
         }
 
         $lot_number = $data[0][$lot_position];
@@ -95,35 +92,35 @@ class PhonePeController extends Controller
             return response([
                 "success"  => false,
                 "message"  => 'Repeated Lot'
-            ],200);
+            ],400);
         }
 
         if (!$this->hasUniqueData($data,0)) {
             return response([
                 "success"  => false,
                 "message"  => 'Repeated Qr id'
-            ],200);
+            ],400);
         }
 
         if (!$this->hasUniqueData($data,1)) {
             return response([
                 "success"  => false,
                 "message"  => 'Repeated Qr text'
-            ],200);
+            ],400);
         }
 
         if (!$this->arraysHaveSameValueAtIndex($data,2)) {
             return response([
                 "success"  => false,
                 "message"  => 'Different lot number present'
-            ],200);
+            ],400);
         }
 
         if (!$this->arraysHaveSameValueAtIndex($data,3)) {
             return response([
                 "success"  => false,
                 "message"  => 'Different printing material present'
-            ],200);
+            ],400);
         }
 
         $qr_ids = $this->getValuesAtIndex($data, 0);
@@ -134,7 +131,7 @@ class PhonePeController extends Controller
             return response([
                 "success"  => false,
                 "message"  => 'Duplicate QR id present'
-            ],200);
+            ],400);
         }
 
         $duplicate_qr_texts = Code::where('client_id',$this->id)->whereIn('code_data->qr_text',$qr_texts)->exists();
@@ -142,7 +139,7 @@ class PhonePeController extends Controller
             return response([
                 "success"  => false,
                 "message"  => 'Duplicate QR text present'
-            ],200);
+            ],400);
         }
 
         $client_upload = new ClientUpload;
@@ -151,6 +148,7 @@ class PhonePeController extends Controller
         $client_upload->total_rows = $request->LotSize;
         $client_upload->lot_size   = $request->LotSize;
         $client_upload->status     = '2';
+        $client_upload->file_name  = $data[0][2];
         $client_upload->lot_number = $data[0][2];
         $client_upload->printing_material = $data[0][3];
         $client_upload->save();
@@ -247,7 +245,7 @@ class PhonePeController extends Controller
             return response([
                 "success"  => false,
                 "message"  => 'Authentication Fail'
-            ],200);
+            ],400);
         }
 
         $client = User::where('id',$this->id)->first();
@@ -257,7 +255,7 @@ class PhonePeController extends Controller
             return response([
                 "success"  => false,
                 "message"  => 'The lot is not with Vendor'
-            ],200);
+            ],400);
         }
 
         return response([
@@ -277,7 +275,7 @@ class PhonePeController extends Controller
             return response([
                 "success"  => false,
                 "message"  => 'Authentication Fail'
-            ],200);
+            ],400);
         }
 
         $client = User::where('id',$this->id)->first();
@@ -287,14 +285,14 @@ class PhonePeController extends Controller
             return response([
                 "success"  => false,
                 "message"  => 'Does not exist'
-            ],200);
+            ],400);
         }
 
         if ($lot->production_status!='Pending') {
             return response([
                 "success"  => false,
                 "message"  => 'In Production'
-            ],200);
+            ],400);
         }
 
         $batch_assigned = Code::where('upload_id',$lot->id)->whereNotNull('batch_id')->exists();
@@ -303,7 +301,7 @@ class PhonePeController extends Controller
             return response([
                 "success"  => false,
                 "message"  => 'In Production'
-            ],200);
+            ],400);
         }
 
         $delete_codes = Code::where('client_id',$this->id)->where('upload_id',$lot->id)->delete();

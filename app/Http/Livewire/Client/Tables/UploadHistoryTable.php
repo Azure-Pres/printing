@@ -13,6 +13,8 @@ use Auth;
 
 class UploadHistoryTable extends DataTableComponent
 {   
+    public $deleteId = '';
+
     public function configure(): void
     {
         $this->setPrimaryKey('id');
@@ -45,8 +47,6 @@ class UploadHistoryTable extends DataTableComponent
             }),
         ];
     }
-
-    
     public function cancel($id)
     {
         $clear = TempCode::where('upload_id',$id)->delete();

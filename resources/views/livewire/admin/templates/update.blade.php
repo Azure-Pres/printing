@@ -106,7 +106,7 @@
                                             <div class="col-sm-6 ">
                                                 <div class="form-group mb-2">
                                                     <label>Dynamic Field</label>
-                                                    <select wire:model="qr_code.field" class="form-control">
+                                                    <select wire:model="qr_code.field" class="form-control" required>
                                                         <option value="">Please select</option>
                                                         @foreach($data_list as $data)
                                                         <option value="{{$data->getCodeAttribute->name}}">{{$data->getCodeAttribute->name}}</option>

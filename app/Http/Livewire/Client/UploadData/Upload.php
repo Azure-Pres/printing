@@ -35,6 +35,13 @@ class Upload extends Component
 
     public function modify()
     {
+        $find = ClientUpload::whereIn('status',['0','1'])->exists();
+
+        if($find){
+            $this->addError('file','Please wait, one file is already in progress.');
+            return false;
+        }
+
         $this->validate();
 
         $progress_id = uniqid();

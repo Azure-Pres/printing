@@ -126,7 +126,7 @@ class PhonePeController extends Controller
         $qr_ids = $this->getValuesAtIndex($data, 0);
         $qr_texts = $this->getValuesAtIndex($data, 1);
 
-        $duplicate_qr_ids = Code::where('client_id',$this->id)->whereIn('code_data->qr_id',$qr_ids)->orWhereIn('code_data->qr_text',$qr_texts)->exists();
+        $duplicate_qr_ids = Code::select('id')->where('client_id',$this->id)->whereIn('code_data->qr_id',$qr_ids)->orWhereIn('code_data->qr_text',$qr_texts)->exists();
         
         if ($duplicate_qr_ids) {
             return response([
@@ -288,7 +288,7 @@ class PhonePeController extends Controller
             ],400);
         }
 
-        $batch_assigned = Code::where('upload_id',$lot->id)->whereNotNull('batch_id')->exists();
+        $batch_assigned = Code::select('id')->where('upload_id',$lot->id)->whereNotNull('batch_id')->exists();
 
         if ($batch_assigned) {
             return response([

@@ -19,6 +19,9 @@ class UploadHistoryTable extends DataTableComponent
     {
         $this->setPrimaryKey('id');
         $this->setRefreshTime(2000);
+        $this->setConfigurableAreas([
+            'toolbar-right-end' => 'livewire.client.upload-data.delete-modal'
+        ]);
     }
 
     public function builder(): Builder
@@ -47,11 +50,18 @@ class UploadHistoryTable extends DataTableComponent
             }),
         ];
     }
-    public function cancel($id)
+
+    public function deleteId($id)
     {
-        $clear = TempCode::where('upload_id',$id)->delete();
-        $delete = Code::where('client_id',Auth::id())->where('upload_id',$id)->delete();
-        $progress = ClientUpload::where('client_id',Auth::id())->where('id',$id)->first();
+        $this->deleteId = $id;
+    }
+
+    public function cancel()
+    {
+        $clear = TempCode::where('upload_id',$this->deleteId)->delete();
+        $delete = Code::where('client_id',Auth::id())->where('upload_id',$this->deleteId)->delete();
+        $progress = ClientUpload::where('client_id',Auth::id())->where('id',$this->deleteId)->first();
+        
         if($progress){
             $progress->status = '3';
             $progress->save();

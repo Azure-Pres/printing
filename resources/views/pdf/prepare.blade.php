@@ -45,6 +45,8 @@ $side_data = $data['side_data'];
     @foreach($codes as $code)
     @php
     $code_data = json_decode($code->code_data,true);
+    $lot = $code->lot??'';
+    $lot_s_no = $code->lot_s_no??'';
     @endphp
 
     <div class="wrapper" style="position: relative; width: {{$master_layout['width']}}mm; height: {{$master_layout['height']}}mm; border: 1px solid #ccc;">
@@ -60,20 +62,21 @@ $side_data = $data['side_data'];
         @if($side_data['applicable'])
         <div class="equal-distribute" style="position: absolute; width: {{$side_data['width']}}mm; height: {{$side_data['height']}}mm; top: {{$side_data['top']}}mm; left: {{$side_data['left']}}mm; transform: rotate({{$side_data['rotate']}}deg); font-size: {{$side_data['font_size']}}mm; ">
 
+
             @if($side_data['data_one']!='')
-            <span class="left">{{$code_data[$side_data['data_one']]??''}}</span>
+            @include('pdf.data',['code_data'=> $code_data, 'field' => $side_data, 'position'=>'data_one', 'class'=>'left'])
             @endif
 
             @if($side_data['data_two']!='')
-            <span class="left">{{$code_data[$side_data['data_two']]??''}}</span>
+            @include('pdf.data',['code_data'=> $code_data, 'field' => $side_data, 'position'=>'data_two', 'class'=>'left'])
             @endif
 
             @if($side_data['data_three']!='')
-            <span class="left">{{$code_data[$side_data['data_three']]??''}}</span>
+            @include('pdf.data',['code_data'=> $code_data, 'field' => $side_data, 'position'=>'data_three', 'class'=>'left'])
             @endif
 
             @if($side_data['data_four']!='')
-            <span class="left">{{$code_data[$side_data['data_four']]??''}}</span>
+            @include('pdf.data',['code_data'=> $code_data, 'field' => $side_data, 'position'=>'data_four', 'class'=>'left'])
             @endif
 
         </div>
@@ -83,23 +86,23 @@ $side_data = $data['side_data'];
         <div class="equal-distribute" style="position: absolute; width: {{$base_data['width']}}mm; height: {{$base_data['height']}}mm; top: {{$base_data['top']}}mm; left: {{$base_data['left']}}mm; font-size: {{$base_data['font_size']}}mm; ">
 
             @if($base_data['data_one']!='')
-            <span class="center">{{$code_data[$base_data['data_one']]??''}}</span>
+            @include('pdf.data',['code_data'=> $code_data, 'field' => $base_data, 'position'=>'data_one', 'class'=>'center', 'lot'=>$lot, 'lot_s_no'=> $lot_s_no])
             @endif
 
             @if($base_data['data_two']!='')
-            <span class="center">{{$code_data[$base_data['data_two']]??''}}</span>
+            @include('pdf.data',['code_data'=> $code_data, 'field' => $base_data, 'position'=>'data_two', 'class'=>'center', 'lot'=>$lot, 'lot_s_no'=> $lot_s_no])
             @endif
 
             @if($base_data['data_three']!='')
-            <span class="center">{{$code_data[$base_data['data_three']]??''}}</span>
+            @include('pdf.data',['code_data'=> $code_data, 'field' => $base_data, 'position'=>'data_three', 'class'=>'center', 'lot'=>$lot, 'lot_s_no'=> $lot_s_no])
             @endif
 
             @if($base_data['data_four']!='')
-            <span class="center">{{$code_data[$base_data['data_four']]??''}}</span>
+            @include('pdf.data',['code_data'=> $code_data, 'field' => $base_data, 'position'=>'data_four', 'class'=>'center', 'lot'=>$lot, 'lot_s_no'=> $lot_s_no])
             @endif
 
             @if($base_data['data_five']!='')
-            <span class="center">{{$code_data[$base_data['data_five']]??''}}</span>
+            @include('pdf.data',['code_data'=> $code_data, 'field' => $base_data, 'position'=>'data_five', 'class'=>'center', 'lot'=>$lot, 'lot_s_no'=> $lot_s_no])
             @endif
 
         </div>

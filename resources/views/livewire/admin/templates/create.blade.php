@@ -109,7 +109,7 @@
                                                     <select wire:model="qr_code.field"  class="form-control" required>
                                                         <option value="">Please select</option>
                                                         @foreach($data_list as $data)
-                                                        <option value="{{$data->getCodeAttribute->name}}">{{$data->getCodeAttribute->name}}</option>
+                                                        <option value="{{$data}}">{{$data}}</option>
                                                         @endforeach
                                                     </select>
                                                 </div>
@@ -177,7 +177,7 @@
                                                     <select wire:model="side_data.data_one" class="form-control">
                                                         <option value="">Please select</option>
                                                         @foreach($data_list as $data)
-                                                        <option value="{{$data->getCodeAttribute->name}}">{{$data->getCodeAttribute->name}}</option>
+                                                        <option value="{{$data}}">{{$data}}</option>
                                                         @endforeach
                                                     </select>
                                                 </div>
@@ -188,7 +188,7 @@
                                                     <select wire:model="side_data.data_two" class="form-control">
                                                         <option value="">Please select</option>
                                                         @foreach($data_list as $data)
-                                                        <option value="{{$data->getCodeAttribute->name}}">{{$data->getCodeAttribute->name}}</option>
+                                                        <option value="{{$data}}">{{$data}}</option>
                                                         @endforeach
                                                     </select>
                                                 </div>
@@ -199,7 +199,7 @@
                                                     <select wire:model="side_data.data_three" class="form-control">
                                                         <option value="">Please select</option>
                                                         @foreach($data_list as $data)
-                                                        <option value="{{$data->getCodeAttribute->name}}">{{$data->getCodeAttribute->name}}</option>
+                                                        <option value="{{$data}}">{{$data}}</option>
                                                         @endforeach
                                                     </select>
                                                 </div>
@@ -210,7 +210,7 @@
                                                     <select wire:model="side_data.data_four" class="form-control">
                                                         <option value="">Please select</option>
                                                         @foreach($data_list as $data)
-                                                        <option value="{{$data->getCodeAttribute->name}}">{{$data->getCodeAttribute->name}}</option>
+                                                        <option value="{{$data}}">{{$data}}</option>
                                                         @endforeach
                                                     </select>
                                                 </div>
@@ -272,7 +272,7 @@
                                                     <select wire:model="base_data.data_one" class="form-control">
                                                         <option value="">Please select</option>
                                                         @foreach($data_list as $data)
-                                                        <option value="{{$data->getCodeAttribute->name}}">{{$data->getCodeAttribute->name}}</option>
+                                                        <option value="{{$data}}">{{$data}}</option>
                                                         @endforeach
                                                     </select>
                                                 </div>
@@ -283,7 +283,7 @@
                                                     <select wire:model="base_data.data_two" class="form-control">
                                                         <option value="">Please select</option>
                                                         @foreach($data_list as $data)
-                                                        <option value="{{$data->getCodeAttribute->name}}">{{$data->getCodeAttribute->name}}</option>
+                                                        <option value="{{$data}}">{{$data}}</option>
                                                         @endforeach
                                                     </select>
                                                 </div>
@@ -294,7 +294,7 @@
                                                     <select wire:model="base_data.data_three" class="form-control">
                                                         <option value="">Please select</option>
                                                         @foreach($data_list as $data)
-                                                        <option value="{{$data->getCodeAttribute->name}}">{{$data->getCodeAttribute->name}}</option>
+                                                        <option value="{{$data}}">{{$data}}</option>
                                                         @endforeach
                                                     </select>
                                                 </div>
@@ -305,7 +305,7 @@
                                                     <select wire:model="base_data.data_four" class="form-control">
                                                         <option value="">Please select</option>
                                                         @foreach($data_list as $data)
-                                                        <option value="{{$data->getCodeAttribute->name}}">{{$data->getCodeAttribute->name}}</option>
+                                                        <option value="{{$data}}">{{$data}}</option>
                                                         @endforeach
                                                     </select>
                                                 </div>
@@ -316,11 +316,21 @@
                                                     <select wire:model="base_data.data_five" class="form-control">
                                                         <option value="">Please select</option>
                                                         @foreach($data_list as $data)
-                                                        <option value="{{$data->getCodeAttribute->name}}">{{$data->getCodeAttribute->name}}</option>
+                                                        <option value="{{$data}}">{{$data}}</option>
                                                         @endforeach
                                                     </select>
                                                 </div>
                                             </div>
+
+                                            @if(in_array('vendor_code',[$base_data['data_one'],$base_data['data_two'],$base_data['data_three'],$base_data['data_four'],$base_data['data_five']]))
+                                            <div class="col-sm-12">
+                                                <div class="form-group mb-2">
+                                                    <label>Vendor Code</label>
+                                                    <input wire:model="base_data.vendor_code" type="text" class="form-control" placeholder="Vendor Code" required>
+                                                </div>
+                                            </div>
+                                            @endif
+
                                         </div>
                                     </div>
                                 </div>

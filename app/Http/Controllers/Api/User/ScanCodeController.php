@@ -175,4 +175,23 @@ class ScanCodeController extends Controller
             'message' => 'Successfully updated.'
         ],200);
     }
+
+    public function serialUpdate()
+    {
+        $codesToUpdate = Code::where('upload_id','')->where('client_id',4)->orderBy('serial_no','ASC')->get();
+
+        $latestCode = Code::where('upload_id','')->where('client_id',4)->orderBy('serial_no','DESC')->first();
+        $startingSerialNo = $latestCode->serial_no; 
+
+        foreach ($codesToUpdate as $code) {
+            ++$startingSerialNo;            
+            $code->serial_no = $startingSerialNo;
+            $code->save();
+        }
+
+        return response([
+            'message' => 'Successfully updated.'
+        ],200);
+    }
+
 }

@@ -38,6 +38,15 @@ class PhonePeController extends Controller
             "LotChecksum"   => getRule('',true)
         ]);
 
+        $find = ClientUpload::where('client_id',$this->id)->whereIn('status',['0','1'])->exists();
+
+        if($find){
+            return response([
+                "success"  => false,
+                "message"  => 'Please wait, one file is already in progress.'
+            ],400);
+        }
+
         if (!$this->verifyToken($request->APIToken)) {
             return response([
                 "success"  => false,
@@ -146,8 +155,11 @@ class PhonePeController extends Controller
         $client_upload->printing_material = $data[0][3];
         $client_upload->save();
 
+        $lastCode = Code::where('client_id',$this->id)->orderBy('serial_no','DESC')->first();
+        $count = $lastCode->serial_no;
+
         foreach ($data as $key => $row) {
-            $count = Code::where('client_id',$this->id)->count();              
+            // $count = Code::where('client_id',$this->id)->count();              
             $serial_no = $count+1;
 
             try{

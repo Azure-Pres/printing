@@ -10,7 +10,7 @@
                     <div class="card-header">
                         <div class="col-sm-6 card-title mb-0">Job card basic information 
                             @if($client)
-                            :{{$client->name}}
+                            : {{$client->name}}
                             @endif
                         </div>
                     </div>

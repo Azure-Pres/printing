@@ -53,7 +53,8 @@ class Update extends Component
         'data_one'   => '',
         'data_two'   => '',
         'data_three' => '',
-        'data_four'  => ''
+        'data_four'  => '',
+        'vendor_code' => ''
     ];
 
     public $side_data = [
@@ -93,14 +94,29 @@ class Update extends Component
         $this->side_data = $data['side_data'];
 
         $client = User::find($this->client);
-        $this->data_list = $client->getClientAttributes;
+        $this->getDataList();
     }
 
     public function getDataList()
     {
+        $this->data_list = [];
+
         if ($this->client) {
             $client = User::find($this->client);
-            $this->data_list = $client->getClientAttributes;
+            $data_list = $client->getClientAttributes;
+
+            foreach ($data_list as $key => $data) {
+                array_push($this->data_list, $data->getCodeAttribute->name);
+            }
+
+            if ($client->id==4) {
+                array_push($this->data_list, 'lot_serial_combined');
+                array_push($this->data_list, 'vendor_code');
+            }
+
+            if ($client->id==5) {
+                array_push($this->data_list, 'azure_with_tnc');
+            }
         }
     }
 

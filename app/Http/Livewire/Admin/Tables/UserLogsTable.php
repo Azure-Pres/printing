@@ -24,7 +24,9 @@ class UserLogsTable extends DataTableComponent
     {
         return [
             Column::make('User Id')
-            ->sortable(),
+            ->sortable()->format(
+                fn($value, $row, Column $column) => $row->getUser->name??"NA"
+            ),
             Column::make('Event','action')
             ->sortable(),
             Column::make('Datetime','created_at')

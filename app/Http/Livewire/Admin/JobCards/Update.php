@@ -7,6 +7,7 @@ use App\Models\Batch;
 use App\Models\Code;
 use App\Models\JobCard;
 use App\Models\Template;
+use App\Models\User;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Maatwebsite\Excel\Facades\Excel;
@@ -34,6 +35,7 @@ class Update extends Component
     public $show_lot_size =false;
     public $templates = [];
     public $template;
+    public $client = '';
     
     public function render()
     {
@@ -60,6 +62,7 @@ class Update extends Component
         $this->show_lot_size = $this->job_card->divide_in_lot=='Yes'?true:false;
         $this->printing_material = $this->job_card->printing_material;
         $this->templates = Template::where('client_id',$this->job_card->getBatch->client)->orderBy('created_at','DESC')->get();
+        $this->client = User::where('id',$this->job_card->getBatch->client)->first();
     }
 
     public function modify()

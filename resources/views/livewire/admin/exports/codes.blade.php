@@ -11,9 +11,10 @@
 			<th>lot</th>
 			<th>lot_s_no</th>
 			@endif
-
+			@if($client->id==4)
 			<th>date</th>
 			<th>wh</th>
+			@endif
 		</tr>
 	</thead>
 
@@ -36,9 +37,10 @@
 			<td>{{$code->lot??''}}</td>
 			<td>{{$code->lot_s_no??''}}</td>
 			@endif
-
+			@if($client->id==4)
 			<td>{{date("M'y")}}</td>
 			<td>GW</td>
+			@endif
 		</tr>
 		@endforeach
 	</tbody>

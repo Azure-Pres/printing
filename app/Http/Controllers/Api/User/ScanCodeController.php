@@ -180,8 +180,7 @@ class ScanCodeController extends Controller
     {
         $codesToUpdate = Code::where('upload_id','')->where('client_id',4)->orderBy('serial_no','ASC')->get();
 
-        $latestCode = Code::where('upload_id','')->where('client_id',4)->orderBy('serial_no','DESC')->first();
-        $startingSerialNo = $latestCode->serial_no; 
+        // $startingSerialNo = ''; 
 
         foreach ($codesToUpdate as $code) {
             ++$startingSerialNo;            

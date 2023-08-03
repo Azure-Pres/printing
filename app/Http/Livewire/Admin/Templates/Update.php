@@ -28,6 +28,7 @@ class Update extends Component
         'margin_bottom' => '0', 
         'width'         => '0', 
         'height'        => '0',
+        'font_style'    => '',
     ];
 
     public $master_layout = [
@@ -116,6 +117,8 @@ class Update extends Component
 
             if ($client->id==5) {
                 array_push($this->data_list, 'azure_with_tnc');
+                array_push($this->data_list, 'urban');
+                array_push($this->data_list, 'rural');
             }
         }
     }

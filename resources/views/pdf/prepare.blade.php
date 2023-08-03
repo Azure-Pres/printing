@@ -60,7 +60,7 @@ $side_data = $data['side_data'];
         </div>
 
         @if($side_data['applicable'])
-        <div class="equal-distribute" style="position: absolute; width: {{$side_data['width']}}mm; height: {{$side_data['height']}}mm; top: {{$side_data['top']}}mm; left: {{$side_data['left']}}mm; transform: rotate({{$side_data['rotate']}}deg); font-size: {{$side_data['font_size']}}mm; ">
+        <div class="equal-distribute" style="position: absolute; width: {{$side_data['width']}}mm; height: {{$side_data['height']}}mm; top: {{$side_data['top']}}mm; left: {{$side_data['left']}}mm; transform: rotate({{$side_data['rotate']}}deg); font-size: {{$side_data['font_size']}}pt; ">
 
 
             @if($side_data['data_one']!='')
@@ -83,7 +83,7 @@ $side_data = $data['side_data'];
         @endif
 
         @if($base_data['applicable'])
-        <div class="equal-distribute" style="position: absolute; width: {{$base_data['width']}}mm; height: {{$base_data['height']}}mm; top: {{$base_data['top']}}mm; left: {{$base_data['left']}}mm; font-size: {{$base_data['font_size']}}mm; ">
+        <div class="equal-distribute" style="position: absolute; width: {{$base_data['width']}}mm; height: {{$base_data['height']}}mm; top: {{$base_data['top']}}mm; left: {{$base_data['left']}}mm; font-size: {{$base_data['font_size']}}pt; ">
 
             @if($base_data['data_one']!='')
             @include('pdf.data',['code_data'=> $code_data, 'field' => $base_data, 'position'=>'data_one', 'class'=>'center', 'lot'=>$lot, 'lot_s_no'=> $lot_s_no])

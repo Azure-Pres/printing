@@ -14,6 +14,7 @@ $side_data = $data['side_data'];
             margin-top: ['margin_top'];
             margin-right: ['margin_right'];
             margin-bottom: ['margin_bottom'];
+
         }
 
         .page-break {
@@ -53,7 +54,7 @@ $side_data = $data['side_data'];
         </div>
 
         @if($side_data['applicable'])
-        <div class="equal-distribute" style="position: absolute; width: {{$side_data['width']}}mm; height: {{$side_data['height']}}mm; top: {{$side_data['top']}}mm; left: {{$side_data['left']}}mm; transform: rotate({{$side_data['rotate']}}deg); font-size: {{$side_data['font_size']}}mm; ">
+        <div class="equal-distribute" style="position: absolute; width: {{$side_data['width']}}mm; height: {{$side_data['height']}}mm; top: {{$side_data['top']}}mm; left: {{$side_data['left']}}mm; transform: rotate({{$side_data['rotate']}}deg); font-size: {{$side_data['font_size']}}pt; ">
 
             @if($side_data['data_one']!='')
             <span class="left">{{$side_data['data_one']}}</span>
@@ -75,7 +76,7 @@ $side_data = $data['side_data'];
         @endif
 
         @if($base_data['applicable'])
-        <div class="equal-distribute" style="position: absolute; width: {{$base_data['width']}}mm; height: {{$base_data['height']}}mm; top: {{$base_data['top']}}mm; left: {{$base_data['left']}}mm; font-size: {{$base_data['font_size']}}mm; ">
+        <div class="equal-distribute" style="position: absolute; width: {{$base_data['width']}}mm; height: {{$base_data['height']}}mm; top: {{$base_data['top']}}mm; left: {{$base_data['left']}}mm; font-size: {{$base_data['font_size']}}pt; ">
 
             @if($base_data['data_one']!='')
             <span class="center">{{$base_data['data_one']}}</span>

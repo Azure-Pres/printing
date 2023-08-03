@@ -107,7 +107,12 @@ class Update extends Component
     public function downloadCodes()
     {
         userlog('Job card','Job Card '.$this->job_card->job_card_id.' Downloaded');
-        return Excel::download(new CodeExport($this->job_card), date('Y-m-d').'-codes.csv');
+
+        $batch = Batch::where('id',$this->job_card->batch_id)->first();
+
+        $filename = date('Y-m-d') . '-' . $batch->batch_code . '.csv';
+
+        return Excel::download(new CodeExport($this->job_card), $filename);
     }
 
     public function toggle_lot_size(){

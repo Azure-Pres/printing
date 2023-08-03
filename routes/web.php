@@ -24,6 +24,7 @@ Route::get('/prepare-pdf/{jobcard}/{template}', [App\Http\Controllers\QrPdfContr
 
 Route::get('/login', Login::class)->name('login');
 Route::get('/logout', function () {
+    
     if(Auth::check())
     {
         userlog('Logout','logout');

@@ -23,7 +23,7 @@ class UserLogsTable extends DataTableComponent
     public function columns(): array
     {
         return [
-            Column::make('User Id')
+            Column::make('User','user_id')
             ->sortable()->format(
                 fn($value, $row, Column $column) => $row->getUser->name??"NA"
             ),

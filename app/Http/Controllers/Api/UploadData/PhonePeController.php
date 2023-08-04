@@ -135,14 +135,14 @@ class PhonePeController extends Controller
         $qr_ids = $this->getValuesAtIndex($data, 0);
         $qr_texts = $this->getValuesAtIndex($data, 1);
 
-        $duplicate_qr_ids = Code::select('id')->where('client_id',$this->id)->whereIn('code_data->qr_id',$qr_ids)->orWhereIn('code_data->qr_text',$qr_texts)->exists();
+        // $duplicate_qr_ids = Code::select('id')->where('client_id',$this->id)->whereIn('code_data->qr_id',$qr_ids)->orWhereIn('code_data->qr_text',$qr_texts)->exists();
         
-        if ($duplicate_qr_ids) {
-            return response([
-                "success"  => false,
-                "message"  => 'Duplicate QR id or text present'
-            ],400);
-        }
+        // if ($duplicate_qr_ids) {
+        //     return response([
+        //         "success"  => false,
+        //         "message"  => 'Duplicate QR id or text present'
+        //     ],400);
+        // }
 
         $client_upload = new ClientUpload;
         $client_upload->client_id  = $this->id;

@@ -45,9 +45,8 @@ class VerificationController extends Controller
                 'message'   => 'Invalid request'
             ], 400);
         } else {
-
             $client = User::find($input['client_id']);
-            $input_codes = explode(',', $input['code_data']);
+            $input_codes = explode($input['delimiter'], $input['code_data']);
 
             $request_verified = true;
             $data = [];

@@ -23,8 +23,10 @@ class UserLogsTable extends DataTableComponent
     public function columns(): array
     {
         return [
-            Column::make('User Id')
-            ->sortable(),
+            Column::make('User','user_id')
+            ->sortable()->format(
+                fn($value, $row, Column $column) => $row->getUser->name??"NA"
+            ),
             Column::make('Event','action')
             ->sortable(),
             Column::make('Datetime','created_at')

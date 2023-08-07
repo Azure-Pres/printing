@@ -27,6 +27,7 @@ class Create extends Component
     public $lot_size   ='';
     public $printing_material ='';
     public $show_lot_size =false;
+    public $client  = '';
 
     public function render()
     {

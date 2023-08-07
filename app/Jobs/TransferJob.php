@@ -61,7 +61,10 @@ class TransferJob implements ShouldQueue
         // }
 
 
-        $count = Code::where('client_id',$this->client_id)->count();
+        // $count = Code::where('client_id',$this->client_id)->count();
+        $lastCode = Code::where('client_id',$this->client_id)->orderBy('serial_no','DESC')->first();
+        $count = $lastCode->serial_no;
+
         foreach ($temp_codes as $key => $temp_code) {
             $count = $count+1;
             $collect = [

@@ -38,6 +38,15 @@ class PhonePeController extends Controller
             "LotChecksum"   => getRule('',true)
         ]);
 
+        $find = ClientUpload::where('client_id',$this->id)->whereIn('status',['0','1'])->exists();
+
+        if($find){
+            return response([
+                "success"  => false,
+                "message"  => 'Please wait, one file is already in progress.'
+            ],400);
+        }
+
         if (!$this->verifyToken($request->APIToken)) {
             return response([
                 "success"  => false,
@@ -126,14 +135,14 @@ class PhonePeController extends Controller
         $qr_ids = $this->getValuesAtIndex($data, 0);
         $qr_texts = $this->getValuesAtIndex($data, 1);
 
-        $duplicate_qr_ids = Code::select('id')->where('client_id',$this->id)->whereIn('code_data->qr_id',$qr_ids)->orWhereIn('code_data->qr_text',$qr_texts)->exists();
+        // $duplicate_qr_ids = Code::select('id')->where('client_id',$this->id)->whereIn('code_data->qr_id',$qr_ids)->orWhereIn('code_data->qr_text',$qr_texts)->exists();
         
-        if ($duplicate_qr_ids) {
-            return response([
-                "success"  => false,
-                "message"  => 'Duplicate QR id or text present'
-            ],400);
-        }
+        // if ($duplicate_qr_ids) {
+        //     return response([
+        //         "success"  => false,
+        //         "message"  => 'Duplicate QR id or text present'
+        //     ],400);
+        // }
 
         $client_upload = new ClientUpload;
         $client_upload->client_id  = $this->id;
@@ -146,8 +155,11 @@ class PhonePeController extends Controller
         $client_upload->printing_material = $data[0][3];
         $client_upload->save();
 
+        $lastCode = Code::where('client_id',$this->id)->orderBy('serial_no','DESC')->first();
+        $count = $lastCode->serial_no;
+
         foreach ($data as $key => $row) {
-            $count = Code::where('client_id',$this->id)->count();              
+            // $count = Code::where('client_id',$this->id)->count();              
             $serial_no = $count+1;
 
             try{

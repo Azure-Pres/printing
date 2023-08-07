@@ -50,11 +50,7 @@ class ClientUploadsTable extends DataTableComponent
             ->sortable()->format(
                 fn($value, $row, Column $column) => $row->getClient->name??'-'
             ),
-            Column::make('Progress Id','progress_id')
-            ->sortable(),
             Column::make('Printing Material','printing_material')
-            ->sortable(),
-            Column::make('Lot Number','lot_number')
             ->sortable(),
             Column::make('Processed Rows','processed_rows')
             ->sortable(),

@@ -8,7 +8,10 @@
             <div class="col-lg-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-header">
-                        <div class="card-title mb-0">Job card basic information 
+                        <div class="col-sm-6 card-title mb-0">Job card basic information 
+                            @if($client)
+                            : {{$client->name}}
+                            @endif
                         </div>
                     </div>
                     <div class="card-body">

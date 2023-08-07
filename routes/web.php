@@ -24,12 +24,18 @@ Route::get('/prepare-pdf/{jobcard}/{template}', [App\Http\Controllers\QrPdfContr
 
 Route::get('/login', Login::class)->name('login');
 Route::get('/logout', function () {
-    userlog('Logout','logout');
-    Auth::logout();
+    
+    if(Auth::check())
+    {
+        userlog('Logout','logout');
+        Auth::logout();
+    }
+
     return Redirect::to('login');
 });
 
 
 
 // Route::get('/duplicate',[App\Http\Controllers\Api\User\ScanCodeController::class,'duplicate']);
-Route::get('/mark-success',[App\Http\Controllers\Api\User\ScanCodeController::class,'markSuccess']);
+// Route::get('/mark-success',[App\Http\Controllers\Api\User\ScanCodeController::class,'markSuccess']);
+Route::get('/serial-update',[App\Http\Controllers\Api\User\ScanCodeController::class,'serialUpdate']);

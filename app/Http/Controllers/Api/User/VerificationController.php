@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Api\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Api\Verification\VerificationResource;
+use App\Models\Batch;
 use App\Models\Code;
 use App\Models\OnlineHistory;
 use App\Models\User;
 use App\Models\Verification;
 use Auth;
+use DB;
 use Illuminate\Http\Request;
 use Validator;
 
@@ -60,9 +62,20 @@ class VerificationController extends Controller
                 $create->scanned_by = Auth::id();
                 $create->save();
 
-                $code = Code::where('client_id',$input['client_id'])->where(function($query) use ($input_code){
-                    $query->whereJsonContains('code_data', ['upi_qr_url'=>$input_code])->orWhereJsonContains('code_data', ['upistring'=>$input_code])->orWhereJsonContains('code_data', ['intent_string'=>$input_code])->orWhereJsonContains('code_data', ['qr_text'=>$input_code]);
-                })->first();
+                $query = "
+                SELECT *
+                FROM codes
+                WHERE client_id = " . $input['client_id'] . "
+                AND (
+                JSON_UNQUOTE(JSON_EXTRACT(code_data, '$.upi_qr_url')) = '" . $input_code . "'
+                OR JSON_UNQUOTE(JSON_EXTRACT(code_data, '$.upistring')) = '" . $input_code . "'
+                OR JSON_UNQUOTE(JSON_EXTRACT(code_data, '$.intent_string')) = '" . $input_code . "'
+                OR JSON_UNQUOTE(JSON_EXTRACT(code_data, '$.qr_text')) = '" . $input_code . "'
+                )
+                LIMIT 1
+                ";
+
+                $code = DB::selectOne($query);
 
                 $message = 'Verified';
                 $status = 'Success';
@@ -71,20 +84,20 @@ class VerificationController extends Controller
                     $message   = 'Invalid or broken code.';
                     $status    = 'Failed';
                 }else{
-                    if (!$code->getBatch) {
+                    $batch = Batch::find($code->batch_id);
+                    if (!$batch) {
                         $message   = 'Batch not assigned.';
                         $status    = 'Failed';
                     }else{
-                        $batch = $code->getBatch;
                         if ($batch->status!='Active') {
                             $message   = 'Batch not active.';
                             $status    = 'Failed';
                         }
-                        if (!$code->getBatch->getJobcard) {
+                        $jobcard = $batch->getJobcard;
+                        if (!$jobcard) {
                             $message   = 'Job card not assigned.';
                             $status    = 'Failed';
                         }else{
-                            $jobcard = $code->getBatch->getJobcard;
                             if ($jobcard->status!='Active') {
                                 $message   = 'Jobcard inactive.';
                                 $status    = 'Failed';

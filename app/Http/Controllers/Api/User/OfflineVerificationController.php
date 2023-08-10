@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Api\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Api\Verification\VerificationResource;
+use App\Models\Batch;
 use App\Models\Code;
 use App\Models\OfflineHistory;
 use App\Models\OfflineVerification;
 use App\Models\User;
 use Auth;
+use DB;
 use Illuminate\Http\Request;
 use Validator;
 
@@ -61,9 +63,22 @@ class OfflineVerificationController extends Controller
                 $create->scanned_by = Auth::id();
                 $create->save();
 
-                $code = Code::where('client_id',$input['client_id'])->where(function($query) use ($input_code){
-                    $query->whereJsonContains('code_data', ['upi_qr_url'=>$input_code])->orWhereJsonContains('code_data', ['upistring'=>$input_code])->orWhereJsonContains('code_data', ['intent_string'=>$input_code])->orWhereJsonContains('code_data', ['qr_text'=>$input_code]);
-                })->whereNull('second_verification_status')->where('first_verification_status','Success')->first();
+                $query = "
+                SELECT *
+                FROM codes
+                WHERE client_id = '{$input['client_id']}'
+                AND (
+                    JSON_UNQUOTE(JSON_EXTRACT(code_data, '$.upi_qr_url')) = '{$input_code}'
+                    OR JSON_UNQUOTE(JSON_EXTRACT(code_data, '$.upistring')) = '{$input_code}'
+                    OR JSON_UNQUOTE(JSON_EXTRACT(code_data, '$.intent_string')) = '{$input_code}'
+                    OR JSON_UNQUOTE(JSON_EXTRACT(code_data, '$.qr_text')) = '{$input_code}'
+                    )
+                AND second_verification_status IS NULL
+                AND first_verification_status = 'Success'
+                LIMIT 1;
+                ";
+
+                $code = DB::selectOne($query);
 
                 $message = 'Verified';
                 $status = 'Success';
@@ -72,7 +87,9 @@ class OfflineVerificationController extends Controller
                     $message   = 'Invalid or broken code.';
                     $status    = 'Failed';
                 }else{
-                    $jobcard = $code->getBatch->getJobcard;
+                    $batch = Batch::find($code->batch_id);
+                    $jobcard = $batch->getJobcard;
+                    
                     $count = OfflineVerification::where('code_id',$code->id)->where('client_id',$client->id)->count();
 
                     if ($count>=$jobcard->allowed_copies) {

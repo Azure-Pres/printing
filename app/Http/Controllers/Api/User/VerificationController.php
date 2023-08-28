@@ -13,6 +13,7 @@ use Auth;
 use DB;
 use Illuminate\Http\Request;
 use Validator;
+use Exception;
 
 class VerificationController extends Controller
 {
@@ -35,6 +36,7 @@ class VerificationController extends Controller
 
         $rules = [
             'client_id'   =>  'required|exists:users,id',
+            'batch_id'    =>  'required|exists:batches,id',
             'code_data'   =>  'required'
         ];
 
@@ -48,6 +50,7 @@ class VerificationController extends Controller
             ], 400);
         } else {
             $client = User::find($input['client_id']);
+            $batch = Batch::find($input['batch_id']);
             $input_codes = explode($input['delimiter'], $input['code_data']);
 
             $request_verified = true;
@@ -66,29 +69,26 @@ class VerificationController extends Controller
                 SELECT *
                 FROM codes
                 WHERE client_id = " . $input['client_id'] . "
+                AND batch_id  = " . $input['batch_id'] . "
                 AND (
-                JSON_UNQUOTE(JSON_EXTRACT(code_data, '$.upi_qr_url')) = '" . $input_code . "'
-                OR JSON_UNQUOTE(JSON_EXTRACT(code_data, '$.upistring')) = '" . $input_code . "'
-                OR JSON_UNQUOTE(JSON_EXTRACT(code_data, '$.intent_string')) = '" . $input_code . "'
-                OR JSON_UNQUOTE(JSON_EXTRACT(code_data, '$.qr_text')) = '" . $input_code . "'
-                )
-                LIMIT 1
-                ";
+                    JSON_UNQUOTE(JSON_EXTRACT(code_data, '$.upi_qr_url')) = '" . $input_code . "'
+                    OR JSON_UNQUOTE(JSON_EXTRACT(code_data, '$.upistring')) = '" . $input_code . "'
+                    OR JSON_UNQUOTE(JSON_EXTRACT(code_data, '$.intent_string')) = '" . $input_code . "'
+                    OR JSON_UNQUOTE(JSON_EXTRACT(code_data, '$.qr_text')) = '" . $input_code . "'
+                    )
+                    LIMIT 1
+                    ";
 
-                $code = DB::selectOne($query);
+                    $code = DB::selectOne($query);
 
-                $message = 'Verified';
-                $status = 'Success';
+                    $message = 'Verified';
+                    $status = 'Success';
 
-                if (!$code) {
-                    $message   = 'Invalid or broken code.';
-                    $status    = 'Failed';
-                }else{
-                    $batch = Batch::find($code->batch_id);
-                    if (!$batch) {
-                        $message   = 'Batch not assigned.';
+                    if (!$code) {
+                        $message   = 'Invalid or broken code.';
                         $status    = 'Failed';
                     }else{
+
                         if ($batch->status!='Active') {
                             $message   = 'Batch not active.';
                             $status    = 'Failed';
@@ -112,43 +112,59 @@ class VerificationController extends Controller
                                 array_push($code_ids, $code->id);
                             }
                         }
-                    }                    
+                    }
+
+                    $create->message   = $message;
+                    $create->status    = $status;
+
+                    if ($status=='Success') {
+                        $create->code_id   = $code->id;
+                    }else{
+                        $request_verified = false;
+                    }
+
+                    $create->save();
+
+                    array_push($data, [
+                        'code_data' => $input_code,
+                        'status'    => $status,
+                        'message'   => $message
+                    ]);
                 }
 
-                $create->message   = $message;
-                $create->status    = $status;
-
-                if ($status=='Success') {
-                    $create->code_id   = $code->id;
-                }else{
-                    $request_verified = false;
+                if ($request_verified) {
+                    $update_first_verification = Code::whereIn('id',$code_ids)->update([
+                        'first_verification_status' => 'Success'
+                    ]);
                 }
 
-                $create->save();
-
-                array_push($data, [
-                    'code_data' => $input_code,
-                    'status'    => $status,
-                    'message'   => $message
+                $online_history = OnlineHistory::create([
+                    'history' => json_encode($data)
                 ]);
+
+                if (!$request_verified && env('FAILED_ONLINE_VERIFICATION_IP')!='') {
+
+                    try{
+                        $socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
+                        $ip = env('FAILED_ONLINE_VERIFICATION_IP');
+                        $port = env('FAILED_ONLINE_VERIFICATION_PORT');
+
+                        if ($socket === false || !socket_connect($socket, $ip, $port)) {
+                        } else {
+                            $sock_data = env('FAILED_ONLINE_VERIFICATION_STRING');
+                            socket_write($socket, $sock_data, strlen($sock_data));
+                            socket_close($socket);
+                        }
+                    }catch(Exception $e){}
+
+                }
+
+                return response([
+                    'success'   => true,
+                    'message'   => 'Success',
+                    'data'      => $data,
+                    'verification_status' => $request_verified
+                ], 200);
             }
-
-            if ($request_verified) {
-                $update_first_verification = Code::whereIn('id',$code_ids)->update([
-                    'first_verification_status' => 'Success'
-                ]);
-            }
-
-            $online_history = OnlineHistory::create([
-                'history' => json_encode($data)
-            ]);
-
-            return response([
-                'success'   => true,
-                'message'   => 'Success',
-                'data'      => $data,
-                'verification_status' => $request_verified
-            ], 200);
         }
     }
-}

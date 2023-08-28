@@ -31,7 +31,7 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
     Route::get('clients',[ApiRoot\User\DashboardController::class,'clients']);
     Route::post('update-batch-print',[ApiRoot\User\ScanCodeController::class,'updateBatchPrint']);
 });
-
+Route::get('batches',[ApiRoot\User\DashboardController::class,'batches']);
 Route::get('print-file/{id}',[ApiRoot\User\PrintingController::class,'download']);
 
 Route::get('getToken/{secret_key}',[ApiRoot\UploadData\PhonePeController::class,'getToken']);

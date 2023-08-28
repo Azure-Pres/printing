@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\User;
 
 use App\Http\Controllers\Controller;
+use App\Models\Batch;
 use App\Models\JobCard;
 use App\Models\User;
 use Auth;
@@ -62,6 +63,32 @@ class DashboardController extends Controller
             'success'   => true,
             'message'   => 'Clients fetched successfully.',
             'clients'   => $response
+        ], 200);
+    }
+
+    public function batches(Request $request)
+    {
+        $q = Batch::query();
+
+        if ($request->has('client_id')) {
+            $q->where('client',$request->client_id);
+        }
+
+        $batches = $q->get();
+
+        $response = [];
+
+        foreach ($batches as $key => $batch) {
+            array_push($response, [
+                'id'   => $batch->id,
+                'code' => $batch->batch_code
+            ]);
+        }
+
+        return response([
+            'success'   => true,
+            'message'   => 'Batches fetched successfully.',
+            'batches'   => $response
         ], 200);
     }
 }

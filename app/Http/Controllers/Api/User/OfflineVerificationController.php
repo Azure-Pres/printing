@@ -35,6 +35,7 @@ class OfflineVerificationController extends Controller
 
         $rules = [
             'client_id'   =>  'required|exists:users,id',
+            'batch_id'   =>  'required|exists:batches,id',
             'code_data'   =>  'required'
         ];
 
@@ -49,6 +50,7 @@ class OfflineVerificationController extends Controller
         } else {
 
             $client = User::find($input['client_id']);
+            $batch = Batch::find($input['batch_id']);
             $input_codes = explode($input['delimiter'], $input['code_data']);
 
             $request_verified = true;
@@ -67,6 +69,7 @@ class OfflineVerificationController extends Controller
                 SELECT *
                 FROM codes
                 WHERE client_id = '{$input['client_id']}'
+                AND batch_id = '{$input['batch_id']}' 
                 AND (
                     JSON_UNQUOTE(JSON_EXTRACT(code_data, '$.upi_qr_url')) = '{$input_code}'
                     OR JSON_UNQUOTE(JSON_EXTRACT(code_data, '$.upistring')) = '{$input_code}'
@@ -87,7 +90,6 @@ class OfflineVerificationController extends Controller
                     $message   = 'Invalid or broken code.';
                     $status    = 'Failed';
                 }else{
-                    $batch = Batch::find($code->batch_id);
                     $jobcard = $batch->getJobcard;
                     
                     $count = OfflineVerification::where('code_id',$code->id)->where('client_id',$client->id)->count();
@@ -129,6 +131,23 @@ class OfflineVerificationController extends Controller
             $online_history = OfflineHistory::create([
                 'history' => json_encode($data)
             ]);
+
+            if (!$request_verified && env('FAILED_OFFLINE_VERIFICATION_IP')!='') {
+
+                try{
+                    $socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
+                    $ip = env('FAILED_OFFLINE_VERIFICATION_IP');
+                    $port = env('FAILED_OFFLINE_VERIFICATION_PORT');
+
+                    if ($socket === false || !socket_connect($socket, $ip, $port)) {
+                    } else {
+                        $sock_data = env('FAILED_OFFLINE_VERIFICATION_STRING');
+                        socket_write($socket, $sock_data, strlen($sock_data));
+                        socket_close($socket);
+                    }
+                }catch(Exception $e){}
+
+            }
 
             return response([
                 'success'   => true,

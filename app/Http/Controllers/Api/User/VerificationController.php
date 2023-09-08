@@ -142,22 +142,21 @@ class VerificationController extends Controller
                     'history' => json_encode($data)
                 ]);
 
-                if (!$request_verified && env('FAILED_ONLINE_VERIFICATION_IP')!='') {
+                // if (!$request_verified && env('FAILED_ONLINE_VERIFICATION_IP')!='') {
 
-                    try{
-                        $socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
-                        $ip = env('FAILED_ONLINE_VERIFICATION_IP');
-                        $port = env('FAILED_ONLINE_VERIFICATION_PORT');
+                //     try{
+                //         $socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
+                //         $ip = env('FAILED_ONLINE_VERIFICATION_IP');
+                //         $port = env('FAILED_ONLINE_VERIFICATION_PORT');
 
-                        if ($socket === false || !socket_connect($socket, $ip, $port)) {
-                        } else {
-                            $sock_data = env('FAILED_ONLINE_VERIFICATION_STRING');
-                            socket_write($socket, $sock_data, strlen($sock_data));
-                            socket_close($socket);
-                        }
-                    }catch(Exception $e){}
-
-                }
+                //         if ($socket === false || !socket_connect($socket, $ip, $port)) {
+                //         } else {
+                //             $sock_data = env('FAILED_ONLINE_VERIFICATION_STRING');
+                //             socket_write($socket, $sock_data, strlen($sock_data));
+                //             socket_close($socket);
+                //         }
+                //     }catch(Exception $e){}
+                // }
 
                 return response([
                     'success'   => true,

@@ -21,12 +21,13 @@ class VerificationController extends Controller
     {
         $input = $request->all();
         $verifications   = Verification::getApiVerificationModel($input);
-        $response   = VerificationResource::collection($verifications);
+        $response   = VerificationResource::collection($verifications['data']);
 
         return response([
             'success'   => true,
             'message'   => 'Verifications fetched successfully.',
-            'verifications'  => $response
+            'verifications'  => $response,
+            'total'          => $verifications['total']
         ], 200);
     }
 

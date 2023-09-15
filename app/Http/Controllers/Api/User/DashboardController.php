@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Batch;
 use App\Models\JobCard;
 use App\Models\User;
+use App\Models\Verification;
 use Auth;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -31,6 +32,11 @@ class DashboardController extends Controller
         $month_printed_jobcards = JobCard::whereMonth('created_at',Carbon::now())->where('print_status','Printed')->count();
         $month_in_progress = JobCard::whereMonth('created_at',Carbon::now())->where('print_status','Work in Progress')->count();
 
+        $total_today_scans = Verification::where('scanned_by', Auth::id())->whereDate('created_at',Carbon::now())->count();
+        $total_today_success_scans = Verification::where('scanned_by', Auth::id())->whereDate('created_at',Carbon::now())->where('status','Success')->count();
+        $total_scans = Verification::where('scanned_by', Auth::id())->count();
+        $total_success_scans = Verification::where('scanned_by', Auth::id())->where('status','Success')->count();
+
         return [
             'total_jobcards' => $total_jobcards,
             'ready_for_print' => $ready_for_print,
@@ -44,6 +50,10 @@ class DashboardController extends Controller
             'month_ready_for_print' => $ready_for_print,
             'month_printed_jobcards' => $printed_jobcards,
             'month_in_progress' => $in_progress,
+            'total_today_scans'=>$total_today_scans,
+            'total_scans'=>$total_scans,
+            'total_today_success_scans'=>$total_today_success_scans,
+            'total_success_scans'=>$total_success_scans
         ];
     }
 

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Auth;
 
 class Verification extends Model
 {
@@ -17,16 +18,45 @@ class Verification extends Model
             $q->where('client_id',$input['client_id']);
         }
 
+        if (isset($input['batch_id']) && $input['batch_id']!='') {
+            $q->whereHas('getCode',function($query) use ($input){
+                $query->where('batch_id',$input['batch_id']);
+            });
+        }
+
         if (isset($input['date']) && $input['date']!='') {
             $q->whereDate('created_at',date('Y-m-d',strtotime($input['date'])));
         }
 
+        if (isset($input['category']) && $input['category']=='me') {
+            $q->where('scanned_by',Auth::id());
+        }
+
+        $total = $q->count();
+
+        if (isset($input['offset']) && $input['offset']!='') {
+            $q->offset($input['offset']);
+        }
+
+        if (isset($input['limit']) && $input['limit']!='') {
+            $q->limit($input['limit']);
+        }
+
         $verifications = $q->get();
-        return $verifications;
+
+        return [
+            'total' => $total,
+            'data'  => $verifications
+        ];
     }
 
     public function getClient()
     {
         return $this->belongsTo(User::class,'client_id','id');
+    }
+
+    public function getCode()
+    {
+        return $this->belongsTo(Code::class,'code_id','id');
     }
 }

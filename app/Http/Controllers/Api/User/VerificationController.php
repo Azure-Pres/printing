@@ -175,5 +175,4 @@ class VerificationController extends Controller
 
         return $code;
     }
-
 }

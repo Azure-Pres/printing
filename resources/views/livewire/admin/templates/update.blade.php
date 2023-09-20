@@ -417,19 +417,19 @@
                                             <div class="equal-distribute" style="position: absolute; width: {{$side_data['width']}}mm; height: {{$side_data['height']}}mm; top: {{$side_data['top']}}mm; left: {{$side_data['left']}}mm; rotate: {{$side_data['rotate']}}deg; font-size: {{$side_data['font_size']}}mm; border: 1px solid #ccc;">
 
                                                 @if($side_data['data_one']!='')
-                                                <span class="left" style="font-family: 'Open Sans'; font-weight: {{$page_data['font_style']}}">{{$side_data['data_one']}}</span>
+                                                <span class="left" style="font-family: 'Open Sans'; font-weight: {{$page_data['font_style']??300}}">{{$side_data['data_one']}}</span>
                                                 @endif
 
                                                 @if($side_data['data_two']!='')
-                                                <span class="left" style="font-family: 'Open Sans'; font-weight: {{$page_data['font_style']}}">{{$side_data['data_two']}}</span>
+                                                <span class="left" style="font-family: 'Open Sans'; font-weight: {{$page_data['font_style']??300}}">{{$side_data['data_two']}}</span>
                                                 @endif
 
                                                 @if($side_data['data_three']!='')
-                                                <span class="left" style="font-family: 'Open Sans'; font-weight: {{$page_data['font_style']}}">{{$side_data['data_three']}}</span>
+                                                <span class="left" style="font-family: 'Open Sans'; font-weight: {{$page_data['font_style']??300}}">{{$side_data['data_three']}}</span>
                                                 @endif
 
                                                 @if($side_data['data_four']!='')
-                                                <span class="left" style="font-family: 'Open Sans'; font-weight: {{$page_data['font_style']}}">{{$side_data['data_four']}}</span>
+                                                <span class="left" style="font-family: 'Open Sans'; font-weight: {{$page_data['font_style']??300}}">{{$side_data['data_four']}}</span>
                                                 @endif
                                                 
                                             </div>
@@ -439,23 +439,23 @@
                                             <div class="equal-distribute" style="position: absolute; width: {{$base_data['width']}}mm; height: {{$base_data['height']}}mm; top: {{$base_data['top']}}mm; left: {{$base_data['left']}}mm; font-size: {{$base_data['font_size']}}mm; border: 1px solid #ccc;">
 
                                                 @if($base_data['data_one']!='')
-                                                <span class="center" style="font-family: 'Open Sans'; font-weight: {{$page_data['font_style']}}">{{$base_data['data_one']}}</span>
+                                                <span class="center" style="font-family: 'Open Sans'; font-weight: {{$page_data['font_style']??300}}">{{$base_data['data_one']}}</span>
                                                 @endif
 
                                                 @if($base_data['data_two']!='')
-                                                <span class="center" style="font-family: 'Open Sans'; font-weight: {{$page_data['font_style']}}">{{$base_data['data_two']}}</span>
+                                                <span class="center" style="font-family: 'Open Sans'; font-weight: {{$page_data['font_style']??300}}">{{$base_data['data_two']}}</span>
                                                 @endif
 
                                                 @if($base_data['data_three']!='')
-                                                <span class="center" style="font-family: 'Open Sans'; font-weight: {{$page_data['font_style']}}">{{$base_data['data_three']}}</span>
+                                                <span class="center" style="font-family: 'Open Sans'; font-weight: {{$page_data['font_style']??300}}">{{$base_data['data_three']}}</span>
                                                 @endif
 
                                                 @if($base_data['data_four']!='')
-                                                <span class="center" style="font-family: 'Open Sans'; font-weight: {{$page_data['font_style']}}">{{$base_data['data_four']}}</span>
+                                                <span class="center" style="font-family: 'Open Sans'; font-weight: {{$page_data['font_style']??300}}">{{$base_data['data_four']}}</span>
                                                 @endif
 
                                                 @if($base_data['data_five']!='')
-                                                <span class="center" style="font-family: 'Open Sans'; font-weight: {{$page_data['font_style']}}">{{$base_data['data_five']}}</span>
+                                                <span class="center" style="font-family: 'Open Sans'; font-weight: {{$page_data['font_style']??300}}">{{$base_data['data_five']}}</span>
                                                 @endif
 
                                             </div>

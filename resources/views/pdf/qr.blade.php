@@ -97,8 +97,11 @@ $side_data = $data['side_data'];
             @if($base_data['data_five']!='')
             <span class="center">{{$base_data['data_five']}}</span>
             @endif
-
         </div>
         @endif
+
+        <div style="position:absolute; bottom:20px; margin: 0 auto; font-size:10px; text-align: center; width: 100%;">
+            1
+        </div>
     </div>
 </body></html>

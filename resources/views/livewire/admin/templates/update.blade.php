@@ -388,6 +388,25 @@
                                                     <input wire:model="page_data.margin_bottom" type="number" class="form-control" placeholder="Margin Bottom" required>
                                                 </div>
                                             </div>
+
+                                            @php
+                                            $horizontal_count = 0;
+                                            $vertical_count = 0;
+
+                                            if ($master_layout['width']>0) {
+                                                $horizontal_count = floor(($page_data['width']-$page_data['margin_left']-$page_data['margin_right'])/$master_layout['width']);
+                                            }
+
+                                            if ($master_layout['height']>0) {
+                                                $vertical_count = floor(($page_data['height']-$page_data['margin_top']-$page_data['margin_bottom'])/$master_layout['height']);
+                                            }
+                                            @endphp
+
+                                            <div class="col-sm-12">
+                                                <div class="form-group mb-2">
+                                                    Count : X({{$horizontal_count}}) * Y({{$vertical_count}}) = {{$horizontal_count*$vertical_count}}
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

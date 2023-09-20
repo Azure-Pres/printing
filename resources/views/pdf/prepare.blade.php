@@ -42,7 +42,7 @@ $side_data = $data['side_data'];
     </style>
 </head>
 <body>
-    @foreach($codes as $code)
+    @foreach($codes as $key => $code)
     @php
     $code_data = json_decode($code->code_data,true);
     $lot = $code->lot??'';
@@ -107,6 +107,10 @@ $side_data = $data['side_data'];
 
         </div>
         @endif
+
+        <div style="position:absolute; bottom:20px; margin: 0 auto; font-size:10px; text-align: center; width: 100%;">
+            {{$key+1}}
+        </div>
     </div>
     @endforeach
 </body></html>

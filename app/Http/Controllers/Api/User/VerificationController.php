@@ -20,6 +20,7 @@ class VerificationController extends Controller
     public function index(Request $request)
     {
         $input = $request->all();
+
         $verifications   = Verification::getApiVerificationModel($input);
         $response   = VerificationResource::collection($verifications['data']);
 

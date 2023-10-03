@@ -33,7 +33,19 @@ class ScanCodeController extends Controller
         } else {
 
             $scan_code = $input['scan_code'];
-            $code = Code::whereJsonContains('code_data', ['upi_qr_url' => $scan_code])->orderBy('created_at', 'DESC')->first();
+            
+            // $code = Code::whereJsonContains('code_data', ['upi_qr_url' => $scan_code])->orderBy('created_at', 'DESC')->first();
+
+            $query = "
+            SELECT id, code_data, client_id
+            FROM codes
+            WHERE client_id = ?
+            AND (
+                JSON_UNQUOTE(JSON_EXTRACT(code_data, '$.upi_qr_url')) = ?
+                )
+            limit 1";
+
+            $code = DB::selectOne($query, ["4",$scan_code]);
 
             if (!$code) {
                 return response([

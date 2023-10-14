@@ -10,10 +10,10 @@ $side_data = $data['side_data'];
 <head>
     <style>
         @page {
-            margin-left: ['margin_left'];
-            margin-top: ['margin_top'];
-            margin-right: ['margin_right'];
-            margin-bottom: ['margin_bottom'];
+            margin-left: {{$data['page_data']['margin_left']}} mm;
+            margin-top: {{$data['page_data']['margin_top']}} mm;
+            margin-right: {{$data['page_data']['margin_right']}} mm;
+            margin-bottom: {{$data['page_data']['margin_bottom']}} mm;
         }
 
         .page-break {

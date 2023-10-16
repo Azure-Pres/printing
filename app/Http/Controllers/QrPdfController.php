@@ -21,8 +21,14 @@ class QrPdfController extends Controller
         }
 
         $data = json_decode($template->data,true);
+        
+        if(isset($data['master_image']) && $data['master_image']!=""){
+            // dd(public_path($data['master_image']));
+            $data['master_image'] = public_path($data['master_image']);
+        }
+
         $customPaper = array(0, 0, $this->mmToPoint($data['page_data']['width']), $this->mmToPoint($data['page_data']['height']));
-        // dd(url());
+        
         $pdf = Pdf::loadView('pdf.qr', ['data' => $data])->setPaper($customPaper,'portrait');
         return $pdf->stream('qr.pdf');
     }

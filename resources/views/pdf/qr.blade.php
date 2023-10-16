@@ -45,7 +45,7 @@ $side_data = $data['side_data'];
     <div class="wrapper" style="position: relative; width: {{$master_layout['width']}}mm; height: {{$master_layout['height']}}mm; border: 1px solid #ccc;">
 
         @if ($master_image)
-        <img style="width:100%; height:100%;" src="{{asset($master_image, false)}}">
+        <img style="width:100%; height:100%;" src="{{$master_image}}">
         @endif
 
         <div style="position: absolute; width: {{$qr_code['width']}}mm; height: {{$qr_code['height']}}mm; top: {{$qr_code['top']}}mm; left: {{$qr_code['left']}}mm; ">

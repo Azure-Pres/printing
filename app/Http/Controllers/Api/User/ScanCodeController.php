@@ -73,6 +73,10 @@ class ScanCodeController extends Controller
                 $result['pid'] = $code_data['sku_id'];
             }
 
+            if (isset($code_data['wh'])) {
+                $result['wh'] = $code_data['wh'];
+            }
+
             $result['month'] = date("M'Y");
 
             if (isset($code_data['order_date'])) {

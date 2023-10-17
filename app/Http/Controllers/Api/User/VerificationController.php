@@ -32,6 +32,20 @@ class VerificationController extends Controller
         ], 200);
     }
 
+    public function lastFailedCodes(Request $request)
+    {
+        $input = $request->all();
+
+        $verifications   = Verification::getApiFailedVerificationModel($input);
+        $response   = VerificationResource::collection($verifications['data']);
+
+        return response([
+            'success'      => true,
+            'message'      => 'Verifications fetched successfully.',
+            'failed_rows'  => $response
+        ], 200);
+    }
+
     public function store(Request $request)
     {
         $input = $request->all();

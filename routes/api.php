@@ -30,6 +30,7 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
     Route::post('scan-code',[ApiRoot\User\ScanCodeController::class,'index']);
     Route::get('clients',[ApiRoot\User\DashboardController::class,'clients']);
     Route::post('update-batch-print',[ApiRoot\User\ScanCodeController::class,'updateBatchPrint']);
+    Route::get('last-failed-codes',[ApiRoot\User\VerificationController::class,'lastFailedCodes']);
 });
 Route::get('batches',[ApiRoot\User\DashboardController::class,'batches']);
 Route::get('print-file/{id}',[ApiRoot\User\PrintingController::class,'download']);

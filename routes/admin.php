@@ -62,3 +62,9 @@ Route::group(['prefix' => 'templates'], function() {
 	Route::get('/create', App\Http\Livewire\Admin\Templates\Create::class)->name('admin-create-templates');
 	Route::get('/update/{id}', App\Http\Livewire\Admin\Templates\Update::class)->name('admin-update-templates');
 });
+
+//Batch reports related route
+Route::group(['prefix' => 'batch-reports'], function() {
+	Route::get('/', App\Http\Livewire\Admin\BatchReports\Home::class)->name('admin-batch-reports');
+	Route::get('/exports', [App\Http\Controllers\ReportsController::class, 'index'])->name('admin-batch-exports');
+});

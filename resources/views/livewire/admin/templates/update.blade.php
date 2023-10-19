@@ -394,11 +394,11 @@
                                             $vertical_count = 0;
 
                                             if ($master_layout['width']>0) {
-                                                $horizontal_count = floor(($page_data['width']-$page_data['margin_left']-$page_data['margin_right'])/$master_layout['width']);
+                                                $horizontal_count = floor((floatval($page_data['width'])-floatval($page_data['margin_left'])-floatval($page_data['margin_right']))/floatval($master_layout['width']));
                                             }
 
                                             if ($master_layout['height']>0) {
-                                                $vertical_count = floor(($page_data['height']-$page_data['margin_top']-$page_data['margin_bottom'])/$master_layout['height']);
+                                                $vertical_count = floor((floatval($page_data['height'])-floatval($page_data['margin_top'])-floatval($page_data['margin_bottom']))/floatval($master_layout['height']));
                                             }
                                             @endphp
 

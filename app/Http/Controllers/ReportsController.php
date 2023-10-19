@@ -15,7 +15,7 @@ class ReportsController extends Controller
 
     public function batches()
     {
-        $client_id = 2;
+        $client_id = 4;
 
         $batches = DB::select("
             SELECT

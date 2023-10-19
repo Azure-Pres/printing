@@ -23,7 +23,6 @@ class QrPdfController extends Controller
         $data = json_decode($template->data,true);
         
         if(isset($data['master_image']) && $data['master_image']!=""){
-            // dd(public_path($data['master_image']));
             $data['master_image'] = public_path($data['master_image']);
         }
 

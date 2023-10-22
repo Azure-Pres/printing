@@ -209,4 +209,24 @@ class ScanCodeController extends Controller
         ],200);
     }
 
+    public function updateSerialNumbers()
+    {
+        $startSerialNo = 4;
+        $endSerialNo = 8;
+
+        $recordsToUpdate = Code::where('serial_no', '>=', $startSerialNo)
+        ->where('serial_no', '<=', $endSerialNo)
+        ->get();
+
+        $currentSerialNo = $startSerialNo;
+
+        foreach ($recordsToUpdate as $record) {
+            $record->serial_no = $currentSerialNo;
+            $record->save();
+
+            $currentSerialNo++;
+        }
+
+        return "Serial numbers updated successfully.";
+    }
 }

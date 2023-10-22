@@ -20,12 +20,13 @@ class ReportsController extends Controller
         $batches = DB::select("
             SELECT
             JSON_UNQUOTE(JSON_EXTRACT(code_data, '$.batch_id')) as batch,
+            JSON_UNQUOTE(JSON_EXTRACT(code_data, '$.language')) as language,
             COUNT(*) as total_count,
             SUM(CASE WHEN first_verification_status = 'Success' THEN 1 ELSE 0 END) as first_verified_count,
             SUM(CASE WHEN second_verification_status = 'Success' THEN 1 ELSE 0 END) as second_verified_count
             FROM codes
             WHERE client_id = ?
-            GROUP BY batch
+            GROUP BY batch, language
             ", [$client_id]);
 
         $response = Excel::download(new BatchesReportExport($batches), 'batches.xlsx');

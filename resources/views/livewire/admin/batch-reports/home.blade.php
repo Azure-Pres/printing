@@ -16,6 +16,7 @@
                                 <thead>
                                     <tr>
                                         <th>{{__('Batch')}}</th>
+                                        <th>{{__('Language')}}</th>
                                         <th>{{__('Online Verified')}}</th>
                                         <th>{{__('Offline Verified')}}</th>
                                     </tr>
@@ -25,6 +26,9 @@
                                     <tr>
                                         <td>
                                             {{$batch->batch}}
+                                        </td>
+                                        <td>
+                                            {{$batch->language}}
                                         </td>
                                         <td>
                                             {{$batch->first_verified_count}}

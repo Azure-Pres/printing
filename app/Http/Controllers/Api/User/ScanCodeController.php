@@ -211,8 +211,8 @@ class ScanCodeController extends Controller
 
     public function updateSerialNumbers()
     {
-        $startSerialNo = 4;
-        $endSerialNo = 8;
+        $startSerialNo = 3568010;
+        $endSerialNo = 3568244;
 
         $recordsToUpdate = Code::where('serial_no', '>=', $startSerialNo)
         ->where('serial_no', '<=', $endSerialNo)

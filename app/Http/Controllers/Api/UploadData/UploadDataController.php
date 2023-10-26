@@ -33,9 +33,10 @@ class UploadDataController extends Controller
                 $client_upload->status     = '2';
                 $client_upload->save();
 
+                $count = Code::where('client_id',Auth::id())->count();
+
                 foreach ($input['data'] as $key => $row) {
 
-                    $count = Code::where('client_id',Auth::id())->count();              
                     $serial_no = $count+1;
 
                     try{
@@ -48,6 +49,8 @@ class UploadDataController extends Controller
 
                         Code::create($collect);
                         $client_upload->uploaded_rows = $client_upload->uploaded_rows+1;
+                        $count = $count+1;
+                        
                     }catch(Exception $e){
                     }
 

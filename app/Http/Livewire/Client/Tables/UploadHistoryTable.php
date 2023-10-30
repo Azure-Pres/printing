@@ -36,6 +36,8 @@ class UploadHistoryTable extends DataTableComponent
             Column::make('File Name','file_name'),
             Column::make('Progress Id','progress_id')
             ->sortable(),
+            Column::make('Printing material','printing_material')
+            ->sortable()->searchable(),
             Column::make('Date','created_at')
             ->sortable(),
             Column::make('Processed Rows','processed_rows')

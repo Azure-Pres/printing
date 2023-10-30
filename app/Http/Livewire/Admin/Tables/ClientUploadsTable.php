@@ -51,7 +51,7 @@ class ClientUploadsTable extends DataTableComponent
                 fn($value, $row, Column $column) => $row->getClient->name??'-'
             ),
             Column::make('Printing Material','printing_material')
-            ->sortable(),
+            ->sortable()->searchable(),
             Column::make('Processed Rows','processed_rows')
             ->sortable(),
             Column::make('Status')

@@ -19,14 +19,16 @@ class Home extends Component
 
         $this->batches = DB::select("
             SELECT
-            JSON_UNQUOTE(JSON_EXTRACT(code_data, '$.batch_id')) as batch,
-            JSON_UNQUOTE(JSON_EXTRACT(code_data, '$.language')) as language,
+            JSON_UNQUOTE(JSON_EXTRACT(c.code_data, '$.batch_id')) as batch,
+            JSON_UNQUOTE(JSON_EXTRACT(c.code_data, '$.language')) as language,
+            cu.file_name,
             COUNT(*) as total_count,
-            SUM(CASE WHEN first_verification_status = 'Success' THEN 1 ELSE 0 END) as first_verified_count,
-            SUM(CASE WHEN second_verification_status = 'Success' THEN 1 ELSE 0 END) as second_verified_count
-            FROM codes
-            WHERE client_id = ?
-            GROUP BY batch, language
+            SUM(CASE WHEN c.first_verification_status = 'Success' THEN 1 ELSE 0 END) as first_verified_count,
+            SUM(CASE WHEN c.second_verification_status = 'Success' THEN 1 ELSE 0 END) as second_verified_count
+            FROM codes c
+            JOIN client_uploads cu ON c.upload_id = cu.id
+            WHERE c.client_id = ?
+            GROUP BY batch, language, cu.file_name
             ", [$client_id]);
     }
 }

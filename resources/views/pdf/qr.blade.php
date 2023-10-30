@@ -50,7 +50,7 @@ $side_data = $data['side_data'];
 
         <div style="position: absolute; width: {{$qr_code['width']}}mm; height: {{$qr_code['height']}}mm; top: {{$qr_code['top']}}mm; left: {{$qr_code['left']}}mm; ">
             <img style="width:100%; height:100%;" src="data:image/png;base64,{!! base64_encode(QrCode::generate('http://google.com')) !!} ">
-            <!-- {!! QrCode::format('png')->generate('http://google.com') !!} -->
+
         </div>
 
         @if($side_data['applicable'])

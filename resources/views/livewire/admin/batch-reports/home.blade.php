@@ -15,26 +15,22 @@
                             <table class="table table-hover table-striped">
                                 <thead>
                                     <tr>
-                                        <th>{{__('Batch')}}</th>
+                                        <th>{{__('File name')}}</th>
+                                        <th>{{__('Batch')}}</th>                                        
                                         <th>{{__('Language')}}</th>
-                                        <th>{{__('Online Verified')}}</th>
-                                        <th>{{__('Offline Verified')}}</th>
                                     </tr>
                                 </thead>
                                 <tbody class="table-border-bottom-0">
                                     @foreach($batches as $batch)
                                     <tr>
                                         <td>
+                                            {{$batch->file_name}}
+                                        </td>
+                                        <td>
                                             {{$batch->batch}}
                                         </td>
                                         <td>
                                             {{$batch->language}}
-                                        </td>
-                                        <td>
-                                            {{$batch->first_verified_count}}
-                                        </td>
-                                        <td>
-                                            {{$batch->second_verified_count}}                                    
                                         </td>
                                     </tr>
                                     @endforeach

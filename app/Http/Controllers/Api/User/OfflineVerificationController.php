@@ -71,10 +71,10 @@ class OfflineVerificationController extends Controller
                 WHERE client_id = '{$input['client_id']}'
                 AND batch_id = '{$input['batch_id']}' 
                 AND (
-                    JSON_UNQUOTE(JSON_EXTRACT(code_data, '$.upi_qr_url')) = '{$input_code}'
-                    OR JSON_UNQUOTE(JSON_EXTRACT(code_data, '$.upistring')) = '{$input_code}'
-                    OR JSON_UNQUOTE(JSON_EXTRACT(code_data, '$.intent_string')) = '{$input_code}'
-                    OR JSON_UNQUOTE(JSON_EXTRACT(code_data, '$.qr_text')) = '{$input_code}'
+                    JSON_UNQUOTE(JSON_VALUE (code_data, '$.upi_qr_url')) = '{$input_code}'
+                    OR JSON_UNQUOTE(JSON_VALUE(code_data, '$.upistring')) = '{$input_code}'
+                    OR JSON_UNQUOTE(JSON_VALUE(code_data, '$.intent_string')) = '{$input_code}'
+                    OR JSON_UNQUOTE(JSON_VALUE(code_data, '$.qr_text')) = '{$input_code}'
                     )
                 AND second_verification_status IS NULL
                 AND first_verification_status = 'Success'

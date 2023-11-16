@@ -76,27 +76,26 @@ class TransferJob implements ShouldQueue
             Code::create($collect);
         }
 
-
         if (!empty($unique_fields)) {
             foreach ($unique_fields as $unique_field) {
+                $sqlQuery = "SELECT t1.id, t2.dup_count, t2.dup_value
+                FROM (
+                    SELECT id, JSON_VALUE(code_data, '$.$unique_field') AS dup_v
+                    FROM codes
+                    WHERE client_id = $this->client_id) t1 INNER JOIN (
+                    SELECT COUNT(id) AS dup_count, JSON_VALUE(code_data, '$.$unique_field') AS dup_value
+                    FROM codes
+                    WHERE client_id = $this->client_id
+                    GROUP BY JSON_VALUE(code_data, '$.$unique_field')
+                    HAVING COUNT(id) > 1) t2 ON t1.dup_v = t2.dup_value";
+                    $count = count(DB::select(DB::raw($sqlQuery)));
 
-                $sqlQuery = 'select id,dup_count,dup_value
-                from (select id,json_extract(`code_data`,"$.'.$unique_field.'") as dup_v
-                from codes where client_id = '.$this->client_id.') t1 
-                join
-                (select count(id) dup_count, json_extract(`code_data`,"$.'.$unique_field.'") as dup_value
-                from codes where client_id = '.$this->client_id.'
-                group by json_extract(`code_data`,"$.'.$unique_field.'") 
-                having dup_count>1) t2
-                on t1.dup_v=t2.dup_value';
-
-                $count = count(DB::select(DB::raw($sqlQuery)));
-
-                if ($count>0) {
-                    $verified=false;
+                    if ($count > 0) {
+                        $verified = false;
+                        break; // If duplicates are found for any unique field, break out of the loop.
+                    }
                 }
             }
-        }
 
         if ($verified) {
             $progress->status = '2';

@@ -41,7 +41,7 @@ class ScanCodeController extends Controller
             FROM codes
             WHERE client_id = ?
             AND (
-                JSON_UNQUOTE(JSON_EXTRACT(code_data, '$.upi_qr_url')) = ?
+                JSON_UNQUOTE(JSON_VALUE(code_data, '$.upi_qr_url')) = ?
                 )
             limit 1";
 

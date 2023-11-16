@@ -79,10 +79,10 @@ class VerificationController extends Controller
             WHERE client_id = ? 
             AND batch_id  = ? 
             AND (
-                JSON_UNQUOTE(JSON_EXTRACT(code_data, '$.upi_qr_url')) IN (" . implode(', ', array_fill(0, count($input_codes), '?')) . ")
-                OR JSON_UNQUOTE(JSON_EXTRACT(code_data, '$.upistring')) IN (" . implode(', ', array_fill(0, count($input_codes), '?')) . ")
-                OR JSON_UNQUOTE(JSON_EXTRACT(code_data, '$.intent_string')) IN (" . implode(', ', array_fill(0, count($input_codes), '?')) . ")
-                OR JSON_UNQUOTE(JSON_EXTRACT(code_data, '$.qr_text')) IN (" . implode(', ', array_fill(0, count($input_codes), '?')) . ")
+        JSON_VALUE(code_data, '$.upi_qr_url') IN (" . implode(', ', array_fill(0, count($input_codes), '?')) . ")
+        OR JSON_VALUE(code_data, '$.upistring') IN (" . implode(', ', array_fill(0, count($input_codes), '?')) . ")
+        OR JSON_VALUE(code_data, '$.intent_string') IN (" . implode(', ', array_fill(0, count($input_codes), '?')) . ")
+        OR JSON_VALUE(code_data, '$.qr_text') IN (" . implode(', ', array_fill(0, count($input_codes), '?')) . ")
                 )
             ";
             $bindings = array_merge([$input['client_id'], $input['batch_id']], $input_codes, $input_codes, $input_codes, $input_codes);

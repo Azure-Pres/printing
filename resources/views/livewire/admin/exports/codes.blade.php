@@ -15,11 +15,15 @@
 			<th>date</th>
 			<th>wh</th>
 			@endif
+			<th>sheet_no</th>
 		</tr>
 	</thead>
 
 	<tbody>
-
+		@php
+		$sheet_no = 1;
+		$count = 1;
+		@endphp
 		@foreach($codes as $code)
 		<tr>
 			<td>{{$code->serial_no}}</td>
@@ -41,6 +45,18 @@
 			<td>{{date("M'y")}}</td>
 			<td>GW</td>
 			@endif
+			@if($codes_per_sheet)
+			<td>{{$sheet_no}}</td>
+			@endif
+			@php
+			if($count<$codes_per_sheet){
+				$count++;
+			}
+			else{
+				$sheet_no++;
+				$count=1;
+			}
+			@endphp
 		</tr>
 		@endforeach
 	</tbody>

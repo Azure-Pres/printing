@@ -183,6 +183,11 @@
 
                         <div class="row">
                             <div class="col-sm-6">
+                                <div class="form-group mb-2">
+                                    <label for="codes_per_sheet">Codes per sheet</label>
+                                    <input wire:model.defer="codes_per_sheet" type="number" min="0" step="1" class="form-control" id="codes_per_sheet" placeholder="Enter number">
+                                    <x-basic.message class="text-danger" :message="$errors->has('codes_per_sheet')?$errors->first('codes_per_sheet'):''"></x-basic.message>
+                                </div>
                                 <a href="javascript:;" wire:click="downloadCodes()" class="btn btn-primary btn-sm">
                                     <span wire:loading>Please wait</span>
                                     <span wire:loading.remove>Download Codes</span>

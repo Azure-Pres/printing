@@ -18,7 +18,7 @@ return new class extends Migration
             $table->bigInteger('client_id')->unsigned();
             $table->foreign('client_id')->references('id')->on('users')->onDelete('cascade');
             $table->bigInteger('batch_id')->nullable();
-            $table->text('code_data')->nullable();
+            $table->string('code_data',4000)->nullable();
             $table->string('status')->nullable();
             $table->timestamps();
         });

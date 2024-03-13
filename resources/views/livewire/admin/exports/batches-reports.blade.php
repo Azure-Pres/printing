@@ -1,10 +1,9 @@
 <table>
 	<thead>
 		<tr>
+			<th>FIle name</th>
 			<th>Batch</th>
 			<th>Language</th>
-			<th>Online Verified</th>
-			<th>Offline Verified</th>
 		</tr>
 	</thead>
 
@@ -12,10 +11,15 @@
 
 		@foreach($batches as $batch)
 		<tr>
-			<td>{{$batch->batch}}</td>
-			<td>{{$batch->language}}</td>
-			<td>{{$batch->first_verified_count}}</td>
-			<td>{{$batch->second_verified_count}}</td>
+			<td>
+				{{$batch->file_name}}
+			</td>
+			<td>
+				{{$batch->batch}}
+			</td>
+			<td>
+				{{$batch->language}}
+			</td>
 		</tr>
 		@endforeach
 	</tbody>

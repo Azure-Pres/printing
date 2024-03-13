@@ -28,7 +28,7 @@ class TransferJob implements ShouldQueue
      * @return void
      */
     public function __construct($data)
-    {
+    {   
         $this->client_id = $data['client_id'];
         $this->progress_id = $data['progress_id'];
     }
@@ -62,8 +62,8 @@ class TransferJob implements ShouldQueue
 
 
         // $count = Code::where('client_id',$this->client_id)->count();
-        $lastCode = Code::where('client_id',$this->client_id)->orderBy('serial_no','DESC')->first();
-        $count = $lastCode->serial_no;
+          $lastCode = Code::where('client_id',$this->client_id)->orderBy('serial_no','DESC')->first();
+        $count =  $lastCode->serial_no;
 
         foreach ($temp_codes as $key => $temp_code) {
             $count = $count+1;
@@ -92,7 +92,7 @@ class TransferJob implements ShouldQueue
 
                     if ($count > 0) {
                         $verified = false;
-                        break; // If duplicates are found for any unique field, break out of the loop.
+                        break; 
                     }
                 }
             }

@@ -7,13 +7,14 @@ use App\Models\JobCard;
 use App\Models\Template;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use LaravelQRCode\Facades\QRCode;
 
 class QrPdfController extends Controller
 {
     public function index($id)
     {
         $id = decrypt($id);
-
+        // dd(QRCode::text('QR Code Generator for Laravel!')->png();
         $template = Template::find($id);
 
         if (!$template) {

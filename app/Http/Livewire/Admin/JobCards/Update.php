@@ -36,6 +36,7 @@ class Update extends Component
     public $templates = [];
     public $template;
     public $client = '';
+    public $codes_per_sheet = '';
     
     public function render()
     {
@@ -106,13 +107,17 @@ class Update extends Component
 
     public function downloadCodes()
     {
+        $rules = [
+            'codes_per_sheet' => getRule('',true,false),
+        ];
+
         userlog('Job card','Job Card '.$this->job_card->job_card_id.' Downloaded');
 
         $batch = Batch::where('id',$this->job_card->batch_id)->first();
 
         $filename = date('Y-m-d') . '-' . $batch->batch_code . '.csv';
 
-        return Excel::download(new CodeExport($this->job_card), $filename);
+        return Excel::download(new CodeExport($this->job_card,$this->codes_per_sheet), $filename);
     }
 
     public function toggle_lot_size(){

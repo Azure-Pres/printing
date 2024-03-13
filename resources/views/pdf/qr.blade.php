@@ -43,14 +43,14 @@ $side_data = $data['side_data'];
 </head>
 <body>
     <div class="wrapper" style="position: relative; width: {{$master_layout['width']}}mm; height: {{$master_layout['height']}}mm; border: 1px solid #ccc;">
-
+        
         @if ($master_image)
         <img style="width:100%; height:100%;" src="{{$master_image}}">
         @endif
 
         <div style="position: absolute; width: {{$qr_code['width']}}mm; height: {{$qr_code['height']}}mm; top: {{$qr_code['top']}}mm; left: {{$qr_code['left']}}mm; ">
-            <img style="width:100%; height:100%;" src="data:image/png;base64,{!! base64_encode(QrCode::generate('http://google.com')) !!} ">
-
+            <!-- <img style="width:100%; height:100%;" src="data:image/png;base64,{!! base64_encode(QrCode::size(200)->generate('Welcome')) !!} "> -->
+            <img style="width:100%; height:100%;" src="QRCode::text('QR Code Generator for Laravel!')->png()">
         </div>
 
         @if($side_data['applicable'])

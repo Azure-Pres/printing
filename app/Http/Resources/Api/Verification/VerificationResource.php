@@ -19,6 +19,7 @@ class VerificationResource extends JsonResource
             'client'                => $this->getClient->name??'NA',
             'message'               => $this->message??'NA',
             'code_data'             => $this->code_data??'NA',
+            'sheet_no'              => $this->sheet_no??'N/A',
             'status'                => $this->status??'NA',
             'created_at'            => date('M d, h:i A',strtotime($this->created_at)),
             'updated_at'            => date('M d, h:i A',strtotime($this->updated_at)),

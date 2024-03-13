@@ -13,8 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('codes', function (Blueprint $table) {
-            $table->index('code_data');
+        Schema::table('offline_verifications', function (Blueprint $table) {
+            $table->string('sheet_no')->nullable()->after('scanned_by');
         });
     }
 
@@ -25,8 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('codes', function (Blueprint $table) {
-            //
+        Schema::table('offline_verifications', function (Blueprint $table) {
+            $table->dropColumn('sheet_no');
         });
     }
 };

@@ -68,3 +68,8 @@ Route::group(['prefix' => 'batch-reports'], function() {
 	Route::get('/', App\Http\Livewire\Admin\BatchReports\Home::class)->name('admin-batch-reports');
 	Route::get('/exports', [App\Http\Controllers\ReportsController::class, 'index'])->name('admin-batch-exports');
 });
+
+Route::get('/qr-code', function () {
+    return \QrCode::size(120)
+        ->generate('https://postsrc.com');
+});

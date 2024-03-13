@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 
 class PhonePeController extends Controller
 {
-    public $id = 5;
+    public $id = 2;
 
     public function getToken(Request $request, $secret_key)
     {

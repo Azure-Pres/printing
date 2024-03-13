@@ -18,6 +18,7 @@
                                         <th>{{__('File name')}}</th>
                                         <th>{{__('Batch')}}</th>                                        
                                         <th>{{__('Language')}}</th>
+                                        <th>{{__('Created at')}}</th>
                                     </tr>
                                 </thead>
                                 <tbody class="table-border-bottom-0">
@@ -32,6 +33,7 @@
                                         <td>
                                             {{$batch->language}}
                                         </td>
+
                                     </tr>
                                     @endforeach
                                 </tbody>

@@ -51,10 +51,10 @@ $side_data = $data['side_data'];
 
     <div class="wrapper" style="position: relative; width: {{$master_layout['width']}}mm; height: {{$master_layout['height']}}mm; border: 1px solid #ccc;">
 
-        @if ($master_image)
+<!--         @if ($master_image)
         <img style="width:100%; height:100%;" src="{{asset($master_image)}}">
-        @endif
-
+        @endif -->
+        {{QrCode::size(120)->generate('https://postsrc.com')}}
         <div style="position: absolute; width: {{$qr_code['width']}}mm; height: {{$qr_code['height']}}mm; top: {{$qr_code['top']}}mm; left: {{$qr_code['left']}}mm; ">
             <img style="width:100%; height:100%;" src="data:image/png;base64, {!! base64_encode(QrCode::generate($code_data[$qr_code['field']])) !!} ">
         </div>

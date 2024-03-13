@@ -37,15 +37,13 @@ class ScanCodeController extends Controller
             // $code = Code::whereJsonContains('code_data', ['upi_qr_url' => $scan_code])->orderBy('created_at', 'DESC')->first();
 
             $query = "
-            SELECT id, code_data, client_id
+            SELECT TOP 1 id, code_data, client_id
             FROM codes
             WHERE client_id = ?
-            AND (
-                JSON_UNQUOTE(JSON_VALUE(code_data, '$.upi_qr_url')) = ?
-                )
-            limit 1";
+            AND JSON_VALUE(code_data, '$.upi_qr_url') = ?
+            ORDER BY created_at DESC";
 
-            $code = DB::selectOne($query, ["4",$scan_code]);
+            $code = DB::selectOne($query, ["8",$scan_code]);
 
             if (!$code) {
                 return response([

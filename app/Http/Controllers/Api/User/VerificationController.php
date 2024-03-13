@@ -34,6 +34,7 @@ class VerificationController extends Controller
 
     public function lastFailedCodes(Request $request)
     {
+
         $input = $request->all();
 
         $verifications   = Verification::getApiFailedVerificationModel($input);
@@ -65,6 +66,7 @@ class VerificationController extends Controller
                 'message'   => 'Invalid request'
             ], 400);
         } else {
+            try{
             $client = User::find($input['client_id']);
             $batch = Batch::find($input['batch_id']);
             $input_codes = explode($input['delimiter'], $input['code_data']);
@@ -91,12 +93,17 @@ class VerificationController extends Controller
             $jobcard = $batch->getJobcard;
 
             foreach ($input_codes as $input_code) {
+
                 $code =$this->getCodesFromMatched($matched_codes, $input_code);
+
+                $sheet_number = $code->sheet_no;
 
                 $create = new Verification;
                 $create->code_data = $input_code;
                 $create->client_id = $input['client_id'];
                 $create->scanned_by = Auth::id();
+                $create->sheet_no = $sheet_number;
+                
                 $create->save();
 
                 $message = 'Verified';
@@ -124,7 +131,7 @@ class VerificationController extends Controller
                         $count = Verification::where('code_id',$code->id)->where('client_id',$client->id)->count();
 
                         if ($count>=$jobcard->allowed_copies) {
-                            $message   = 'Maximum copy exceeded.';
+                            $message   = 'Duplicate data found.';
                             $status    = 'Failed';
                         }
 
@@ -149,7 +156,8 @@ class VerificationController extends Controller
                     'code_data' => $input_code,
                     'status'    => $status,
                     'message'   => $message
-                ]);
+                ]);                    
+                
             }
 
             if ($request_verified) {
@@ -169,6 +177,16 @@ class VerificationController extends Controller
                 'verification_status' => $request_verified
             ], 200);
         }
+        catch (\Exception $e) {
+                    $error_message = $e->getMessage();
+                    dd($error_message);
+                    array_push($data, [
+                        'code_data' => $input_code,
+                        'status' => 'Failed',
+                        'message' => $error_message
+                        ]);
+                }
+    }
     }
 
     public function getCodesFromMatched($matched_codes, $input_code)
@@ -183,6 +201,9 @@ class VerificationController extends Controller
                 (isset($codeDataArray['qr_text']) && $codeDataArray['qr_text'] == $input_code) ||
                 (isset($codeDataArray['intent_string']) && $codeDataArray['intent_string'] == $input_code)
             ) {
+                $sheet_no = isset($codeDataArray['sheet_no']) ? $codeDataArray['sheet_no'] : '';
+                $matched_code->sheet_no = $sheet_no;
+                
                 $code = $matched_code;
                 break;
             }

@@ -45,7 +45,6 @@ class ImportJob implements ShouldQueue
             'client_id'   => $this->client_id,
             'progress_id' => $this->progress_id
         ];
-
         Excel::import(new UploadCode($import_data), $this->uploadFile);
     }
 

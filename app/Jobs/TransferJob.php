@@ -62,8 +62,14 @@ class TransferJob implements ShouldQueue
 
 
         // $count = Code::where('client_id',$this->client_id)->count();
-          $lastCode = Code::where('client_id',$this->client_id)->orderBy('serial_no','DESC')->first();
-        $count =  $lastCode->serial_no;
+        $lastCode = Code::where('client_id',$this->client_id)->orderBy('serial_no','DESC')->first();
+
+        if($lastCode!=NULL){
+            $count =  $lastCode->serial_no;
+        }
+        else{
+            $count = 0;
+        }
 
         foreach ($temp_codes as $key => $temp_code) {
             $count = $count+1;
@@ -113,10 +119,18 @@ class TransferJob implements ShouldQueue
 
     public function failed()
     {
-        $clear = TempCode::where('upload_id',$progress->id)->delete();
-        $delete = Code::where('client_id',$this->client_id)->where('upload_id',$progress->id)->delete();
-        $progress = ClientUpload::where('client_id',$this->client_id)->where('progress_id',$this->progress_id)->first();
-        $progress->status = '3';
-        $progress->save();
+        if($progress)
+        {
+            $clear = TempCode::where('upload_id',$progress->id)->delete();
+            $delete = Code::where('client_id',$this->client_id)->where('upload_id',$progress->id)->delete();
+            $progress = ClientUpload::where('client_id',$this->client_id)->where('progress_id',$this->progress_id)->first();
+            $progress->status = '3';
+            $progress->save();
+        }
+        else{
+            $progress = ClientUpload::where('client_id',$this->client_id)->first();
+            $progress->status = '3';
+            $progress->save();
+        }
     }
 }

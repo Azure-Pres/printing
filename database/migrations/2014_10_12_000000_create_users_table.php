@@ -45,6 +45,32 @@ return new class extends Migration
                 'updated_at'        => Carbon::now()
             )
         );
+
+        DB::table('users')->insert(
+            array(
+                'id'                => '2',
+                'name'              => 'Phonepe',
+                'type'              => 'Client',
+                'email'             => 'phonepe@azureapp.com',
+                'password'          => bcrypt('Azure#123'),
+                'status'            => 'Active',
+                'created_at'        => Carbon::now(),
+                'updated_at'        => Carbon::now()
+            )
+        );
+
+        DB::table('users')->insert(
+            array(
+                'id'                => '8',
+                'name'              => 'Paytm',
+                'type'              => 'Client',
+                'email'             => 'paytm@azureapp.com',
+                'password'          => bcrypt('Azure#123'),
+                'status'            => 'Active',
+                'created_at'        => Carbon::now(),
+                'updated_at'        => Carbon::now()
+            )
+        );
     }
 
     /**

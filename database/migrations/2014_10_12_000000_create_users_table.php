@@ -48,10 +48,69 @@ return new class extends Migration
 
         DB::table('users')->insert(
             array(
-                'id'                => '2',
                 'name'              => 'Phonepe',
                 'type'              => 'Client',
                 'email'             => 'phonepe@azureapp.com',
+                'password'          => bcrypt('Azure#123'),
+                'status'            => 'Active',
+                'created_at'        => Carbon::now(),
+                'updated_at'        => Carbon::now()
+            )
+        );
+
+        DB::table('users')->insert(
+            array(
+                'name'              => 'test user',
+                'type'              => 'User',
+                'email'             => 'testuser@azureapp.com',
+                'password'          => bcrypt('Azure#123'),
+                'status'            => 'Active',
+                'created_at'        => Carbon::now(),
+                'updated_at'        => Carbon::now()
+            )
+        );
+
+        DB::table('users')->insert(
+            array(
+                'name'              => 'user1',
+                'type'              => 'User',
+                'email'             => 'user1@azureapp.com',
+                'password'          => bcrypt('Azure#123'),
+                'status'            => 'Active',
+                'created_at'        => Carbon::now(),
+                'updated_at'        => Carbon::now()
+            )
+        );
+
+        DB::table('users')->insert(
+            array(
+                'name'              => 'user2',
+                'type'              => 'User',
+                'email'             => 'user2@azureapp.com',
+                'password'          => bcrypt('Azure#123'),
+                'status'            => 'Active',
+                'created_at'        => Carbon::now(),
+                'updated_at'        => Carbon::now()
+            )
+        );
+
+        DB::table('users')->insert(
+            array(
+                'name'              => 'user3',
+                'type'              => 'User',
+                'email'             => 'user3@azureapp.com',
+                'password'          => bcrypt('Azure#123'),
+                'status'            => 'Active',
+                'created_at'        => Carbon::now(),
+                'updated_at'        => Carbon::now()
+            )
+        );
+
+        DB::table('users')->insert(
+            array(
+                'name'              => 'user4',
+                'type'              => 'User',
+                'email'             => 'user4@azureapp.com',
                 'password'          => bcrypt('Azure#123'),
                 'status'            => 'Active',
                 'created_at'        => Carbon::now(),
@@ -65,6 +124,66 @@ return new class extends Migration
                 'name'              => 'Paytm',
                 'type'              => 'Client',
                 'email'             => 'paytm@azureapp.com',
+                'password'          => bcrypt('Azure#123'),
+                'status'            => 'Active',
+                'created_at'        => Carbon::now(),
+                'updated_at'        => Carbon::now()
+            )
+        );
+
+        DB::table('users')->insert(
+            array(
+                'name'              => 'user5',
+                'type'              => 'User',
+                'email'             => 'user5@azureapp.com',
+                'password'          => bcrypt('Azure#123'),
+                'status'            => 'Active',
+                'created_at'        => Carbon::now(),
+                'updated_at'        => Carbon::now()
+            )
+        );
+
+        DB::table('users')->insert(
+            array(
+                'name'              => 'user6',
+                'type'              => 'User',
+                'email'             => 'user6@azureapp.com',
+                'password'          => bcrypt('Azure#123'),
+                'status'            => 'Active',
+                'created_at'        => Carbon::now(),
+                'updated_at'        => Carbon::now()
+            )
+        );
+
+        DB::table('users')->insert(
+            array(
+                'name'              => 'user7',
+                'type'              => 'User',
+                'email'             => 'user7@azureapp.com',
+                'password'          => bcrypt('Azure#123'),
+                'status'            => 'Active',
+                'created_at'        => Carbon::now(),
+                'updated_at'        => Carbon::now()
+            )
+        );
+
+        DB::table('users')->insert(
+            array(
+                'name'              => 'user8',
+                'type'              => 'User',
+                'email'             => 'user8@azureapp.com',
+                'password'          => bcrypt('Azure#123'),
+                'status'            => 'Active',
+                'created_at'        => Carbon::now(),
+                'updated_at'        => Carbon::now()
+            )
+        );
+
+        DB::table('users')->insert(
+            array(
+                'name'              => 'rupesh',
+                'type'              => 'User',
+                'email'             => 'rupesh@azureapp.com',
                 'password'          => bcrypt('Azure#123'),
                 'status'            => 'Active',
                 'created_at'        => Carbon::now(),

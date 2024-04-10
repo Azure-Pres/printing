@@ -15,9 +15,9 @@ return new class extends Migration
     {
         Schema::create('batches', function (Blueprint $table) {
             $table->id();
-            $table->string('batch_code')->nullable();
-            $table->string('from_serial_number')->nullable();
-            $table->string('to_serial_number')->nullable();
+            $table->string('batch_code','max')->nullable();
+            $table->string('from_serial_number','max')->nullable();
+            $table->string('to_serial_number','max')->nullable();
             $table->string('status')->nullable();
             $table->timestamps();
         });

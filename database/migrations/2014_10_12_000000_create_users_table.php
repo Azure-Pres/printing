@@ -120,7 +120,6 @@ return new class extends Migration
 
         DB::table('users')->insert(
             array(
-                'id'                => '8',
                 'name'              => 'Paytm',
                 'type'              => 'Client',
                 'email'             => 'paytm@azureapp.com',

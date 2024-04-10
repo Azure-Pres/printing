@@ -64,8 +64,7 @@ class Update extends Component
             'status'       => getRule('',true),
             'password'     => getRule('',false,true),
             'view'         => getRule('',false,true),
-            'modify'       => getRule('',false,true),           
-            'machines'     => getRule('',false,true)            
+            'modify'       => getRule('',false,true)         
         ];
 
         $validated = $this->validate($rules);

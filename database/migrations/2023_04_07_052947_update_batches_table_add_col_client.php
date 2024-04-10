@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('batches', function (Blueprint $table) {
-            $table->bigInteger('client')->unsigned()->nullable()->after('id');
+            $table->string('client','max')->nullable()->after('id');
         });
     }
 

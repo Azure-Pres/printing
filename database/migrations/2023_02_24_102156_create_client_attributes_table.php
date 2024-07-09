@@ -136,6 +136,39 @@ return new class extends Migration
 
         DB::table('client_attributes')->insert(
             array(
+                'user_id'       => '8',
+                'attribute_id'  => '25',
+                'applicable'    => '1',
+                'unique'        => '0',
+                'created_at'    => Carbon::now(),
+                'updated_at'    => Carbon::now()
+            )
+        );
+
+        DB::table('client_attributes')->insert(
+            array(
+                'user_id'       => '8',
+                'attribute_id'  => '26',
+                'applicable'    => '1',
+                'unique'        => '0',
+                'created_at'    => Carbon::now(),
+                'updated_at'    => Carbon::now()
+            )
+        );
+
+        DB::table('client_attributes')->insert(
+            array(
+                'user_id'       => '8',
+                'attribute_id'  => '20',
+                'applicable'    => '1',
+                'unique'        => '0',
+                'created_at'    => Carbon::now(),
+                'updated_at'    => Carbon::now()
+            )
+        );
+
+        DB::table('client_attributes')->insert(
+            array(
                 'user_id'       => '2',
                 'attribute_id'  => '15',
                 'applicable'    => '1',

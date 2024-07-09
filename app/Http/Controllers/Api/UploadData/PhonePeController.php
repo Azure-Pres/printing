@@ -156,11 +156,16 @@ class PhonePeController extends Controller
         $client_upload->save();
 
         $lastCode = Code::where('client_id',$this->id)->orderBy('serial_no','DESC')->first();
-        $count = $lastCode->serial_no;
+
+        if($lastCode){
+            $count = $lastCode->serial_no;
+        }else{
+            $count = 0;
+        }
 
         foreach ($data as $key => $row) {
             // $count = Code::where('client_id',$this->id)->count();              
-            $serial_no = $count+1;
+            $count = $count+1;
 
             try{
                 $collect = [
@@ -171,7 +176,7 @@ class PhonePeController extends Controller
                         'lot_no'  => $row[2],
                         'printing_material' => $row[3],
                     ]),
-                    'serial_no'           => $serial_no,
+                    'serial_no'           => $count,
                     'upload_id'           => $client_upload->id
                 ];
 

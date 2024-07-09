@@ -97,11 +97,11 @@ class TransferJob implements ShouldQueue
                     $count = count(DB::select(DB::raw($sqlQuery)));
 
                     if ($count > 0) {
-                        $verified = false;
-                        break; 
-                    }
-                }
-            }
+                       $verified = false;
+                       break; 
+                   }
+               }
+           }
 
         if ($verified) {
             $progress->status = '2';

@@ -39,3 +39,11 @@ Route::get('getToken/{secret_key}',[ApiRoot\UploadData\PhonePeController::class,
 Route::get('LotStatus/{apitoken}/{lotnumber}',[ApiRoot\UploadData\PhonePeController::class,'lotStatus']);
 Route::delete('LotStatus/{apitoken}/{lotnumber}',[ApiRoot\UploadData\PhonePeController::class,'deleteLot']);
 Route::post('SendLot',[ApiRoot\UploadData\PhonePeController::class,'store']);
+
+//Testing Photo QR
+Route::get('/save-photo', function () {
+    $pdfKey = 'pB1WKuGS9iz55I2OQGye73br6wd53TKMLnAQ8ehTHBZe6iz+XOfJdnM1KcOMe9szEbIGp31FTtBTSJs+u1CXoBI8lj40pp1vkVTrKAgl0Bw=';
+    $photoQrKey = 'pB1WKuGS9iz55I2OQGye73br6wd53TKMLnAQ8ehTHBZe6iz+XOfJdnM1KcOMe9szEbIGp31FTtBTSJs+u1CXoBI8lj40pp1vkVTrKAgl0Bw=';
+
+    return app()->call('App\Http\Controllers\TestController@savePhoto', ['pdfKey' => $pdfKey, 'photoQrKey' => $photoQrKey]);
+});

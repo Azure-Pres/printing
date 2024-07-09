@@ -12,6 +12,7 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 use Maatwebsite\Excel\Facades\Excel;
 use Storage;
+use App\Jobs\DivideLotJob;
 
 class Update extends Component
 {
@@ -97,7 +98,7 @@ class Update extends Component
 
         $this->job_card->update($validated);
 
-        $divide = $this->divide_lot();
+        DivideLotJob::dispatch($this->batch_id, $this->divide_in_lot, $this->lot_size);
 
         userlog('Job card','Job Card '.$validated['job_card_id'].' Updated');
 
@@ -124,34 +125,34 @@ class Update extends Component
         $this->show_lot_size = $this->divide_in_lot=='Yes'?true:false;
     } 
 
-    public function divide_lot()
-    {
-        $batch = Batch::find($this->batch_id);
-        if ($this->divide_in_lot=='Yes') {
-            $codes = Code::where('batch_id',$batch->id)->get();
-            $lot = 1;
-            $lot_s_no = 1;
+    // public function divide_lot()
+    // {
+    //     $batch = Batch::find($this->batch_id);
+    //     if ($this->divide_in_lot=='Yes') {
+    //         $codes = Code::where('batch_id',$batch->id)->get();
+    //         $lot = 1;
+    //         $lot_s_no = 1;
 
-            foreach($codes as $code){
-                $code->update([
-                    'lot' => $lot,
-                    'lot_s_no' => $lot_s_no
-                ]);
-                if ($this->lot_size==$lot_s_no) {
-                    $lot = $lot+1;
-                    $lot_s_no=0;
-                }
-                $lot_s_no=$lot_s_no+1;
-            }
-        }else{
-            $codes = Code::where('client_id',$batch->client)->where('batch_id',$this->batch_id)->update([
-                'lot' => NULL,
-                'lot_s_no' => NULL
-            ]);
-        }
+    //         foreach($codes as $code){
+    //             $code->update([
+    //                 'lot' => $lot,
+    //                 'lot_s_no' => $lot_s_no
+    //             ]);
+    //             if ($this->lot_size==$lot_s_no) {
+    //                 $lot = $lot+1;
+    //                 $lot_s_no=0;
+    //             }
+    //             $lot_s_no=$lot_s_no+1;
+    //         }
+    //     }else{
+    //         $codes = Code::where('client_id',$batch->client)->where('batch_id',$this->batch_id)->update([
+    //             'lot' => NULL,
+    //             'lot_s_no' => NULL
+    //         ]);
+    //     }
 
-        return true;
-    }
+    //     return true;
+    // }
 
     public function sendForPrint()
     {

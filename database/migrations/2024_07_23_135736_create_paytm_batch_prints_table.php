@@ -13,9 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('batch_prints', function (Blueprint $table) {
+        Schema::create('paytm_batch_prints', function (Blueprint $table) {
             $table->id();
-            $table->string('batch')->nullable();
+            $table->string('batch_name')->nullable()->index();
+            $table->string('printing_material')->nullable();
+            $table->boolean('verified')->default(false);
+
             $table->timestamps();
         });
     }
@@ -27,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('batch_prints');
+        Schema::dropIfExists('paytm_batch_prints');
     }
 };

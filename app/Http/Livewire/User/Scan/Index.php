@@ -9,6 +9,7 @@ class Index extends Component
 {
     public $barcode;
     public $bgClass;
+    public $lastScanMessage;
 
     public function updatedBarcode($value)
     {
@@ -18,14 +19,24 @@ class Index extends Component
                 $batch->verified = true;
                 $batch->save();
                 $this->bgClass = 'bg-success';
+                $this->lastScanMessage = "Verified Scan: Batch - {$batch->batch_name} Printing material - {$batch->printing_material}";
             } else {
-                $this->success = false;
-                $this->message = 'Duplicate print is not allowed.';
+                $this->lastScanMessage = "Failed Scan: Batch - {$batch->batch_name} Printing material - {$batch->printing_material}";
                 $this->bgClass = 'bg-danger';
+                $this->emit('duplicateScan');
             }
         } else {
             $this->bgClass = 'bg-danger';
+            $this->emit('batchNotFound');
+            $this->lastScanMessage = "Batch ID {$value} not found"; // Set last scan message for not found
         }
+        $this->barcode = null;
+    }
+
+    public function clearBarcode()
+    {
+        $this->barcode = '';
+        $this->bgClass = '';
     }
 
     public function render()
@@ -33,3 +44,4 @@ class Index extends Component
         return view('livewire.user.scan.index')->layout('layouts.user');
     }
 }
+

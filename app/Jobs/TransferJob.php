@@ -65,6 +65,7 @@ class TransferJob implements ShouldQueue
         $count = $lastCode ? $lastCode->serial_no : 0;
 
         $batchPrints = [];
+        $uniqueBatchNames = [];
 
         foreach ($temp_codes as $key => $temp_code) {
             $count = $count + 1;
@@ -81,12 +82,16 @@ class TransferJob implements ShouldQueue
             $batch_id = $code_data['batch_id'] ?? null;
 
             if ($printing_material && $batch_id) {
-                $batchPrints[] = [
-                    'printing_material' => $printing_material,
-                    'batch_name' => $batch_id,
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ];
+            // Check if batch_id is already added to uniqueBatchNames
+                if (!in_array($batch_id, $uniqueBatchNames)) {
+                    $uniqueBatchNames[] = $batch_id;
+                    $batchPrints[] = [
+                        'printing_material' => $printing_material,
+                        'batch_name' => $batch_id,
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ];
+                }
             }
         }
 
@@ -122,6 +127,7 @@ class TransferJob implements ShouldQueue
             DB::table('paytm_batch_prints')->insert($batchPrints);
         }
     }
+
 
 
     public function failed()

@@ -19,10 +19,12 @@ class Index extends Component
                 $batch->save();
                 $this->bgClass = 'bg-success';
             } else {
+                $this->success = false;
+                $this->message = 'Duplicate print is not allowed.';
                 $this->bgClass = 'bg-danger';
             }
         } else {
-            $this->bgClass = 'bg-danger'; // Optionally handle case where batch ID is not found
+            $this->bgClass = 'bg-danger';
         }
     }
 

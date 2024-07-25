@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Photo;
-
+use DB;
 class TestController extends Controller
 {
     public function savePhoto($pdfKey, $photoQrKey)
@@ -37,5 +37,48 @@ class TestController extends Controller
         } else {
             return response()->json(['message' => 'Failed to download the photo.'], 500);
         }
+    }
+
+     public function importCsv()
+    {
+        $csvFilePath = public_path('csv/Batch_id.csv');
+
+        if (!file_exists($csvFilePath)) {
+            return response()->json(['message' => 'CSV file not found.'], 404);
+        }
+
+        $csvFile = fopen($csvFilePath, 'r');
+        if (!$csvFile) {
+            return response()->json(['message' => 'Unable to open CSV file.'], 500);
+        }
+
+        $header = fgetcsv($csvFile); // Assuming the first line is the header
+
+        $data = [];
+        $batchSize = 500; // Adjust the batch size to avoid exceeding the parameter limit
+        while ($row = fgetcsv($csvFile)) {
+            $data[] = [
+                'batch_name' => $row[0],
+                'printing_material' => $row[1],
+                'verified' => false,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ];
+
+            // Insert in batches
+            if (count($data) == $batchSize) {
+                DB::table('paytm_batch_prints')->insert($data);
+                $data = []; // Reset the data array
+            }
+        }
+
+        // Insert any remaining data
+        if (count($data) > 0) {
+            DB::table('paytm_batch_prints')->insert($data);
+        }
+
+        fclose($csvFile);
+
+        return response()->json(['message' => 'CSV data imported successfully.']);
     }
 }

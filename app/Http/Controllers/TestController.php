@@ -39,7 +39,7 @@ class TestController extends Controller
         }
     }
 
-     public function importCsv()
+public function importCsv()
     {
         $csvFilePath = public_path('csv/Batch_id.csv');
 
@@ -55,7 +55,7 @@ class TestController extends Controller
         $header = fgetcsv($csvFile); // Assuming the first line is the header
 
         $data = [];
-        $batchSize = 500; // Adjust the batch size to avoid exceeding the parameter limit
+        $batchSize = 400; // Adjust the batch size to 400 to stay well below the parameter limit
         while ($row = fgetcsv($csvFile)) {
             $data[] = [
                 'batch_name' => $row[0],

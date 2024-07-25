@@ -82,7 +82,7 @@ class TransferJob implements ShouldQueue
             $batch_id = $code_data['batch_id'] ?? null;
 
             if ($printing_material && $batch_id) {
-            // Check if batch_id is already added to uniqueBatchNames
+
                 if (!in_array($batch_id, $uniqueBatchNames)) {
                     $uniqueBatchNames[] = $batch_id;
                     $batchPrints[] = [

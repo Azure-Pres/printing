@@ -7,6 +7,9 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Photo;
 use DB;
+use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Collection;
+
 class TestController extends Controller
 {
     public function savePhoto($pdfKey, $photoQrKey)
@@ -39,7 +42,7 @@ class TestController extends Controller
         }
     }
 
-public function importCsv()
+    public function importCsv()
     {
         $csvFilePath = public_path('csv/Batch_id.csv');
 
@@ -52,10 +55,10 @@ public function importCsv()
             return response()->json(['message' => 'Unable to open CSV file.'], 500);
         }
 
-        $header = fgetcsv($csvFile); // Assuming the first line is the header
+        $header = fgetcsv($csvFile);
 
         $data = [];
-        $batchSize = 400; // Adjust the batch size to 400 to stay well below the parameter limit
+        $batchSize = 400;
         while ($row = fgetcsv($csvFile)) {
             $data[] = [
                 'batch_name' => $row[0],
@@ -80,5 +83,29 @@ public function importCsv()
         fclose($csvFile);
 
         return response()->json(['message' => 'CSV data imported successfully.']);
+    }
+
+    public function updateBatches()
+    {
+        $filePath = 'C:/xampp/htdocs/printing/public/csv/Paytm_Generic_2024_25July2024.csv';
+
+        if (!file_exists($filePath)) {
+            return response()->json(['message' => 'File not found.'], 404);
+        }
+
+        Excel::import(new class implements \Maatwebsite\Excel\Concerns\ToCollection {
+            public function collection(Collection $rows)
+            {
+                foreach ($rows as $row) {
+                    $batchName = $row[0];
+
+                    DB::table('paytm_batch_prints')
+                    ->where('batch_name', $batchName)
+                    ->update(['verified' => true]);
+                }
+            }
+        }, $filePath);
+
+        return response()->json(['message' => 'Batches verified successfully.']);
     }
 }

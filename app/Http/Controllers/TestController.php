@@ -104,6 +104,7 @@ class TestController extends Controller
                     ->update(['verified' => true]);
                 }
             }
+
         }, $filePath);
 
         return response()->json(['message' => 'Batches verified successfully.']);

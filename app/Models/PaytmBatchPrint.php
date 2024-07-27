@@ -9,5 +9,5 @@ class PaytmBatchPrint extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['batch_name','printing_material','verified','created_at','updated_at'];
+    protected $fillable = ['batch_name','printing_material','verified','created_at','updated_at','failed_at'];
 }

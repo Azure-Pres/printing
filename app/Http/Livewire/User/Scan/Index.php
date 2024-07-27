@@ -23,12 +23,15 @@ class Index extends Component
                     'left' => "Verified Scan: Batch - {$batch->batch_name}",
                     'right' => "Printing material - {$batch->printing_material}"
                 ];
+                $this->emit('verificationSuccess');
             } else {
                 $this->lastScanMessage = [
                     'left' => "Failed Scan: Batch - {$batch->batch_name}",
                     'right' => "Printing material - {$batch->printing_material}"
                 ];
                 $this->bgClass = 'bg-danger';
+                $batch->failed_at = now();
+                $batch->save();
                 $this->emit('duplicateScan');
             }
         } else {
@@ -53,3 +56,4 @@ class Index extends Component
         return view('livewire.user.scan.index')->layout('layouts.user');
     }
 }
+

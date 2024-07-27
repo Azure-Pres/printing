@@ -31,6 +31,7 @@
                     </div>
                 </div>
             </div>
+        </div>
         @endif
     </div>
 
@@ -44,6 +45,12 @@
             @this.on('batchNotFound', () => {
                 alert('Batch ID not found');
                 @this.call('clearBarcode');
+            });
+
+            @this.on('verificationSuccess', () => {
+                setTimeout(() => {
+                    @this.set('bgClass', '');
+                }, 1000); // Change the delay time as needed
             });
         });
     </script>

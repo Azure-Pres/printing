@@ -44,7 +44,7 @@ class TestController extends Controller
 
     public function importCsv()
     {
-        $csvFilePath = public_path('csv/Batch_id.csv');
+        $csvFilePath = public_path('csv/Paytm_Generic_2024_25July2024.csv');
 
         if (!file_exists($csvFilePath)) {
             return response()->json(['message' => 'CSV file not found.'], 404);

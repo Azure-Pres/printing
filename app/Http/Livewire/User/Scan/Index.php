@@ -20,6 +20,7 @@ class Index extends Component
                 $batch->save();
                 $this->bgClass = 'bg-success';
                 $this->lastScanMessage = "Verified Scan: Batch - {$batch->batch_name} Printing material - {$batch->printing_material}";
+                $this->emit('verifiedScan');
             } else {
                 $this->lastScanMessage = "Failed Scan: Batch - {$batch->batch_name} Printing material - {$batch->printing_material}";
                 $this->bgClass = 'bg-danger';
@@ -28,7 +29,7 @@ class Index extends Component
         } else {
             $this->bgClass = 'bg-danger';
             $this->emit('batchNotFound');
-            $this->lastScanMessage = "Batch ID {$value} not found"; // Set last scan message for not found
+            $this->lastScanMessage = "Batch ID {$value} not found";
         }
         $this->barcode = null;
     }
@@ -39,9 +40,13 @@ class Index extends Component
         $this->bgClass = '';
     }
 
+    public function resetBgClass()
+    {
+        $this->bgClass = '';
+    }
+
     public function render()
     {
         return view('livewire.user.scan.index')->layout('layouts.user');
     }
 }
-

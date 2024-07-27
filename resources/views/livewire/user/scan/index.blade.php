@@ -6,17 +6,11 @@
                     <div class="card-body {{ $bgClass }}">
                         <div class="d-flex justify-content-between align-items-center">
                             <h5 class="mb-2 text-titlecase">Scan Batch ID</h5>
-{{--                             @if ($verificationMessage)
-                                <div class="alert alert-success mb-0">
-                                    {{ $verificationMessage }}
-                                </div>
-                            @endif --}}
                         </div>
                         <div class="form-group mt-3">
                             <label for="barcode"></label>
                             <input wire:model="barcode" type="text" class="form-control" id="barcode" placeholder="Scan or enter batch ID">
                         </div>
-                        <!-- Display the last scan message -->
                         @if ($lastScanMessage)
                             <div class="alert alert-info mt-3 mb-0">
                                 {{ $lastScanMessage }}
@@ -30,6 +24,12 @@
 
     <script>
         document.addEventListener('livewire:load', function () {
+            @this.on('verifiedScan', () => {
+                setTimeout(() => {
+                    @this.call('resetBgClass');
+                }, 500); // Adjust the delay time (in milliseconds) as needed
+            });
+
             @this.on('duplicateScan', () => {
                 alert('Duplicate scan not allowed');
                 @this.call('clearBarcode');

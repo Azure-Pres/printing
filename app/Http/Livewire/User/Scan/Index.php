@@ -19,17 +19,25 @@ class Index extends Component
                 $batch->verified = true;
                 $batch->save();
                 $this->bgClass = 'bg-success';
-                $this->lastScanMessage = "Verified Scan: Batch - {$batch->batch_name} Printing material - {$batch->printing_material}";
-                $this->emit('verifiedScan');
+                $this->lastScanMessage = [
+                    'left' => "Verified Scan: Batch - {$batch->batch_name}",
+                    'right' => "Printing material - {$batch->printing_material}"
+                ];
             } else {
-                $this->lastScanMessage = "Failed Scan: Batch - {$batch->batch_name} Printing material - {$batch->printing_material}";
+                $this->lastScanMessage = [
+                    'left' => "Failed Scan: Batch - {$batch->batch_name}",
+                    'right' => "Printing material - {$batch->printing_material}"
+                ];
                 $this->bgClass = 'bg-danger';
                 $this->emit('duplicateScan');
             }
         } else {
             $this->bgClass = 'bg-danger';
             $this->emit('batchNotFound');
-            $this->lastScanMessage = "Batch ID {$value} not found";
+            $this->lastScanMessage = [
+                'left' => "Batch ID {$value} not found",
+                'right' => ''
+            ];
         }
         $this->barcode = null;
     }
@@ -37,11 +45,6 @@ class Index extends Component
     public function clearBarcode()
     {
         $this->barcode = '';
-        $this->bgClass = '';
-    }
-
-    public function resetBgClass()
-    {
         $this->bgClass = '';
     }
 

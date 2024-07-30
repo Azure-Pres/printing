@@ -86,5 +86,11 @@ class Login extends Component
             return redirect('/user/scan');
         }
 
+        if($user->type === 'Operator') {
+            $this->success = true;
+            $this->message = 'Login successful. Please wait.';
+            return redirect('/report');
+        }        
+
     }
 }

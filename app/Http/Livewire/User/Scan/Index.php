@@ -30,7 +30,7 @@ class Index extends Component
                     'right' => "Printing material - {$batch->printing_material}"
                 ];
                 $this->bgClass = 'bg-danger';
-                $batch->timestamps=false;
+                $batch->timestamps = false;
                 $batch->failed_at = now();
                 $batch->save();
                 $this->emit('duplicateScan');

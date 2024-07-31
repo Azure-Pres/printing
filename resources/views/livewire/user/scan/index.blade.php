@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-lg-12 grid-margin stretch-card">
                 <div class="card">
-                    <div class="card-body">
+                    <div class="card-body {{ $bgClass }}">
                         <div class="d-flex justify-content-between align-items-center">
                             <h5 class="mb-2 text-titlecase">Scan Batch ID</h5>
                         </div>
@@ -15,18 +15,17 @@
                 </div>
             </div>
         </div>
-        
         @if ($lastScanMessage)
         <div class="row">
             <div class="col-lg-12 grid-margin stretch-card">
                 <div class="card">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <div class="d-flex flex-column border p-2" style="width: 48%;">
-                                <p><strong>Batch Name :</strong> {{ $lastScanMessage['left'] }}</p>
-                            </div>
-                            <div class="d-flex flex-column border p-2" style="width: 48%;">
-                                <p><strong>Printing Material:</strong> {{ $lastScanMessage['right'] }}</p>
+                    <div class="card-body {{ $bgClass }}">
+                        <div class="d-flex justify-content-between align-items-center">
+                        </div>
+                        <div class="alert alert-info mt-3 mb-0">
+                            <div class="d-flex justify-content-between">
+                                <span>{{ $lastScanMessage['left'] }}</span>
+                                <span>{{ $lastScanMessage['right'] }}</span>
                             </div>
                         </div>
                     </div>

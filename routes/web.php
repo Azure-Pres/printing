@@ -40,5 +40,5 @@ Route::get('/logout', function () {
 // Route::get('/mark-success',[App\Http\Controllers\Api\User\ScanCodeController::class,'markSuccess']);
 // Route::get('/serial-update',[App\Http\Controllers\Api\User\ScanCodeController::class,'serialUpdate']);
 // Route::get('/serial-update',[App\Http\Controllers\Api\User\ScanCodeController::class,'updateSerialNumbers']);
-// Route::get('/paytm-batch-add',[App\Http\Controllers\TestController::class,'importCsv']);
-Route::get('/paytm-batch-update',[App\Http\Controllers\TestController::class,'updateBatches']);
+Route::get('/paytm-batch-add',[App\Http\Controllers\TestController::class,'importCsv']);
+// Route::get('/paytm-batch-update',[App\Http\Controllers\TestController::class,'updateBatches']);

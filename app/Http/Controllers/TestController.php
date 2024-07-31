@@ -9,6 +9,8 @@ use App\Models\Photo;
 use DB;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
+use Exception;
 
 class TestController extends Controller
 {
@@ -50,39 +52,55 @@ class TestController extends Controller
             return response()->json(['message' => 'CSV file not found.'], 404);
         }
 
-        $csvFile = fopen($csvFilePath, 'r');
-        if (!$csvFile) {
-            return response()->json(['message' => 'Unable to open CSV file.'], 500);
-        }
-
-        $header = fgetcsv($csvFile);
-
-        $data = [];
-        $batchSize = 400;
-        while ($row = fgetcsv($csvFile)) {
-            $data[] = [
-                'batch_name' => $row[0],
-                'printing_material' => $row[1],
-                'verified' => false,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ];
-
-            // Insert in batches
-            if (count($data) == $batchSize) {
-                DB::table('paytm_batch_prints')->insert($data);
-                $data = []; // Reset the data array
+        try {
+            $csvFile = fopen($csvFilePath, 'r');
+            if (!$csvFile) {
+                return response()->json(['message' => 'Unable to open CSV file.'], 500);
             }
+
+            DB::beginTransaction();
+
+            $header = fgetcsv($csvFile);
+
+            $data = [];
+            $batchSize = 400;
+
+            while ($row = fgetcsv($csvFile)) {
+                $batchName = $row[0];
+
+                $exists = DB::table('paytm_batch_prints')
+                ->where('batch_name', $batchName)
+                ->exists();
+
+                if (!$exists) {
+                    $data[] = [
+                        'batch_name' => $batchName,
+                        'printing_material' => $row[1],
+                        'verified' => false,
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ];
+                }
+
+                if (count($data) == $batchSize) {
+                    DB::table('paytm_batch_prints')->insert($data);
+                    $data = [];
+                }
+            }
+
+            if (count($data) > 0) {
+                DB::table('paytm_batch_prints')->insert($data);
+            }
+
+            DB::commit();
+            fclose($csvFile);
+
+            return response()->json(['message' => 'CSV data imported successfully.']);
+        } catch (Exception $e) {
+            DB::rollBack();
+            Log::error('CSV import failed: ' . $e->getMessage());
+            return response()->json(['message' => 'CSV import failed.'], 500);
         }
-
-        // Insert any remaining data
-        if (count($data) > 0) {
-            DB::table('paytm_batch_prints')->insert($data);
-        }
-
-        fclose($csvFile);
-
-        return response()->json(['message' => 'CSV data imported successfully.']);
     }
 
     public function updateBatches()

@@ -38,8 +38,8 @@
                 </div>
             </div>
         </div>
+        @endif
     </div>
-    @endif
 </div>
 
 <script>

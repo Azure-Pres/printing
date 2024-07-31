@@ -20,14 +20,16 @@ class Index extends Component
                 $batch->save();
                 $this->bgClass = 'bg-success';
                 $this->lastScanMessage = [
-                    'left' => "Verified Scan: Batch - {$batch->batch_name}",
-                    'right' => "Printing material - {$batch->printing_material}"
+                    'left' => "{$batch->batch_name}",
+                    'right' => "{$batch->printing_material}",
+                    'status' => "Verified"
                 ];
                 $this->emit('verificationSuccess');
             } else {
                 $this->lastScanMessage = [
-                    'left' => "Failed Scan: Batch - {$batch->batch_name}",
-                    'right' => "Printing material - {$batch->printing_material}"
+                    'left' => "{$batch->batch_name}",
+                    'right' => "{$batch->printing_material}",
+                    'status' => "Failed (Duplicate Scan)"
                 ];
                 $this->bgClass = 'bg-danger';
                 $batch->timestamps = false;
@@ -39,8 +41,10 @@ class Index extends Component
             $this->bgClass = 'bg-danger';
             $this->emit('batchNotFound');
             $this->lastScanMessage = [
-                'left' => "Batch ID {$value} not found",
-                'right' => ''
+                'left' => "{$value} not found",
+                'right' => "",
+                'status' => "Failed (Batch not found)"
+
             ];
         }
         $this->barcode = null;

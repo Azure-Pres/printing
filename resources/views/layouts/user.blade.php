@@ -17,7 +17,6 @@
             <x-user.sidebar></x-user.sidebar>
             <div class="main-panel">
                 {{ $slot }}
-                <x-user.footer></x-user.footer>
             </div>
         </div>
     </div>

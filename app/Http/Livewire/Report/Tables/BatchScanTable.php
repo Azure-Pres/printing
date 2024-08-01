@@ -2,25 +2,41 @@
 
 namespace App\Http\Livewire\Report\Tables;
 
-use App\Models\PaytmBatchPrint
-;
+use App\Models\PaytmBatchPrint;
 use Illuminate\Database\Eloquent\Builder;
-use Livewire\Component;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use Rappasoft\LaravelLivewireTables\Views\Filters\SelectFilter;
 use Rappasoft\LaravelLivewireTables\Views\Filters\DateFilter;
+use App\Exports\Report\BatchScanExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class BatchScanTable extends DataTableComponent
 {
+        public $selectedRows = [];
+
     public function configure(): void
     {
         $this->setPrimaryKey('id');
+        $this->setBulkActions([
+            'exportSelected' => 'Export Selected',
+        ]);
+    }
+
+    public function exportSelected()
+    {
+        $selectedIds = $this->getSelectedRows();
+
+        if (!empty($selectedIds)) {
+            return Excel::download(new BatchScanExport($selectedIds), 'batch-scan-export.xlsx');
+        } else {
+            session()->flash('error', 'No rows selected for export.');
+        }
     }
 
     public function builder(): Builder
     {
-        return PaytmBatchPrint::where('id','!=', '');
+        return PaytmBatchPrint::query();
     }
 
     public function filters(): array
@@ -33,7 +49,6 @@ class BatchScanTable extends DataTableComponent
                 }
             }),
 
-            // Printing Material filter
             SelectFilter::make('Printing Material', 'printing_material')
             ->options(PaytmBatchPrint::distinct()->pluck('printing_material', 'printing_material')->toArray())
             ->filter(function (Builder $builder, $value) {
@@ -42,7 +57,6 @@ class BatchScanTable extends DataTableComponent
                 }
             }),
 
-            //Verified Filter
             SelectFilter::make('Verified', 'verified')
             ->options([
                 '1' => 'Yes',
@@ -57,6 +71,7 @@ class BatchScanTable extends DataTableComponent
     public function columns(): array
     {
         return [
+            CheckboxColumn::make('Select'),
             Column::make('Id'),
             Column::make('Batch Name')->searchable(),
             Column::make('Printing Material')->searchable(),

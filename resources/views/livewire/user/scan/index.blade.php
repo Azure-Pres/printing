@@ -15,7 +15,7 @@
                 </div>
             </div>
         </div>
-        
+
         @if ($lastScanMessage)
         <div class="row">
             <div class="col-lg-12 grid-margin stretch-card">
@@ -23,15 +23,15 @@
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center mb-3">
                             <div class="d-flex flex-column border p-2" style="width: 48%;">
-                                <p><strong>Batch Name :</strong> {{ $lastScanMessage['left'] }}</p>
+                                <p><strong style="font-size: 1rem;">Batch Name:</strong> <span style="font-size: 1rem;">{{ $lastScanMessage['left'] }}</span></p>
                             </div>
                             <div class="d-flex flex-column border p-2" style="width: 48%;">
-                                <p><strong>Printing Material:</strong> {{ $lastScanMessage['right'] }}</p>
+                                <p><strong style="font-size: 1rem;">Printing Material:</strong> <span style="font-size: 1rem;">{{ $lastScanMessage['right'] }}</span></p>
                             </div>
                         </div>
                         <div class="d-flex justify-content-between align-items-center mb-3">
                             <div class="d-flex flex-column border p-2" style="width: 48%;">
-                                <p><strong>Status:</strong> {{ $lastScanMessage['status'] }}</p>
+                                <p><strong style="font-size: 1rem;">Status:</strong> <span style="font-size: 1rem;">{{ $lastScanMessage['status'] }}</span></p>
                             </div>
                         </div>
                     </div>

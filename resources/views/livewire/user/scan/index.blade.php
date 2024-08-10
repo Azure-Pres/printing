@@ -45,19 +45,19 @@
 <script>
     document.addEventListener('livewire:load', function () {
         @this.on('duplicateScan', () => {
-            alert('Duplicate scan not allowed');
+            alert('Duplicate scan not allowed / डुप्लिकेट स्कैन की अनुमति नहीं है');
             @this.call('clearBarcode');
         });
 
         @this.on('batchNotFound', () => {
-            alert('Batch ID not found');
+            alert('Batch ID not found / बैच आईडी नहीं मिली');
             @this.call('clearBarcode');
         });
 
         @this.on('verificationSuccess', () => {
             setTimeout(() => {
                 @this.set('bgClass', '');
-                }, 1000); // Change the delay time as needed
+                }, 1000);
         });
     });
 </script>

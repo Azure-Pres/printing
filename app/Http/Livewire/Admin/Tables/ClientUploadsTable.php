@@ -4,11 +4,14 @@ namespace App\Http\Livewire\Admin\Tables;
 
 use App\Models\ClientUpload;
 use App\Models\User;
+use App\Models\Code;
+use App\Models\PaytmBatchPrint;
 use Illuminate\Database\Eloquent\Builder;
 use Livewire\Component;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use Rappasoft\LaravelLivewireTables\Views\Filters\SelectFilter;
+use DB;
 
 class ClientUploadsTable extends DataTableComponent
 {
@@ -65,5 +68,47 @@ class ClientUploadsTable extends DataTableComponent
                 return view('livewire.admin.clientuploads.actions')->withData($row);
             }),
         ];
+    }
+
+    public function addBatch($id)
+    {
+        $codes = Code::where('upload_id', $id)->get();
+
+        $distinctBatchData = DB::table('codes')
+        ->selectRaw("JSON_VALUE(code_data, '$.batch_id') as batch_id, 
+           JSON_VALUE(code_data, '$.material_name') as printing_material")
+        ->where('upload_id', $id)
+        ->whereNotNull(DB::raw("JSON_VALUE(code_data, '$.batch_id')"))
+        ->distinct()
+        ->get();
+
+        $batchSize = 1000;
+        $data = [];
+
+        foreach ($distinctBatchData as $batchData) {
+            $data[] = [
+                'batch_name' => $batchData->batch_id,
+                'printing_material' => $batchData->printing_material,
+                'verified' => false,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ];
+
+            if (count($data) == $batchSize) {
+                DB::table('paytm_batch_prints')->insert($data);
+                $data = [];
+            }
+        }
+
+        if (count($data) > 0) {
+            DB::table('paytm_batch_prints')->insert($data);
+        }
+
+        $this->dispatchBrowserEvent('messageTriggered', 
+            [
+                'success' => true,
+                'message' =>'File updated successfully.'
+            ]
+        );
     }
 }

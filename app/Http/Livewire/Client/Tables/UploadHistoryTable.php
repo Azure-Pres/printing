@@ -63,7 +63,7 @@ class UploadHistoryTable extends DataTableComponent
         $clear = TempCode::where('upload_id',$this->deleteId)->delete();
         $delete = Code::where('client_id',Auth::id())->where('upload_id',$this->deleteId)->delete();
         $progress = ClientUpload::where('client_id',Auth::id())->where('id',$this->deleteId)->first();
-        
+
         if($progress){
             $progress->status = '3';
             $progress->save();

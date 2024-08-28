@@ -76,25 +76,41 @@ class ClientUploadsTable extends DataTableComponent
 
         $distinctBatchData = DB::table('codes')
         ->selectRaw("JSON_VALUE(code_data, '$.batch_id') as batch_id, 
-           JSON_VALUE(code_data, '$.material_name') as printing_material")
+         JSON_VALUE(code_data, '$.material_name') as printing_material")
         ->where('upload_id', $id)
         ->whereNotNull(DB::raw("JSON_VALUE(code_data, '$.batch_id')"))
         ->distinct()
         ->get();
 
-        $batchSize = 1000;
+        $batchSize = 500;
         $data = [];
 
-        foreach ($distinctBatchData as $batchData) {
-            $data[] = [
-                'batch_name' => $batchData->batch_id,
-                'printing_material' => $batchData->printing_material,
-                'verified' => false,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ];
+        foreach ($distinctBatchData as $batchData)
+        {
+            $exists = DB::table('paytm_batch_prints')->where('batch_name', $batchData->batch_id)->where('printing_material', $batchData->printing_material)->exists();
 
-            if (count($data) == $batchSize) {
+            if (!$exists)
+            {
+                $data[] = [
+                    'batch_name' => $batchData->batch_id,
+                    'printing_material' => $batchData->printing_material,
+                    'verified' => false,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ];
+            }
+            else
+            {
+                $this->dispatchBrowserEvent('messageTriggered', 
+                    [
+                        'success' => false,
+                        'message' =>'Duplicate batch found.Process aborted'
+                    ]
+                );
+            }
+
+            if (count($data) == $batchSize)
+            {
                 DB::table('paytm_batch_prints')->insert($data);
                 $data = [];
             }

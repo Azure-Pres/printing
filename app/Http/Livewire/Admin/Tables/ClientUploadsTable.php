@@ -72,59 +72,63 @@ class ClientUploadsTable extends DataTableComponent
 
     public function addBatch($id)
     {
-        $codes = Code::where('upload_id', $id)->get();
-
         $distinctBatchData = DB::table('codes')
         ->selectRaw("JSON_VALUE(code_data, '$.batch_id') as batch_id, 
-         JSON_VALUE(code_data, '$.material_name') as printing_material")
+           JSON_VALUE(code_data, '$.printing_material') as printing_material")
         ->where('upload_id', $id)
         ->whereNotNull(DB::raw("JSON_VALUE(code_data, '$.batch_id')"))
         ->distinct()
         ->get();
 
-        $batchSize = 500;
+        $batchSize = 50;
         $data = [];
 
         foreach ($distinctBatchData as $batchData)
         {
-            $exists = DB::table('paytm_batch_prints')->where('batch_name', $batchData->batch_id)->where('printing_material', $batchData->printing_material)->exists();
+            if (!isset($data[$batchData->batch_id])) {
+                $exists = DB::table('paytm_batch_prints')
+                ->where('batch_name', $batchData->batch_id)
+                ->where('printing_material', $batchData->printing_material)
+                ->exists();
 
-            if (!$exists)
-            {
-                $data[] = [
-                    'batch_name' => $batchData->batch_id,
-                    'printing_material' => $batchData->printing_material,
-                    'verified' => false,
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ];
-            }
-            else
-            {
-                $this->dispatchBrowserEvent('messageTriggered', 
-                    [
-                        'success' => false,
-                        'message' =>'Duplicate batch found.Process aborted'
-                    ]
-                );
-            }
-
-            if (count($data) == $batchSize)
-            {
-                DB::table('paytm_batch_prints')->insert($data);
-                $data = [];
+                if (!$exists) {
+                    $data[$batchData->batch_id] = [
+                        'batch_name' => $batchData->batch_id,
+                        'printing_material' => $batchData->printing_material,
+                        'verified' => false,
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ];
+                } else {
+                    $this->dispatchBrowserEvent('messageTriggered', 
+                        [
+                            'success' => false,
+                            'message' =>'Duplicate batch found. Process aborted for batch ID: ' . $batchData->batch_id
+                        ]
+                    );
+                }
             }
         }
 
         if (count($data) > 0) {
-            DB::table('paytm_batch_prints')->insert($data);
-        }
+            foreach (array_chunk($data, $batchSize) as $chunk) {
+                DB::table('paytm_batch_prints')->insert($chunk);
+            }
 
-        $this->dispatchBrowserEvent('messageTriggered', 
-            [
-                'success' => true,
-                'message' =>'File updated successfully.'
-            ]
-        );
+            $this->dispatchBrowserEvent('messageTriggered', 
+                [
+                    'success' => true,
+                    'message' => 'File updated successfully.'
+                ]
+            );
+        } else {
+            $this->dispatchBrowserEvent('messageTriggered', 
+                [
+                    'success' => false,
+                    'message' => 'No new batches to add or duplicate batches found.'
+                ]
+            );
+        }
     }
+
 }

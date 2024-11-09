@@ -1,4 +1,4 @@
- <?php
+<?php
 
 namespace App\Http\Livewire\Admin\ClientUploads;
 
@@ -42,7 +42,7 @@ class Edit extends Component
 
     }
 
-    // Function to save changes made on the form
+
     public function saveChanges()
     {
         $fieldsToUpdate = $this->fields;
@@ -51,25 +51,33 @@ class Edit extends Component
         foreach ($entries as $entry) {
             $data = json_decode($entry->code_data, true);
 
-            foreach ($fieldsToUpdate as $oldKey => $field) {
-                if (isset($data[$oldKey])) {
-                    unset($data[$oldKey]);
-                    $data[$field['key']] = $field['value'];
-                }
-            }
+            foreach ($fieldsToUpdate as $field) {
+            // Access the key from the field array directly
+                $keyToUpdate = $field['key'];
 
-            $entry->code_data = json_encode($data);
-            $entry->save();
+            // Check if the key exists in data before updating
+                if (array_key_exists($keyToUpdate, $data)) {
+                unset($data[$keyToUpdate]); // Remove the old key
+                $data[$field['key']] = $field['value']; // Add the new key-value pair
+            } else {
+                // Optional: Log or handle the case where the key is missing in data
+                \Log::warning("Key '{$keyToUpdate}' not found in data for entry ID {$entry->id}");
+            }
         }
 
-        session()->flash('message', 'Code data updated successfully.');
-        return redirect()->route('admin-client-uploads');
+        // Save the updated data back to the entry
+        $entry->code_data = json_encode($data);
+        $entry->save();
     }
 
-    public function render()
-    {
-        return view('livewire.admin.clientuploads.edit', [
-            'consistentFields' => $this->consistentFields
-        ]);
-    }
+    session()->flash('message', 'Code data updated successfully.');
+    return redirect()->route('admin-client-uploads');
+}
+
+public function render()
+{
+    return view('livewire.admin.clientuploads.edit', [
+        'consistentFields' => $this->consistentFields
+    ]);
+}
 }

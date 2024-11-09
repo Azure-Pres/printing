@@ -13,20 +13,34 @@
                 </div>
                 <div class="card-body">
                     @if(count($fields) > 0)
-                        <form wire:submit.prevent="saveChanges">
-                            @foreach($fields as $key => $field)
-                                <div class="form-group row">
-                                    <label class="col-sm-2 col-form-label">{{ ucfirst(str_replace('_', ' ', $field['key'])) }}</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" wire:model.defer="fields.{{ $key }}.value" class="form-control" placeholder="Enter value">
-                                    </div>
-                                </div>
-                            @endforeach
-                        </form>
-                    @else
-                        <div class="alert alert-info">
-                            You can only edit the fields which have common values throughout the file. This file does not have common values.
+                    <form wire:submit.prevent="saveChanges">
+                        @foreach($fields as $key => $field)
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">{{ ucfirst(str_replace('_', ' ', $field['key'])) }}</label>
+                            <div class="col-sm-10">
+                                <input type="text" wire:model.defer="fields.{{ $key }}.value" class="form-control" placeholder="Enter value">
+                            </div>
                         </div>
+                        @endforeach
+                        
+                        <div class="row mt-4">
+                            <div class="col-sm-6 text-left">
+                                <a href="{{url('/client/client-uploads')}}" class="btn btn-secondary">Cancel</a>
+                            </div>
+                            <div class="col-sm-6 text-right">
+                                <div wire:loading.remove>
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                </div>
+                                <div wire:loading>
+                                    <a href="javascript:;" class="btn btn-primary">Please Wait</a>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    @else
+                    <div class="alert alert-info">
+                        You can only edit the fields which have common values throughout the file. This file does not have any such fields.
+                    </div>
                     @endif
                 </div>
             </div>

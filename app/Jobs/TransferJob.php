@@ -76,23 +76,6 @@ class TransferJob implements ShouldQueue
                 'upload_id' => $progress->id,
             ];
             Code::create($collect);
-
-            $code_data = json_decode($temp_code->code_data, true);
-            $printing_material = $code_data['printing_material'] ?? null;
-            $batch_id = $code_data['batch_id'] ?? null;
-
-            if ($printing_material && $batch_id) {
-
-                if (!in_array($batch_id, $uniqueBatchNames)) {
-                    $uniqueBatchNames[] = $batch_id;
-                    $batchPrints[] = [
-                        'printing_material' => $printing_material,
-                        'batch_name' => $batch_id,
-                        'created_at' => now(),
-                        'updated_at' => now(),
-                    ];
-                }
-            }
         }
 
         if (!empty($unique_fields)) {
@@ -123,9 +106,9 @@ class TransferJob implements ShouldQueue
 
         TempCode::where('upload_id', $progress->id)->delete();
 
-        if (!empty($batchPrints)) {
-            DB::table('paytm_batch_prints')->insert($batchPrints);
-        }
+        // if (!empty($batchPrints)) {
+        //     DB::table('paytm_batch_prints')->insert($batchPrints);
+        // }
     }
 
 

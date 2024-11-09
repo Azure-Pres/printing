@@ -38,7 +38,7 @@ Route::get('print-file/{id}',[ApiRoot\User\PrintingController::class,'download']
 Route::get('getToken/{secret_key}',[ApiRoot\UploadData\PhonePeController::class,'getToken']);
 Route::get('LotStatus/{apitoken}/{lotnumber}',[ApiRoot\UploadData\PhonePeController::class,'lotStatus']);
 Route::delete('LotStatus/{apitoken}/{lotnumber}',[ApiRoot\UploadData\PhonePeController::class,'deleteLot']);
-Route::post('SendLot',[ApiRoot\UploadData\PhonePeController::class,'store']);
+// Route::post('SendLot',[ApiRoot\UploadData\PhonePeController::class,'store']);
 
 //Testing Photo QR
 Route::get('/save-photo', function () {
@@ -47,3 +47,5 @@ Route::get('/save-photo', function () {
 
     return app()->call('App\Http\Controllers\TestController@savePhoto', ['pdfKey' => $pdfKey, 'photoQrKey' => $photoQrKey]);
 });
+
+Route::post('sendLot',[ApiRoot\UploadData\PhonePeController::class,'store']);

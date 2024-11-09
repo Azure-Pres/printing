@@ -1,7 +1,7 @@
 <div class="content-wrapper">
     <div class="row">
         <div class="col-xl-6 grid-margin stretch-card flex-column">
-            <h5 class="mb-2 text-titlecase">Edit Consistent Fields</h5>
+            <h5 class="mb-2 text-titlecase">Edit Common Fields</h5>
         </div>
     </div>
 
@@ -12,28 +12,22 @@
                     <div class="card-title mb-0">Edit Details</div>
                 </div>
                 <div class="card-body">
-                    <form wire:submit.prevent="saveChanges">
-                        @foreach($fields as $key => $field)
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">Key</label>
-                                <div class="col-sm-4">
-                                    <input type="text" wire:model="fields.{{ $key }}.key" class="form-control" value="{{ $key }}" placeholder="Enter key">
+                    @if(count($fields) > 0)
+                        <form wire:submit.prevent="saveChanges">
+                            @foreach($fields as $key => $field)
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">{{ ucfirst(str_replace('_', ' ', $field['key'])) }}</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" wire:model.defer="fields.{{ $key }}.value" class="form-control" placeholder="Enter value">
+                                    </div>
                                 </div>
-
-                                <label class="col-sm-2 col-form-label">Value</label>
-                                <div class="col-sm-4">
-                                    <input type="text" wire:model="fields.{{ $key }}.value" class="form-control" value="{{ $field['value'] }}" placeholder="Enter value">
-                                </div>
-                            </div>
-                        @endforeach
-
-{{--                         <div class="row mt-4">
-                            <div class="col-sm-6">
-                                <button type="submit" class="btn btn-primary">Save Changes</button>
-                                <a href="{{ url('/admin/client-uploads') }}" class="btn btn-secondary">Cancel</a>
-                            </div>
-                        </div> --}}
-                    </form>
+                            @endforeach
+                        </form>
+                    @else
+                        <div class="alert alert-info">
+                            You can only edit the fields which have common values throughout the file. This file does not have common values.
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>

@@ -1,4 +1,4 @@
-<?php
+ <?php
 
 namespace App\Http\Livewire\Admin\ClientUploads;
 
@@ -38,23 +38,26 @@ class Edit extends Component
         // Filter fields to keep only those with consistent values
         $consistentFields = array_filter($jsonFields, fn($field) => $field['consistent']);
         // Return an array in format suitable for binding to the edit form
-        return array_map(fn($field) => ['key' => $field['value'], 'value' => $field['value']], $consistentFields);
+        return array_map(fn($field, $key) => ['key' => $key, 'value' => $field['value']], $consistentFields, array_keys($consistentFields));
+
     }
 
     // Function to save changes made on the form
     public function saveChanges()
     {
         $fieldsToUpdate = $this->fields;
-
         $entries = Code::where('upload_id', $this->uploadId)->get();
+
         foreach ($entries as $entry) {
             $data = json_decode($entry->code_data, true);
+
             foreach ($fieldsToUpdate as $oldKey => $field) {
                 if (isset($data[$oldKey])) {
                     unset($data[$oldKey]);
                     $data[$field['key']] = $field['value'];
                 }
             }
+
             $entry->code_data = json_encode($data);
             $entry->save();
         }

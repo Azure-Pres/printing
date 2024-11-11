@@ -25,7 +25,7 @@
                         
                         <div class="row mt-4">
                             <div class="col-sm-6 text-left">
-                                <a href="{{url('/client/client-uploads')}}" class="btn btn-secondary">Cancel</a>
+                                <a href="{{url('/admin/client-uploads')}}" class="btn btn-secondary">Cancel</a>
                             </div>
                             <div class="col-sm-6 text-right">
                                 <div wire:loading.remove>

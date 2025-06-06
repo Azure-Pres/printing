@@ -49,17 +49,16 @@
             </a>
         </li>
 
-        <li class="nav-item">
-            <a class="nav-link" href="{{ url('/admin/batch-reports') }}">
+{{--         <li class="nav-item">
+            <a class="nav-link" href="{{ url('/admin/phonepe-batch-scans') }}">
                 <i class="typcn typcn-chart-pie menu-icon"></i>
-                <span class="menu-title">Batch Reports</span>
+                <span class="menu-title">Phonepe Batches</span>
             </a>
-        </li>
-
+        </li> --}}
         <li class="nav-item">
-            <a class="nav-link" href="{{ url('/admin/user-logs') }}">
+            <a class="nav-link" href="{{ url('/admin/paytm-merchant-kit') }}">
                 <i class="typcn typcn-chart-pie menu-icon"></i>
-                <span class="menu-title">User Logs</span>
+                <span class="menu-title">Paytm Merchant Kit</span>
             </a>
         </li>
     </ul>

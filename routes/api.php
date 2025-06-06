@@ -49,3 +49,5 @@ Route::get('/save-photo', function () {
 });
 
 Route::post('sendLot',[ApiRoot\UploadData\PhonePeController::class,'store']);
+
+Route::post('/paytm-merchant-scan/upi', [App\Http\Controllers\PaytmMerchantDataController::class, 'getLabelDataByUpi']);

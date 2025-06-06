@@ -13,15 +13,20 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('paytm_batch_prints', function (Blueprint $table) {
-            $table->unique('batch_name');
+        Schema::create('printed_labels', function (Blueprint $table) {
+            $table->id();
+            $table->string('upi_qr_url')->unique();
+            $table->timestamps();
         });
     }
 
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
     public function down()
     {
-        Schema::table('paytm_batch_prints', function (Blueprint $table) {
-            $table->dropUnique(['batch_name']);
-        });
+        Schema::dropIfExists('printed_labels');
     }
 };

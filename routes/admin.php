@@ -65,9 +65,9 @@ Route::group(['prefix' => 'templates'], function() {
 });
 
 //Batch reports related route
-Route::group(['prefix' => 'batch-reports'], function() {
-	Route::get('/', App\Http\Livewire\Admin\BatchReports\Home::class)->name('admin-batch-reports');
-	Route::get('/exports', [App\Http\Controllers\ReportsController::class, 'index'])->name('admin-batch-exports');
+Route::group(['prefix' => 'phonepe-batch-scans'], function() {
+	Route::get('/', App\Http\Livewire\Admin\BatchReports\Home::class)->name('phonepe-batch-scans');
+	Route::get('/upload', App\Http\Livewire\Admin\BatchReports\Upload::class)->name('phonepe-batch-scans-upload');
 });
 
 Route::get('/qr-code', function () {

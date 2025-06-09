@@ -48,13 +48,12 @@
                 <span class="menu-title">Client Uploads</span>
             </a>
         </li>
-
-{{--         <li class="nav-item">
+        <li class="nav-item">
             <a class="nav-link" href="{{ url('/admin/phonepe-batch-scans') }}">
                 <i class="typcn typcn-chart-pie menu-icon"></i>
                 <span class="menu-title">Phonepe Batches</span>
             </a>
-        </li> --}}
+        </li>
         <li class="nav-item">
             <a class="nav-link" href="{{ url('/admin/paytm-merchant-kit') }}">
                 <i class="typcn typcn-chart-pie menu-icon"></i>

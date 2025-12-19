@@ -90,7 +90,13 @@ class Login extends Component
             $this->success = true;
             $this->message = 'Login successful. Please wait.';
             return redirect('/report');
-        }        
+        }
+
+        if($user->type === 'Dispatch') {
+            $this->success = true;
+            $this->message = 'Login successful. Please wait.';
+            return redirect('/dispatch');
+        }
 
     }
 }

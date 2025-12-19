@@ -67,5 +67,6 @@ class Kernel extends HttpKernel
         'client' => \App\Http\Middleware\Client::class,
         'user' => \App\Http\Middleware\User::class,
         'report' => \App\Http\Middleware\Report::class,
+        'dispatch' => \App\Http\Middleware\Dispatch::class,
     ];
 }

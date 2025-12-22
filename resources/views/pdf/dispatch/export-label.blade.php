@@ -2,13 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>PRH Label</title>
+    <title>PRH Dispatch Label</title>
 
     <style>
-        @page {
-            size: A4;
-            margin: 12mm;
-        }
+        @page { size: A4; margin: 12mm; }
 
         body {
             font-family: Arial, Helvetica, sans-serif;
@@ -18,157 +15,123 @@
 
         .label {
             border: 1px solid #000;
-            padding: 12px 14px;
+            padding: 14px 16px;
             margin-bottom: 20mm;
             font-size: 12px;
             line-height: 1.35;
         }
 
-        .title {
-            font-size: 18px;
-            font-weight: bold;
-        }
+        .title { font-size: 20px; font-weight: bold; }
+        .publisher { font-size: 17px; font-weight: bold; margin-top: 1px; }
 
-        .title-2 {
-            font-size: 15px;
-            font-weight: bold;
-            margin-top: 2px;
-        }
+        .on-sale{font-size: 17px;}
+        .printed_in_india{font-size: 17px;}
 
-        .meta-row {
-            display: flex;
-            justify-content: space-between;
-            font-size: 14px;
-            margin-top: 4px;
-        }
-
-        .hr-line {
-            border: none;
+        .divider {
             border-top: 1px solid #000;
-            margin: 10px -14px;
-        }
-
-        .inline-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
+            margin: 10px -16px;
         }
 
         .mono {
             font-family: "Courier New", monospace;
-            font-size: 12px;
         }
 
         .mono-bold {
             font-family: "Courier New", monospace;
-            font-size: 14px;
+            font-size: 18px;
             font-weight: bold;
         }
 
-        .barcode-label {
-            text-align: center;
-            margin-top: 6px;
-        }
-
-        .barcode-label .ean {
+        .ean-label {
             font-size: 34px;
             font-weight: bold;
         }
 
-        .barcode-wrapper {
-            text-align: center;
-            margin-top: 6px;
-        }
-
         .barcode-text {
-            font-family: "Courier New", monospace;
             font-size: 11px;
+            text-align: center;
             margin-top: 2px;
         }
 
-        .footer {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            margin-top: 10px;
+        .price {
+            {{-- font-weight: bold; --}}
+            margin: 6px 0;
             text-align: center;
         }
 
-        .price {
-            font-weight: bold;
-            margin-top: 6px;
+        .barcode-wrapper {
+            display: inline-block;
+            margin: 0 auto;
+            text-align: left;
+        }
+
+        .barcode-wrapper div {
+            box-sizing: content-box;
+        }
+
+        table td {
+            vertical-align: top;
         }
     </style>
 </head>
 
 <body>
+    @foreach ($labels as $l)
+    <div class="label">
+        <div class="title">Title: {{ $l['title'] }}</div>
+        <div class="publisher">Publisher: {{ $l['publisher'] }}</div>
 
-@foreach ($labels as $l)
+        <table width="100%">
+            <tr>
+                <td align="left" class="on-sale">On Sale: {{ $l['on_sale'] }}</td>
+                <td align="right" class="printed_in_india">PRINTED IN INDIA</td>
+            </tr>
+        </table>
 
-<div class="label">
+        <div class="divider"></div>
 
-    <!-- HEADER -->
-    <div class="title">Title: {{ $l['title'] }}</div>
-    <div class="title-2">Publisher: {{ $l['publisher'] }}</div>
+        <table width="100%">
+            <tr>
+                <td width="35%" class="mono-bold">ISBN: {{ $l['isbn'] }}<br>BATCH: {{ $l['batch'] }}</td>
+                <td width="30%" align="center">
+                    <span>BARCODE</span>
+                    <div class="ean-label">EAN</div>
+                </td>
+                <td width="35%" align="center" class="mono">PPON: {{ $l['ppon'] }}<br><br>{!! DNS1D::getBarcodeHTML('(251)'.$l['ppon'], 'C128', 1.3, 35) !!}<div class="barcode-text">(251){{ $l['ppon'] }}</div></td>
+            </tr>
+        </table>
 
-    <div class="meta-row">
-        <div>On Sale: {{ $l['on_sale_date'] }}</div>
-        <div>PRINTED IN INDIA</div>
+        <div class="divider"></div>
+
+        <table width="100%" class="mono">
+            <tr>
+                <td width="50%" align="center">
+                    CTN QTY: {{ $l['ctn_qty'] }}<br>
+
+                    <div class="barcode-wrapper">
+                        {!! DNS1D::getBarcodeHTML('(30)'.$l['ctn_qty'], 'C128', 1.0, 38) !!}
+                    </div>
+                    <div class="barcode-text">(30){{ $l['ctn_qty'] }}</div><br>
+                    ISBN: {{ $l['isbn'] }}<br>
+
+                    <div class="barcode-wrapper">
+                        {!! DNS1D::getBarcodeHTML('(01)'.preg_replace('/[^0-9]/','',$l['isbn']).'0','C128', 1.0, 38) !!}
+                    </div>
+                    <div class="barcode-text">(01){{ preg_replace('/[^0-9]/','',$l['isbn']) }}0</div>
+                </td>
+
+                <td width="50%" align="center">
+                    CTN WGT: {{ $l['ctn_wgt'] }} lbs<br>
+
+                    <div class="barcode-wrapper">{!! DNS1D::getBarcodeHTML('(3401)000293', 'C128', 1.0, 38) !!}</div>
+                    <div class="barcode-text">(3401)000293</div>
+                    <div class="price">COVER PRICE: ${{ $l['usd'] }} USD / ${{ $l['cad'] }} CAD</div>
+                    <div class="barcode-wrapper">{!! DNS1D::getBarcodeHTML('(9012Q)999USD', 'C128', 1.0, 38) !!}</div>
+                    <div class="barcode-text">(9012Q)999USD</div>
+                </td>
+            </tr>
+        </table>
     </div>
-
-    <hr class="hr-line">
-
-    <!-- TOP INFO ROW -->
-    <div class="inline-row">
-
-        <div class="mono-bold">
-            ISBN: {{ $l['isbn'] }}<br>
-            BATCH: {{ $l['batch'] }}
-        </div>
-
-        <div class="barcode-label">
-            BARCODE:<br>
-            <span class="ean">EAN</span>
-        </div>
-
-        <div class="mono">
-            PPON: {{ $l['ppon'] }}<br>
-            <span>(251){{ $l['ppon'] }}</span>
-        </div>
-
-    </div>
-
-    <!-- REAL BARCODE (ONLY ONE) -->
-    <div class="barcode-wrapper">
-        {!! DNS1D::getBarcodeHTML(
-            preg_replace('/[^0-9]/', '', $l['isbn']),
-            'EAN13',
-            2,
-            45
-        ) !!}
-        <div class="barcode-text">
-            {{ preg_replace('/[^0-9]/', '', $l['isbn']) }}
-        </div>
-    </div>
-    <hr class="hr-line">
-    <!-- FOOTER -->
-    <div class="footer mono">
-        <div>
-            CTN QTY: {{ $l['ctn_qty'] }}<br>
-            (30){{ $l['ctn_qty'] }}<br><br>
-            ISBN: {{ $l['isbn'] }}<br>
-            (01){{ preg_replace('/[^0-9]/', '', $l['isbn']) }}0
-        </div>
-        <div>
-            CTN WGT: {{ $l['ctn_wgt_lbs'] }} lbs<br>
-            (3401)000293<br><br>
-            <span class="price">
-                COVER PRICE: ${{ $l['price_usd'] }} USD / ${{ $l['price_cad'] }} CAD
-            </span><br>
-            (9012Q)999USD
-        </div>
-    </div>
-</div>
-@endforeach
-
+    @endforeach
 </body>
 </html>

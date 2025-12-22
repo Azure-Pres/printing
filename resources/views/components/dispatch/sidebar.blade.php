@@ -3,7 +3,7 @@
         <li class="nav-item active">
             <a class="nav-link">
                 <i class="typcn typcn-device-desktop menu-icon"></i>
-                <span class="menu-title">Generate Dispatch Label</span>
+                <span class="menu-title">Generate Dispatch <br>Label</span>
             </a>
         </li>
     </ul>
